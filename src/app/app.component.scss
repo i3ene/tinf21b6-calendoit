@@ -1,0 +1,57 @@
+@use '../styles_variables.scss' as sv;
+
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.is-active {
+  font-weight: bold;
+  color: sv.$isActiveColor !important;
+}
+
+.version {
+  z-index: 2;
+  position: absolute;
+  left: 1px;
+  bottom: 0;
+  opacity: 0.5;
+  font-size: 12px;
+  height: 16px;
+  overflow: hidden;
+}
+
+
+::ng-deep.mat-drawer {
+  overflow-x: hidden;
+}
+
+mat-toolbar {
+  & > img {
+    margin-right: 8px;
+    width: 40px;
+    height: 40px;
+    transition: 0.3s;
+  }
+
+  &:hover > img {
+    width: 0px;
+    transition: 0.3s;
+  }
+
+  & > .mat-icon-button {
+    overflow: hidden;
+    width: 0px;
+    transition: 0.3s;
+  }
+
+  &:hover > .mat-icon-button, & > .mat-icon-button:focus {
+    width: 40px;
+    transition: 0.3s;
+
+    & + img {
+      width: 0px;
+      transition: 0.3s;
+    }
+  }
+}
