@@ -107,5 +107,8 @@
       }
     }
   },
-  "defaultProject": "calendoit"
+  "defaultProject": "calendoit",
+  "cli": {
+    "analytics": false
+  }
 }
