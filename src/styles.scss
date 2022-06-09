@@ -1,1 +1,107 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Variables
+@import 'styles_variables.scss';
+
+
+
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$CalenDoIt-theme: mat.define-light-theme((
+  color: (
+    primary: $CalenDoIt-primary,
+    accent: $CalenDoIt-accent,
+    warn: $CalenDoIt-warn,
+  )
+));
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$CalenDoIt-dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $CalenDoIt-primary,
+    accent: $CalenDoIt-accent,
+    warn: $CalenDoIt-warn,
+  )
+));
+
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($CalenDoIt-theme);
+
+.app-background {
+  background: mat.get-color-from-palette(mat.get-color-from-palette($CalenDoIt-theme, background), card);
+}
+
+
+@mixin app-theme($theme) {
+  $_background: mat.get-color-from-palette($theme, background);
+  $app-background-color: mat.get-color-from-palette($_background, background);
+  $_foreground: mat.get-color-from-palette($theme, foreground);
+  $app-foreground-color: mat.get-color-from-palette($_foreground, text);
+  $border-color: mat.get-color-from-palette($_foreground, divider);
+
+  .app-background {
+    background: mat.get-color-from-palette($_background, card);
+  }
+
+  .app-foreground {
+    color: $app-foreground-color;
+  }
+
+  .app-border {
+    border-color: $border-color !important;
+  }
+
+}
+
+
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.light-theme {
+  @include app-theme($CalenDoIt-theme);
+
+
+}
+
+.dark-theme {
+  @include app-theme($CalenDoIt-dark-theme);
+  @include mat.all-component-colors($CalenDoIt-dark-theme);
+
+}
+
+::-webkit-scrollbar {
+  @extend .app-background;
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: mat.get-color-from-palette($CalenDoIt-primary, default);
+  border-radius: 12px;
+
+  &:hover {
+    background: mat.get-color-from-palette($CalenDoIt-accent, default);
+  }
+}
+
+::-webkit-scrollbar-corner {
+  @extend .app-background;
+}
+

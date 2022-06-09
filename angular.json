@@ -28,7 +28,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/res"
             ],
             "styles": [
               "src/styles.scss"
@@ -107,5 +108,8 @@
       }
     }
   },
-  "defaultProject": "calendoit"
+  "defaultProject": "calendoit",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -1,0 +1,32 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$CalenDoIt-primary: mat.define-palette(mat.$teal-palette);
+$CalenDoIt-accent: mat.define-palette(mat.$gray-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$CalenDoIt-warn: mat.define-palette(mat.$red-palette);
+
+$CalenDoIt-success: mat.define-palette(mat.$green-palette);
+$CalenDoIt-information: mat.define-palette(mat.$orange-palette);
+
+
+
+$isActiveColor: mat.get-color-from-palette($CalenDoIt-accent, darker);
+$defaultAccent: mat.get-color-from-palette($CalenDoIt-accent, default);
+$defaultAccentTranslucent: mat.get-color-from-palette($CalenDoIt-accent, default, 0.6);
+$defaultSuccess: mat.get-color-from-palette($CalenDoIt-success, default);
+$defaultSuccessTranslucent: mat.get-color-from-palette($CalenDoIt-success, default, 0.87);
+$defaultInformation: mat.get-color-from-palette($CalenDoIt-information, default);
+$defaultInformationTranslucent: mat.get-color-from-palette($CalenDoIt-information, default, 0.87);
+$defaultPrimary: mat.get-color-from-palette($CalenDoIt-primary, default);
+$defaultPrimaryTranslucent: mat.get-color-from-palette($CalenDoIt-primary, default, 0.87);
+$defaultWarn: mat.get-color-from-palette($CalenDoIt-warn, default);
+$defaultWarnTranslucent: mat.get-color-from-palette($CalenDoIt-warn, default, 0.87);
