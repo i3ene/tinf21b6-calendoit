@@ -14,13 +14,16 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { FormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { SettingsComponent } from './components/settings/settings.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     WidgetComponent,
-    CalendarComponent
+    CalendarComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

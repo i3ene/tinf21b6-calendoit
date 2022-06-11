@@ -56,7 +56,11 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "index": {
+                "input": "src/index.xhtml",
+                "output": "index.xhtml"
+              }
             },
             "development": {
               "buildOptimizer": false,
