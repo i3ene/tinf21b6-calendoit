@@ -16,6 +16,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { SettingsComponent } from './components/settings/settings.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
