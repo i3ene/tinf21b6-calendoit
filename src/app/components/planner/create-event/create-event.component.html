@@ -1,0 +1,15 @@
+<div class="container">
+    <form>
+        <mat-form-field>
+            <mat-label>Event</mat-label>
+            <input #inputEvent matInput type="text">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Date</mat-label>
+            <input #inputDate matInput type="date">
+        </mat-form-field>
+        <button mat-flat-button (click)="addEvent(inputEvent.value, inputDate.value)">
+            Enter
+        </button>
+    </form>
+</div>
