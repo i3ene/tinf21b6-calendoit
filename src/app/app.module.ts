@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { SettingsComponent } from './components/settings/settings.component';
+import { CreateEventComponent } from './components/planner/create-event/create-event.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { SettingsComponent } from './components/settings/settings.component';
     WidgetComponent,
     PlannerComponent,
     CalendarComponent,
-    SettingsComponent
+    SettingsComponent,
+    CreateEventComponent
   ],
   imports: [
     BrowserModule,
