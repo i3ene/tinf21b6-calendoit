@@ -8,12 +8,14 @@ import {MaterialModule} from './modules/material.module';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {WidgetComponent} from './components/dashboard/widget/widget.component';
+import { PlannerComponent } from './components/planner/planner.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    WidgetComponent
+    WidgetComponent,
+    PlannerComponent
   ],
   imports: [
     BrowserModule,
