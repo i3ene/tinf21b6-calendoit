@@ -113,7 +113,9 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
+            "baseHref": "https://dhbw-ka-pm.github.io/tinf21b6-calendoit",
             "name": "calendoit"
+
           }
         }
       }
