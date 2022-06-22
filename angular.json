@@ -58,8 +58,8 @@
               ],
               "outputHashing": "all",
               "index": {
-                "input": "src/index.html",
-                "output": "index.html"
+                "input": "src/index.xhtml",
+                "output": "index.xhtml"
               }
             },
             "development": {
