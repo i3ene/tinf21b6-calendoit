@@ -45,7 +45,7 @@ mat-toolbar {
     transition: 0.3s;
   }
 
-  &:hover > .mat-icon-button, & > .mat-icon-button:focus {
+  &:hover > .mat-icon-button/*, & > .mat-icon-button:focus*/ {
     width: 40px;
     transition: 0.3s;
 
