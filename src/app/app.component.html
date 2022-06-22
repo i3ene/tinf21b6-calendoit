@@ -6,6 +6,11 @@
     <img src="res/cdi_ico_mono_invert_fit.svg">
     <span>{{ title }}</span>
     <span class="spacer"></span>
+    <button mat-icon-button (click)="themeService.toggleTheme()">
+      <mat-icon>
+        {{ theme.currentTheme == theme.Mode.dark ? 'light_mode' : 'dark_mode' }}
+      </mat-icon>
+    </button>
   </mat-toolbar>
   <mat-sidenav-container fxFlex autosize>
     <mat-sidenav [mode]="'side'" opened #drawer>
@@ -62,6 +67,6 @@
   </mat-sidenav-container>
 
   <div class="version">
-    {{ '0.0.1' }}
+    {{ version }}
   </div>
 </div>

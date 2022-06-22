@@ -90,7 +90,7 @@ body {
   @include app-theme($CalenDoIt-dark-theme);
   @include mat.all-component-colors($CalenDoIt-dark-theme);
 
-  @include calendar-theme($CalenDoIt-theme);
+  @include calendar-theme($CalenDoIt-dark-theme);
 }
 
 ::-webkit-scrollbar {
