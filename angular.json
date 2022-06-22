@@ -41,8 +41,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -58,8 +58,8 @@
               ],
               "outputHashing": "all",
               "index": {
-                "input": "src/index.xhtml",
-                "output": "index.xhtml"
+                "input": "src/index.html",
+                "output": "index.html"
               }
             },
             "development": {
@@ -72,7 +72,7 @@
               "aot": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
