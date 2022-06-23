@@ -2,7 +2,7 @@ name: gh-page_deploy
 
 on:
   workflow_run:
-    workflows: ["increment_version_minor"]
+    workflows: ["increment_version_patch"]
     types:
       - completed
 
