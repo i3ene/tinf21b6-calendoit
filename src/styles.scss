@@ -10,6 +10,7 @@
 
 // Variables
 @import 'styles_variables.scss';
+@import 'styles_calendar.scss';
 
 
 // Create the theme object. A theme consists of configurations for individual
@@ -37,6 +38,8 @@ $CalenDoIt-dark-theme: mat.define-dark-theme((
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($CalenDoIt-theme);
+
+@include calendar-theme($CalenDoIt-theme);
 
 .app-background {
   background: mat.get-color-from-palette(mat.get-color-from-palette($CalenDoIt-theme, background), card);
@@ -80,13 +83,14 @@ body {
 .light-theme {
   @include app-theme($CalenDoIt-theme);
 
-
+  @include calendar-theme($CalenDoIt-theme);
 }
 
 .dark-theme {
   @include app-theme($CalenDoIt-dark-theme);
   @include mat.all-component-colors($CalenDoIt-dark-theme);
 
+  @include calendar-theme($CalenDoIt-dark-theme);
 }
 
 ::-webkit-scrollbar {
@@ -114,5 +118,5 @@ body {
   border-radius: 8px !important;
 }
 
-@import '~angular-calendar/css/angular-calendar.css';
+
 @import '~flatpickr/dist/themes/light.css';

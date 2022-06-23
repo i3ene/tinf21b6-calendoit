@@ -1,0 +1,34 @@
+@import '~angular-calendar/scss/angular-calendar.scss';
+@import 'styles_variables.scss';
+
+@mixin calendar-theme($theme) {
+
+  $_background: mat.get-color-from-palette($theme, background);
+  $app-background-color: mat.get-color-from-palette($_background, background);
+  $_foreground: mat.get-color-from-palette($theme, foreground);
+  $app-foreground-color: mat.get-color-from-palette($_foreground, text);
+  $border-color: mat.get-color-from-palette($_foreground, divider);
+
+  @include cal-theme(
+    (
+      event-color-primary: mat.get-color-from-palette($CalenDoIt-primary, default),
+      event-color-secondary: mat.get-color-from-palette($CalenDoIt-accent, default),
+      border-color: $border-color,
+      bg-primary: mat.get-color-from-palette($_background, card),
+      bg-secondary: mat.get-color-from-palette($_background, app-bar),
+      bg-active: $app-background-color,
+      today-bg: mat.get-color-from-palette($CalenDoIt-accent, 400),
+      weekend-color: mat.get-color-from-palette($CalenDoIt-primary, 200),
+      badge-color: mat.get-color-from-palette($CalenDoIt-primary, 400),
+      current-time-marker-color: mat.get-color-from-palette($CalenDoIt-primary, 200),
+      white: $app-foreground-color,
+      gray: $app-background-color,
+      black: #000,
+    )
+  )
+
+}
+
+.cal-open-day-events {
+  box-shadow: none !important;
+}
