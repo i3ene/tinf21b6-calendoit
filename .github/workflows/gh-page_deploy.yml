@@ -24,7 +24,7 @@ jobs:
     - name: git config
       run: |
         git config --global user.email "<>"
-        git config --global user.name "GitHUb Actions Bot"
+        git config --global user.name "GitHub Actions Bot"
     - name: Use Node.js $
       uses: actions/setup-node@v1
       with:
