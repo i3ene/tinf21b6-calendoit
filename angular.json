@@ -121,7 +121,6 @@
       }
     }
   },
-  "defaultProject": "calendoit",
   "cli": {
     "analytics": false
   }
