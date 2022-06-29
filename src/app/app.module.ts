@@ -17,6 +17,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { SettingsComponent } from './components/settings/settings.component';
 import { CreateEventComponent } from './components/planner/create-event/create-event.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { CreateEventComponent } from './components/planner/create-event/create-e
       useFactory: adapterFactory,
     }),
     FlatpickrModule.forRoot(),
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
