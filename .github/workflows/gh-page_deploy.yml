@@ -2,7 +2,7 @@ name: gh-page_deploy
 
 on:
   workflow_run:
-    workflows: ["increment_version_patch","increment_version_minor"]
+    workflows: ["increment_version_patch"]
     types:
       - completed
 
@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        
+
     steps:
     - uses: actions/checkout@v2
     - name: git config
