@@ -13,6 +13,46 @@ export class XsltService {
 
   constructor() { }
 
+  /**
+   * Transform XML and XSL to XSLT
+   * @param xmlPath Path to XML
+   * @param xslPath Path to XSL
+   * @returns generated DocumentFragment
+   */
+  async asyncTransform(xmlPath: string, xslPath: string): Promise<any> {
+    this.xslStylesheet = await this.asyncGetFile(xslPath);
+    this.xsltProcessor.importStylesheet(this.xslStylesheet);
+    this.xmlDoc = await this.asyncGetFile(xmlPath);
+
+    return this.xsltProcessor.transformToFragment(this.xmlDoc, document);
+  }
+
+  /**
+   * Transform XML and XSL to JSON
+   * @param xmlPath Path to XML
+   * @param xslPath Path to XSL
+   * @returns generated JSON
+   */
+  async asyncTransformJSON(xmlPath: string, xslPath: string): Promise<any> {
+    var fragment = await this.asyncTransform(xmlPath, xslPath);
+    var text = fragment.firstChild?.nodeValue;
+    var obj = JSON.parse(text!);
+
+    return obj;
+  }
+
+  /**
+   * Fetch a remote File
+   * @param path Path to File
+   * @returns fetched File
+   */
+  async asyncGetFile(path: string): Promise<any> {
+    return await fetch(path).then(response => response.text()).then(data => this.xmlDom.parseFromString(data, 'text/xml'));
+  }
+
+  /**
+   * @deprecated Use {@link asyncTransform}
+   */
   transform(xmlPath: string, xslPath: string): any {
     this.xslStylesheet = this.getFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
@@ -21,15 +61,20 @@ export class XsltService {
     return this.xsltProcessor.transformToFragment(this.xmlDoc, document);
   }
 
+  /**
+   * @deprecated Use {@link asyncTransformJSON}
+   */
   transformJSON(xmlPath: string, xslPath: string): any {
     var fragment = this.transform(xmlPath, xslPath);
     var text = fragment.firstChild?.nodeValue;
-
     var obj = JSON.parse(text!);
 
     return obj;
   }
 
+  /**
+   * @deprecated Use {@link asyncGetFile}
+   */
   getFile(path: string): any {
     var myXMLHTTPRequest = new XMLHttpRequest();
     myXMLHTTPRequest.open("GET", path, false);
