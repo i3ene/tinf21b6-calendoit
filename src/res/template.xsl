@@ -2,7 +2,9 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <!-- Init -->
 <xsl:template match="/">
+  <xsl:text>{</xsl:text>
   <xsl:call-template name="iterate"/>
+  <xsl:text>}</xsl:text>
 </xsl:template>
 
 <!-- Iterate -->
@@ -36,6 +38,9 @@
 
 <!-- Type -->
 <xsl:template name="type">
+  <xsl:if test="not(../@type='array')">
+    <xsl:call-template name="attribute"/>
+  </xsl:if>
   <xsl:choose>
     <xsl:when test="@type='array'">
       <xsl:call-template name="array"/>
@@ -44,11 +49,9 @@
       <xsl:call-template name="object"/>
     </xsl:when>
     <xsl:when test="@type='number'">
-      <xsl:call-template name="attribute"/>
       <xsl:call-template name="number"/>
     </xsl:when>
     <xsl:otherwise>
-      <xsl:call-template name="attribute"/>
       <xsl:call-template name="value"/>
     </xsl:otherwise>
   </xsl:choose>

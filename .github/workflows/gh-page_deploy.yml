@@ -1,0 +1,40 @@
+name: gh-page_deploy
+
+on:
+  workflow_run:
+    workflows: ["increment_version_patch","increment_version_minor"]
+    types:
+      - completed
+
+  workflow_dispatch:
+
+
+
+jobs:
+
+  ci:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        
+    steps:
+    - uses: actions/checkout@v2
+    - name: git config
+      run: |
+        git config --global user.email "<>"
+        git config --global user.name "GitHub Actions Bot"
+    - name: Use Node.js $
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.15.1
+    - name: Install Dependencies
+      if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+      run: |
+        npm i --force
+    - name: Deploy
+      run: |
+        npm run deploy
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
