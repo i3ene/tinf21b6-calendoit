@@ -1,15 +1,36 @@
 <div class="container">
-    <form>
-        <mat-form-field>
-            <mat-label>Event</mat-label>
-            <input #inputEvent matInput type="text">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Date</mat-label>
-            <input #inputDate matInput type="date">
-        </mat-form-field>
-        <button mat-flat-button (click)="addEvent(inputEvent.value, inputDate.value)">
-            Enter
-        </button>
-    </form>
+  <form>
+    <mat-form-field>
+      <mat-label>Event</mat-label>
+      <input #inputEvent matInput type="text" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Beschreibung</mat-label>
+      <input #inputDescription matInput type="text" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Deadline</mat-label>
+      <input #inputDatedeadline matInput type="date" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Beginn</mat-label>
+      <input #inputDatebeginn matInput type="date" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>End</mat-label>
+      <input #inputDateend matInput type="date" />
+    </mat-form-field>
+    <button
+      mat-flat-button (click)="addEvent(inputDatedeadline.value, inputDatebeginn.value, inputDateend.value, inputEvent.value, inputDescription.value)">
+      Enter
+    </button>
+  </form>
+  <div class="view-container">
+    <div *ngFor="let event of events">
+      <h3>{{ event.title }}</h3>
+      <p>{{ event.description }}</p>
+      <div>{{ event.deadline | date }}</div>
+      <br>
+    </div>
+  </div>
 </div>
