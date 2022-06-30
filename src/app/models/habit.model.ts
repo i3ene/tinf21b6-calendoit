@@ -3,8 +3,8 @@ import { Event } from './event.model';
 export class Habit extends Event {
   deadline?: Date;
 
-  habitBegin: Date;
-  habitEnd: Date;
+  begin: Date;
+  finish: Date;
 
   alternateEvents: HabitEvent[];
 
@@ -13,8 +13,8 @@ export class Habit extends Event {
 
     this.deadline = obj.deadline ? new Date(obj.deadline) : undefined;
 
-    this.habitBegin = obj.habitBegin ? new Date(obj.habitBegin) : new Date();
-    this.habitEnd = obj.habitEnd ? new Date(obj.habitEnd) : new Date();
+    this.begin = obj.begin ? new Date(obj.begin) : new Date();
+    this.finish = obj.finish ? new Date(obj.finish) : new Date();
 
     this.alternateEvents = obj.alternateEvents ? obj.alternateEvents : [];
   }
