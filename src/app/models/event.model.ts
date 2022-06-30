@@ -1,25 +1,24 @@
 export class Event {
-    startDate: Date;
-    endDate: Date;
+  startDate: Date;
+  endDate: Date;
 
-    // TODO: repeat
-    // TODO: position
+  // TODO: repeat
+  // TODO: position
 
-    title: string;
-    description: string;
+  title: string;
+  description: string;
 
-    color: string;
-    textColor: string;
+  color: string;
+  textColor: string;
 
-    constructor(obj: any) {
-        this.startDate = obj.startDate ? obj.startDate : new Date();
-        this.endDate = obj.endDate ? obj.endDate : new Date();
+  constructor(obj: any) {
+    this.startDate = obj.startDate ? new Date(obj.startDate) : new Date();
+    this.endDate = obj.endDate ? new Date(obj.endDate) : new Date();
 
-        this.title = obj.title ? obj.title : "";
-        this.description = obj.description ? obj.description : "";
+    this.title = obj.title ? obj.title : '';
+    this.description = obj.description ? obj.description : '';
 
-        this.color = obj.color ? obj.color : "";
-        this.textColor = obj.textColor ? obj.textColor : "";
-    }
-    
+    this.color = obj.color ? obj.color : '';
+    this.textColor = obj.textColor ? obj.textColor : '';
+  }
 }

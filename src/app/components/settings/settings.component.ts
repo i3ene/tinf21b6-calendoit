@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { XsltService } from 'src/app/services/xslt.service';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { saveAs } from 'file-saver';
+import { AppComponent } from 'src/app/app.component';
+import { ExchangeService } from 'src/app/services/exchange.service';
 
 @Component({
   selector: 'app-settings',
@@ -12,25 +10,10 @@ import { saveAs } from 'file-saver';
 export class SettingsComponent implements OnInit {
   obj: any;
 
-  constructor(private xsltService: XsltService, private http: HttpClient) {}
+  constructor(public exchangeService: ExchangeService) {}
 
   ngOnInit(): void {
-    this.obj = this.xsltService.transformJSON(
-      'res/list.xml',
-      'res/template.xsl'
-    );
+    this.obj = AppComponent.data;
   }
 
-  private downloadService(url: string): Observable<Blob> {
-    return this.http.get(url, {
-      responseType: 'blob',
-    });
-  }
-
-  //function to download data
-  download(): void {
-    this.downloadService('/downloads/test.zip').subscribe((blob) =>
-      saveAs(blob, 'test.zip')
-    );
-  }
 }
