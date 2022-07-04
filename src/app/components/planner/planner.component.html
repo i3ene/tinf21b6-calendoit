@@ -1,2 +1,6 @@
-<br>
-<app-create-event></app-create-event>
+<br />
+<app-create-event
+  [events]="data.habits"
+  (addHabit)="data.addHabit($event)"
+></app-create-event>
+<app-list-view [habits]="data.habits"></app-list-view>

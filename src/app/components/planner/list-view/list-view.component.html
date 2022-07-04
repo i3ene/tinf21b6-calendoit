@@ -1,0 +1,11 @@
+<!--planner output (habits overview)-->
+<div class="container">
+  <div *ngFor="let habit of habits">
+    <h3>Event: {{ habit.title }}</h3>
+    <p>Beschreibung: {{ habit.description }}</p>
+    <div>Deadline: {{ habit.deadline | date }}</div>
+    <div>Startdatum: {{ habit.begin | date }}</div>
+    <div>Enddatum: {{ habit.finish | date }}</div>
+    <br />
+  </div>
+</div>
