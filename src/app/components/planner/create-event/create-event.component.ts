@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Habit, HabitEvent } from 'src/app/models/habit.model';
 
 @Component({
@@ -7,28 +8,31 @@ import { Habit, HabitEvent } from 'src/app/models/habit.model';
   styleUrls: ['./create-event.component.scss'],
 })
 export class CreateEventComponent implements OnInit {
-  events: Habit[] = [];
+  @Input() events: Habit[] = [];
+  @Output() addHabit: EventEmitter<Habit> = new EventEmitter<Habit>();
+  form: FormGroup = new FormGroup({
+    title: new FormControl(),
+    description: new FormControl(),
+    deadline: new FormControl(),
+    begin: new FormControl(),
+    finish: new FormControl(),
+  });
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  addEvent(
-    deadline: string,
-    habitbeginn: string,
-    habitEnd: string,
-    title: string,
-    description: string
-  ): void {
-    this.events.push(
+  add(): void {
+    this.addHabit.emit(
       new Habit({
-        deadline: new Date(deadline),
-        habitBegin: new Date(habitbeginn),
-        habitEnd: new Date(habitEnd),
-        title: title,
-        description: description,
+        deadline: new Date(this.form.controls['deadline'].value),
+        begin: new Date(this.form.controls['begin'].value),
+        finish: new Date(this.form.controls['finish'].value),
+        title: this.form.controls['title'].value,
+        description: this.form.controls['description'].value,
       })
     );
-    console.log(this.events);
+    this.form.reset();
+    //for(const control of Object.keys(this.form.controls))this.form.controls[control].reset()
   }
 }

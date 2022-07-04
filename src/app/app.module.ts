@@ -12,13 +12,14 @@ import { PlannerComponent } from './components/planner/planner.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { CalendarBundleModule } from './modules/calendar.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { SettingsComponent } from './components/settings/settings.component';
 import { CreateEventComponent } from './components/planner/create-event/create-event.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { HttpClientModule } from '@angular/common/http';
+import { ListViewComponent } from './components/planner/list-view/list-view.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { HttpClientModule } from '@angular/common/http';
     CalendarComponent,
     SettingsComponent,
     CreateEventComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    ListViewComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { HttpClientModule } from '@angular/common/http';
     }),
     FlatpickrModule.forRoot(),
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
