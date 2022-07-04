@@ -1,3 +1,4 @@
+<!--planner input-->
 <div class="container">
   <form>
     <mat-form-field>
@@ -13,11 +14,11 @@
       <input #inputDatedeadline matInput type="date" />
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Beginn</mat-label>
+      <mat-label>Startdatum</mat-label>
       <input #inputDatebeginn matInput type="date" />
     </mat-form-field>
     <mat-form-field>
-      <mat-label>End</mat-label>
+      <mat-label>Enddatum</mat-label>
       <input #inputDateend matInput type="date" />
     </mat-form-field>
     <button
@@ -25,11 +26,14 @@
       Enter
     </button>
   </form>
+  <!--planner output (habits overview)-->
   <div class="view-container">
     <div *ngFor="let event of events">
-      <h3>{{ event.title }}</h3>
-      <p>{{ event.description }}</p>
-      <div>{{ event.deadline | date }}</div>
+      <h3>Event: {{ event.title }}</h3>
+      <p>Beschreibung: {{ event.description }}</p>
+      <div>Deadline: {{ event.deadline | date }}</div>
+      <div>Startdatum: {{ event.begin | date }}</div>
+      <div>Enddatum: {{ event.end | date }}</div>
       <br>
     </div>
   </div>
