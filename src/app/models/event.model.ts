@@ -1,25 +1,34 @@
-export class Event {
-    startDate: Date;
-    endDate: Date;
+import { CalendarEvent } from 'angular-calendar';
 
-    // TODO: repeat
-    // TODO: position
+export class Event implements CalendarEvent {
+  start: Date;
+  end: Date;
 
-    title: string;
-    description: string;
+  // TODO: repeat
+  // TODO: position
+  // TODO: CalendarEvent interface implementation (draggable, resizable, ...)
 
-    color: string;
-    textColor: string;
+  title: string;
+  description?: string;
 
-    constructor(obj: any) {
-        this.startDate = obj.startDate ? obj.startDate : new Date();
-        this.endDate = obj.endDate ? obj.endDate : new Date();
+  color: {
+    primary: string;
+    secondary: string;
+  };
 
-        this.title = obj.title ? obj.title : "";
-        this.description = obj.description ? obj.description : "";
+  constructor(obj: any) {
+    this.start = obj.start ? new Date(obj.start) : new Date();
+    this.end = obj.end ? new Date(obj.end) : new Date();
 
-        this.color = obj.color ? obj.color : "";
-        this.textColor = obj.textColor ? obj.textColor : "";
+    this.title = obj.title ? obj.title : '';
+    this.description = obj.description ? obj.description : undefined;
+
+    // TODO: Cast implementation of CalendarEvent
+
+    this.color = {
+      primary: obj.color && obj.color.primary ? obj.color.primary : '',
+      secondary: obj.color && obj.color.secondary ? obj.color.secondary : ''
     }
-    
+  }
+
 }

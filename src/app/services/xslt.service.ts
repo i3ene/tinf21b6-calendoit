@@ -91,7 +91,8 @@ export class XsltService {
   saveXML(obj: any) {
     var xmlDoc = document.implementation.createDocument(null, "root");
 
-    xmlDoc.documentElement.appendChild(this.createObjectNode(obj, "list"));
+    var nodes = this.createObjectNode(obj, "list").childNodes;
+    nodes.forEach(node => xmlDoc.documentElement.appendChild(node));
 
     return xmlDoc;
   }
@@ -114,7 +115,7 @@ export class XsltService {
     // Date
     if (Object.prototype.toString.call(obj) == '[object Date]') {
       node.setAttribute("type", "date");
-      node.append((obj as Date).toISOString());
+      node.append((obj as Date).toJSON());
     }
     // Array
     else if (Array.isArray(obj)) {

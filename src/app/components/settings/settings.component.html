@@ -1,2 +1,3 @@
-<p>settings works!</p>
+<button mat-flat-button (click)="exchangeService.download()">Download</button>
 <pre>{{obj | json }}</pre>
+<div [innerHTML]="obj | safeHtml"></div>
