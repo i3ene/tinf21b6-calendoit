@@ -16,7 +16,7 @@ There are a lot of advantages of SCSS over CSS.
 Angular is an open-source framework in which you can easily develop web applications with TypeScript due to its hierarchical architekture.
 - Create your own reusable components which can also be combined like in a toolkit system. 
 - As a user you can see your TypeScript code on the website and let it react on user input without writing code manually. Because of that you can easily import foreign librarys.
-- The framework is based on components and services which can be seen like Lego blocks. Once you understood how to usw them, you will get a lot faster and more consistent.
+- The framework is based on components and services which can be seen like Lego blocks. Once you understood how to use them, you will get a lot faster and more consistent.
 - There are many other advantages like easy testing, code reduction and high compability.
 
 ### Calender with JSON
