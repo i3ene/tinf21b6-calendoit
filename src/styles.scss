@@ -118,5 +118,9 @@ body {
   border-radius: 8px !important;
 }
 
+.none-selectable {
+  user-select: none !important;
+}
+
 
 @import '~flatpickr/dist/themes/light.css';
