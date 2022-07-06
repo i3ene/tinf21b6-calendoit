@@ -9,6 +9,11 @@ export class Theme {
     */
   public static defaultTheme: Theme.Mode = 'light-theme' as Theme.Mode;
 
+  /**
+   * Parse a String into a Theme key
+   * @param str Theme
+   * @returns Parsed Theme or default
+   */
   public static getTheme(str: string | null): Theme.Mode {
     return (str as keyof typeof Theme.Mode) as Theme.Mode
   }

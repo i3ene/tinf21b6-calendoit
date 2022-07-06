@@ -43,8 +43,8 @@
         <secondary>#FFFFFF</secondary>
       </color>
       <deadline type="date">2022-07-14T00:00:00.000Z</deadline>
-      <begin type="date">2022-07-07T00:00:00.000Z</begin>
-      <finish type="date">2022-07-15T00:00:00.000Z</finish>
+      <idealTime type="date">2022-07-07T00:00:00.000Z</idealTime>
+      <duration type="number">30</duration>
       <alternateEvents type="array"/>
     </value0>
   </habits>

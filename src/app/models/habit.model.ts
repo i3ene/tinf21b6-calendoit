@@ -1,11 +1,24 @@
 import { Event } from './event.model';
 
 export class Habit extends Event {
+  /**
+   * Until which point this Habit should be repeated
+   */
   deadline?: Date;
 
-  begin: Date;
-  finish: Date;
+  /**
+   * The ideal start time
+   */
+  idealTime: Date;
 
+  /**
+   * The duration (in Minutes) of this Habit
+   */
+  duration: number;
+
+  /**
+   * Events that have an alternative time than the ideal time
+   */
   alternateEvents: HabitEvent[];
 
   constructor(obj: any) {
@@ -13,8 +26,8 @@ export class Habit extends Event {
 
     this.deadline = obj.deadline ? new Date(obj.deadline) : undefined;
 
-    this.begin = obj.begin ? new Date(obj.begin) : new Date();
-    this.finish = obj.finish ? new Date(obj.finish) : new Date();
+    this.idealTime = obj.idealTime ? new Date(obj.idealTime) : new Date();
+    this.duration = obj.duration ? obj.duration : 0;
 
     this.alternateEvents = obj.alternateEvents ? obj.alternateEvents : [];
   }

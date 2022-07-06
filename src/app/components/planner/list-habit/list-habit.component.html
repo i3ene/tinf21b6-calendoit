@@ -4,8 +4,10 @@
     <h3>Event: {{ habit.title }}</h3>
     <p>Beschreibung: {{ habit.description }}</p>
     <div>Deadline: {{ habit.deadline | date }}</div>
-    <div>Startdatum: {{ habit.begin | date }}</div>
-    <div>Enddatum: {{ habit.finish | date }}</div>
+    <div>Startdatum: {{ habit.start | date }}</div>
+    <div>Enddatum: {{ habit.end | date }}</div>
+    <div>Ideale Zeit: {{ habit.idealTime | date }}</div>
+    <div>Dauer: {{ habit.duration }} Minuten</div>
     <br />
   </div>
 </div>
