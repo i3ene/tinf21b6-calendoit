@@ -1,7 +1,4 @@
 <div class="container">
-  <button mat-icon-button (click)="openHelp()">
-    <mat-icon>help</mat-icon>
-  </button>
   <app-create-habit
     [events]="data.habits"
     (addHabit)="data.addHabit($event)"

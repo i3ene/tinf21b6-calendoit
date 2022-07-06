@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { HabitHelpComponent } from 'src/app/dialogues/habit-help/habit-help.component';
 import { Habit, HabitEvent } from 'src/app/models/habit.model';
 
 @Component({
@@ -18,7 +20,7 @@ export class CreateHabitComponent implements OnInit {
     finish: new FormControl(),
   });
 
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {}
 
@@ -35,4 +37,9 @@ export class CreateHabitComponent implements OnInit {
     this.form.reset();
     //for(const control of Object.keys(this.form.controls))this.form.controls[control].reset()
   }
+
+  openHelp(): void {
+    this.dialog.open(HabitHelpComponent);
+  }
+
 }

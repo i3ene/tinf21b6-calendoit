@@ -2,8 +2,13 @@
   <table [formGroup]="form" class="form-table app-border app-background">
     <thead>
       <tr>
-        <td colspan="2" align="left">
+        <td align="left">
           <h2>Gewohnheit anlegen</h2>
+        </td>
+        <td align="right">
+          <button mat-icon-button (click)="openHelp()">
+            <mat-icon>help</mat-icon>
+          </button>
         </td>
       </tr>
     </thead>
