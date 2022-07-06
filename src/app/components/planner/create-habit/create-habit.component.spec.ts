@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListViewComponent } from './list-view.component';
+import { CreateHabitComponent } from './create-habit.component';
 
-describe('ListViewComponent', () => {
-  let component: ListViewComponent;
-  let fixture: ComponentFixture<ListViewComponent>;
+describe('CreateHabitComponent', () => {
+  let component: CreateHabitComponent;
+  let fixture: ComponentFixture<CreateHabitComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListViewComponent ]
+      declarations: [ CreateHabitComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListViewComponent);
+    fixture = TestBed.createComponent(CreateHabitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -16,4 +16,5 @@ export class PlannerComponent implements OnInit {
   get data(): Data {
     return AppComponent.data;
   }
+
 }

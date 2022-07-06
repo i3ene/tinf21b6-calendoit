@@ -10,14 +10,15 @@ import { PlannerComponent } from './components/planner/planner.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 
 import { SettingsComponent } from './components/settings/settings.component';
-import { CreateEventComponent } from './components/planner/create-event/create-event.component';
+import { CreateHabitComponent } from './components/planner/create-habit/create-habit.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { HttpClientModule } from '@angular/common/http';
-import { ListViewComponent } from './components/planner/list-view/list-view.component';
+import { ListHabitComponent } from './components/planner/list-habit/list-habit.component';
 import { CalendarBundleModule } from './modules/calendar.module';
 
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
+import { HabitHelpComponent } from './dialogues/habit-help/habit-help.component';
 
 /**
  * Registering Language Localization
@@ -32,9 +33,10 @@ registerLocaleData(localeDe);
     PlannerComponent,
     CalendarComponent,
     SettingsComponent,
-    CreateEventComponent,
+    CreateHabitComponent,
     SafeHtmlPipe,
-    ListViewComponent,
+    ListHabitComponent,
+    HabitHelpComponent,
   ],
   imports: [
     BrowserModule,
