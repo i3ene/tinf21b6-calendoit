@@ -3,11 +3,11 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Habit, HabitEvent } from 'src/app/models/habit.model';
 
 @Component({
-  selector: 'app-create-event',
-  templateUrl: './create-event.component.html',
-  styleUrls: ['./create-event.component.scss'],
+  selector: 'app-create-habit',
+  templateUrl: './create-habit.component.html',
+  styleUrls: ['./create-habit.component.scss'],
 })
-export class CreateEventComponent implements OnInit {
+export class CreateHabitComponent implements OnInit {
   @Input() events: Habit[] = [];
   @Output() addHabit: EventEmitter<Habit> = new EventEmitter<Habit>();
   form: FormGroup = new FormGroup({
