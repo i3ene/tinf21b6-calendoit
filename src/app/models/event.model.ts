@@ -1,6 +1,25 @@
 import { CalendarEvent } from 'angular-calendar';
 
 export class Event implements CalendarEvent {
+
+  /**
+   * Title of this event
+   */
+   title: string;
+
+   /**
+    * Descrption of this event
+    */
+   description?: string;
+
+   /**
+    * Color object with `primary` and `secondary` color
+    */
+   color: {
+     primary: string;
+     secondary: string;
+   };
+
   /**
    * Start of this event
    */
@@ -11,26 +30,40 @@ export class Event implements CalendarEvent {
    */
   end: Date;
 
-  // TODO: repeat
-  // TODO: position
-  // TODO: CalendarEvent interface implementation (draggable, resizable, ...)
+  /**
+   * TODO: Repeating
+   * ```js
+   * {
+   *  days: DAY[],
+   *  repeating: Date | number
+   * }
+   * ```
+   */
+  repeat?: any;
 
   /**
-   * Title of this event
+   * TODO: Position
+   * ```js
+   * {
+   *  name?: string,
+   *  lat: string,
+   *  lng: string
+   * }
+   * ```
    */
-  title: string;
+  position?: any;
 
   /**
-   * Descrption of this event
+   * TODO: (CalendarEvent interface) Draggable
    */
-  description?: string;
+  draggable?: boolean;
 
   /**
-   * Color object with `primary` and `secondary` color
+   * TODO: (CalendarEvent interface) Resizable
    */
-  color: {
-    primary: string;
-    secondary: string;
+  resizable?: {
+    beforeStart?: boolean;
+    afterEnd?: boolean;
   };
 
   constructor(obj: any) {
