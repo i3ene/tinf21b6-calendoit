@@ -1,14 +1,20 @@
 <div fxLayout="column" fxFlexFill class="mat-app-background">
   <mat-toolbar color="primary">
-    <button mat-icon-button (click)="drawer.toggle()">
+    <button mat-icon-button (click)="drawer.toggle()" class="hide-element">
       <mat-icon>menu</mat-icon>
     </button>
-    <img src="res/cdi_ico_mono_invert_fit.svg">
-    <span>{{ title }}</span>
+    <img src="res/cdi_ico_mono_invert_fit.svg" class="show-element">
     <span class="spacer"></span>
-    <button mat-icon-button (click)="themeService.toggleTheme()">
+    <span class="title">{{ title }}</span>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="themeService.toggleTheme()" class="hide-element">
       <mat-icon>
         {{ theme.currentTheme == theme.Mode.dark ? 'light_mode' : 'dark_mode' }}
+      </mat-icon>
+    </button>
+    <button mat-icon-button class="show-element" tabindex="-1">
+      <mat-icon>
+        more_horiz
       </mat-icon>
     </button>
   </mat-toolbar>

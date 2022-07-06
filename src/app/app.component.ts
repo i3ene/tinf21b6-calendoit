@@ -11,7 +11,7 @@ import { XsltService } from './services/xslt.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'calendoit';
+  title = 'CalenDoIt';
   version = packageJson.version;
 
   /**

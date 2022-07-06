@@ -29,29 +29,44 @@
 mat-toolbar {
   & > img {
     margin-right: 8px;
+  }
+
+  & > .show-element {
+    overflow: hidden;
     width: 40px;
     height: 40px;
     transition: 0.3s;
   }
 
-  &:hover > img {
+  &:hover > .show-element {
     width: 0px;
     transition: 0.3s;
   }
 
-  & > .mat-icon-button {
+  & > .hide-element {
     overflow: hidden;
     width: 0px;
     transition: 0.3s;
   }
 
-  &:hover > .mat-icon-button/*, & > .mat-icon-button:focus*/ {
+  &:hover > .hide-element, & > .hide-element:focus {
     width: 40px;
     transition: 0.3s;
 
-    & + img {
+    & + .show-element {
       width: 0px;
       transition: 0.3s;
     }
+  }
+
+  & > .title {
+    overflow: hidden;
+    height: 40px;
+    transition: 0.3s;
+  }
+
+  &:hover > .title {
+    height: 0px;
+    transition: 0.3s;
   }
 }
