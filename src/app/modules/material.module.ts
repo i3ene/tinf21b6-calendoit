@@ -43,6 +43,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     exports: [
@@ -91,6 +94,10 @@ import { OverlayModule } from '@angular/cdk/overlay';
         OverlayModule,
         PortalModule,
         ScrollingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FlexLayoutModule,
+        BrowserAnimationsModule,
     ]
 })
 export class MaterialModule { }
