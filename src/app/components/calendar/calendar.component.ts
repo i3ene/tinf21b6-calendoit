@@ -72,6 +72,9 @@ export class CalendarComponent implements OnInit {
 
   constructor() {}
 
+  ngOnInit(): void {
+  }
+
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -122,20 +125,8 @@ export class CalendarComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {
-
-  }
-
-  /**
-   * Use this Method to add an event to the calendar
-   * @param eventToAdd this is the event that will be added to the calendar
-   */
-  addEventAutomatically(eventToAdd: Event): void {
-    //this.events.push(eventToAdd);
-  }
-
   deleteEvent(eventToDelete: Event) {
-    //this.events = this.events.filter((event) => event !== eventToDelete);
+    this.data.deleEvent(eventToDelete);
   }
 
   setView(view: CalendarView) {
