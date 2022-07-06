@@ -15,6 +15,11 @@ export class AppComponent {
   version = packageJson.version;
 
   /**
+   * Localization String
+   */
+  public static locale: string = 'de';
+
+  /**
    * Global data stack. Contains `Events` and `Habits`.
    */
   public static data: Data;

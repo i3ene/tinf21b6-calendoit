@@ -1,75 +1,81 @@
 <div class="container">
-  <div>
-    <mat-button-toggle-group>
-      <mat-button-toggle
-      mwlCalendarPreviousView
-      [view]="view"
-      [(viewDate)]="viewDate"
-      (viewDateChange)="closeOpenMonthViewDay()">Previous</mat-button-toggle>
-      <mat-button-toggle
-      mwlCalendarToday
-      [(viewDate)]="viewDate">Today</mat-button-toggle>
-      <mat-button-toggle
-      mwlCalendarNextView
-      [view]="view"
-      [(viewDate)]="viewDate"
-      (viewDateChange)="closeOpenMonthViewDay()">Next</mat-button-toggle>
-    </mat-button-toggle-group>
+  <div class="calendar">
+    <div class="calendar-header">
+      <mat-button-toggle-group>
+        <mat-button-toggle
+          mwlCalendarPreviousView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+          >Vorherige</mat-button-toggle
+        >
+        <mat-button-toggle mwlCalendarToday [(viewDate)]="viewDate"
+          >Heue</mat-button-toggle
+        >
+        <mat-button-toggle
+          mwlCalendarNextView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+          >Nächste</mat-button-toggle
+        >
+      </mat-button-toggle-group>
 
-    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+      <h2>{{ viewDate | calendarDate: view + "ViewTitle":"de" }}</h2>
 
-    <mat-button-toggle-group [value]="view" (valueChange)="setView($event)">
-      <mat-button-toggle [value]="CalendarView.Month">Month</mat-button-toggle>
-      <mat-button-toggle [value]="CalendarView.Week">Week</mat-button-toggle>
-      <mat-button-toggle [value]="CalendarView.Day">Day</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
+      <mat-button-toggle-group [value]="view" (valueChange)="setView($event)">
+        <mat-button-toggle [value]="CalendarView.Month"
+          >Monat</mat-button-toggle
+        >
+        <mat-button-toggle [value]="CalendarView.Week">Woche</mat-button-toggle>
+        <mat-button-toggle [value]="CalendarView.Day">Tag</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
 
-  <br />
-  <!-- TODO -->
-  <div [ngSwitch]="view">
-    <mwl-calendar-month-view
-      *ngSwitchCase="CalendarView.Month"
-      [viewDate]="viewDate"
-      [events]="data.events"
-      [refresh]="refresh"
-      [activeDayIsOpen]="activeDayIsOpen"
-      (dayClicked)="dayClicked($event.day)"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)"
-    >
-    </mwl-calendar-month-view>
-    <mwl-calendar-week-view
-      *ngSwitchCase="CalendarView.Week"
-      [viewDate]="viewDate"
-      [events]="data.events"
-      [refresh]="refresh"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)"
-    >
-    </mwl-calendar-week-view>
-    <mwl-calendar-day-view
-      *ngSwitchCase="CalendarView.Day"
-      [viewDate]="viewDate"
-      [events]="data.events"
-      [refresh]="refresh"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)"
-    >
-    </mwl-calendar-day-view>
+    <br />
+
+    <div [ngSwitch]="view">
+      <mwl-calendar-month-view
+        *ngSwitchCase="CalendarView.Month"
+        [viewDate]="viewDate"
+        [events]="data.events"
+        [refresh]="refresh"
+        [activeDayIsOpen]="activeDayIsOpen"
+        [locale]="locale"
+        (dayClicked)="dayClicked($event.day)"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)"
+      >
+      </mwl-calendar-month-view>
+      <mwl-calendar-week-view
+        *ngSwitchCase="CalendarView.Week"
+        [viewDate]="viewDate"
+        [events]="data.events"
+        [refresh]="refresh"
+        [locale]="locale"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)"
+      >
+      </mwl-calendar-week-view>
+      <mwl-calendar-day-view
+        *ngSwitchCase="CalendarView.Day"
+        [viewDate]="viewDate"
+        [events]="data.events"
+        [refresh]="refresh"
+        [locale]="locale"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)"
+      >
+      </mwl-calendar-day-view>
+    </div>
   </div>
 
   <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
 
   <br /><br /><br />
 
-  <h3>
-    Edit events
-    <button class="btn btn-primary float-right" (click)="addEvent()">
-      Add new
-    </button>
-    <div class="clearfix"></div>
-  </h3>
+  <h3>Edit events</h3>
+  <button mat-flat-button (click)="addEvent()">Add new</button>
 
   <div class="table-responsive">
     <table class="table table-bordered">
@@ -87,12 +93,15 @@
       <tbody>
         <tr *ngFor="let event of data.events">
           <td>
-            <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="event.title"
-              (keyup)="refresh.next()"
-            />
+            <mat-form-field>
+              <mat-label>Title</mat-label>
+              <input
+                matInput
+                type="text"
+                [(ngModel)]="event.title"
+                (keyup)="refresh.next()"
+              />
+            </mat-form-field>
           </td>
           <td>
             <input
@@ -110,7 +119,6 @@
           </td>
           <td>
             <input
-              class="form-control"
               type="text"
               mwlFlatpickr
               [(ngModel)]="event.start"
@@ -125,7 +133,6 @@
           </td>
           <td>
             <input
-              class="form-control"
               type="text"
               mwlFlatpickr
               [(ngModel)]="event.end"
@@ -139,7 +146,7 @@
             />
           </td>
           <td>
-            <button class="btn btn-danger" (click)="deleteEvent(event)">
+            <button mat-flat-button color="warn" (click)="deleteEvent(event)">
               Delete
             </button>
           </td>
@@ -147,28 +154,4 @@
       </tbody>
     </table>
   </div>
-
-  <ng-template #modalContent let-close="close">
-    <div class="modal-header">
-      <h5 class="modal-title">Event action occurred</h5>
-      <button type="button" class="close" (click)="close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div>
-        Action:
-        <pre>{{ modalData?.action }}</pre>
-      </div>
-      <div>
-        Event:
-        <pre>{{ modalData?.event | json }}</pre>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="close()">
-        OK
-      </button>
-    </div>
-  </ng-template>
 </div>

@@ -1,8 +1,7 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { addDays, addHours, endOfDay, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
 import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Event } from 'src/app/models/event.model';
 import { Data } from 'src/app/models/data.model';
 import { AppComponent } from 'src/app/app.component';
@@ -27,11 +26,10 @@ const colors: any = {
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CalendarComponent implements OnInit {
-
-  @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
 
@@ -40,11 +38,6 @@ export class CalendarComponent implements OnInit {
   viewDate: Date = new Date();
 
   today: Date = new Date();
-
-  modalData!: {
-    action: string;
-    event: CalendarEvent;
-  };
 
   // actions: CalendarEventAction[] = [
   //   {
@@ -71,8 +64,13 @@ export class CalendarComponent implements OnInit {
     return AppComponent.data;
   }
 
+  get locale(): string {
+    return AppComponent.locale;
+  }
+
   activeDayIsOpen: boolean = true;
-  constructor(private modal: NgbModal) {}
+
+  constructor() {}
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -107,8 +105,7 @@ export class CalendarComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    console.log({ event, action });
   }
 
 
@@ -126,12 +123,12 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      
+
   }
 
   /**
    * Use this Method to add an event to the calendar
-   * @param eventToAdd this is the event that will be added to the calendar 
+   * @param eventToAdd this is the event that will be added to the calendar
    */
   addEventAutomatically(eventToAdd: Event): void {
     //this.events.push(eventToAdd);
@@ -148,4 +145,5 @@ export class CalendarComponent implements OnInit {
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
+
 }

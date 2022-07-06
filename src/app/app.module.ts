@@ -1,26 +1,28 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MaterialModule} from './modules/material.module';
-import {DashboardComponent} from './components/dashboard/dashboard.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {WidgetComponent} from './components/dashboard/widget/widget.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { MaterialModule } from './modules/material.module';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { WidgetComponent } from './components/dashboard/widget/widget.component';
 import { PlannerComponent } from './components/planner/planner.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
-import { CalendarBundleModule } from './modules/calendar.module';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FlatpickrModule } from 'angularx-flatpickr';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 import { SettingsComponent } from './components/settings/settings.component';
 import { CreateEventComponent } from './components/planner/create-event/create-event.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { ListViewComponent } from './components/planner/list-view/list-view.component';
+import { CalendarBundleModule } from './modules/calendar.module';
 
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+
+/**
+ * Registering Language Localization
+ */
+registerLocaleData(localeDe);
 
 @NgModule({
   declarations: [
@@ -32,26 +34,16 @@ import { ListViewComponent } from './components/planner/list-view/list-view.comp
     SettingsComponent,
     CreateEventComponent,
     SafeHtmlPipe,
-    ListViewComponent
+    ListViewComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     MaterialModule,
-    FlexLayoutModule,
     CalendarBundleModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-    FlatpickrModule.forRoot(),
-    FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}
