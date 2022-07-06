@@ -1,57 +1,90 @@
 <!--planner input-->
 <div class="container">
-  <div [formGroup]="form">
-    <mat-form-field>
-      <mat-label>Event</mat-label>
-      <input
-        #inputEvent
-        matInput
-        type="text"
-        formControlName="title"
-        required
-      />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Beschreibung</mat-label>
-      <input
-        #inputDescription
-        matInput
-        type="text"
-        formControlName="description"
-      />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Deadline</mat-label>
-      <input
-        #inputDatedeadline
-        matInput
-        type="date"
-        formControlName="deadline"
-        required
-      />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Startdatum</mat-label>
-      <input
-        #inputDatebeginn
-        matInput
-        type="date"
-        formControlName="begin"
-        required
-      />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Enddatum</mat-label>
-      <input
-        #inputDateend
-        matInput
-        type="date"
-        formControlName="finish"
-        required
-      />
-    </mat-form-field>
-    <button mat-flat-button (click)="add()" [disabled]="!form.valid">
-      Enter
-    </button>
-  </div>
+  <table [formGroup]="form" class="form-table app-border app-background">
+    <thead>
+      <tr>
+        <td colspan="2" align="left">
+          <h2>Gewohnheit anlegen</h2>
+        </td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Event</mat-label>
+            <input
+              #inputEvent
+              matInput
+              type="text"
+              formControlName="title"
+              required
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Beschreibung</mat-label>
+            <input
+              #inputDescription
+              matInput
+              type="text"
+              formControlName="description"
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Startdatum</mat-label>
+            <input
+              #inputDatebeginn
+              matInput
+              type="date"
+              formControlName="begin"
+              required
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Enddatum</mat-label>
+            <input
+              #inputDateend
+              matInput
+              type="date"
+              formControlName="finish"
+              required
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Deadline</mat-label>
+            <input
+              #inputDatedeadline
+              matInput
+              type="date"
+              formControlName="deadline"
+              required
+            />
+          </mat-form-field>
+        </td>
+        <td align="right">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="add()"
+            [disabled]="!form.valid"
+          >
+            Enter
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
