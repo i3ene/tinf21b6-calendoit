@@ -2,16 +2,15 @@ import { Injectable } from '@angular/core';
 import { Event } from '../models/event.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class XsltService {
-
   xslStylesheet: any;
   xsltProcessor = new XSLTProcessor();
   xmlDoc: any;
   xmlDom: DOMParser = new DOMParser();
 
-  constructor() { }
+  constructor() {}
 
   /**
    * Transform XML and XSL to XSLT
@@ -47,7 +46,9 @@ export class XsltService {
    * @returns fetched File
    */
   async asyncGetFile(path: string): Promise<any> {
-    return await fetch(path).then(response => response.text()).then(data => this.xmlDom.parseFromString(data, 'text/xml'));
+    return await fetch(path)
+      .then((response) => response.text())
+      .then((data) => this.xmlDom.parseFromString(data, 'text/xml'));
   }
 
   /**
@@ -77,7 +78,7 @@ export class XsltService {
    */
   getFile(path: string): any {
     var myXMLHTTPRequest = new XMLHttpRequest();
-    myXMLHTTPRequest.open("GET", path, false);
+    myXMLHTTPRequest.open('GET', path, false);
     myXMLHTTPRequest.send(null);
 
     return myXMLHTTPRequest.responseXML;
@@ -89,10 +90,17 @@ export class XsltService {
    * @returns generated XMLDocument
    */
   saveXML(obj: any) {
-    var xmlDoc = document.implementation.createDocument(null, "root");
+    // Root Tag
+    var xmlDoc = document.implementation.createDocument(null, 'root');
+    this.createObjectNode(obj, 'root', xmlDoc.documentElement);
+    xmlDoc.documentElement.setAttribute("type", "object");
 
-    var nodes = this.createObjectNode(obj, "list").childNodes;
-    nodes.forEach(node => xmlDoc.documentElement.appendChild(node));
+    // Tag Instruction
+    const beginDoc = xmlDoc.createProcessingInstruction(
+      'xml',
+      'version="1.0" encoding="UTF-8"'
+    );
+    xmlDoc.insertBefore(beginDoc, xmlDoc.firstChild);
 
     return xmlDoc;
   }
@@ -103,36 +111,37 @@ export class XsltService {
    * @param name The name of the Node
    * @returns generated Node
    */
-  createObjectNode(obj: any, name: string) {
-    var node = document.createElement(name);
+  createObjectNode(obj: any, name: string, element?: HTMLElement) {
+    var node = null;
+    if (element) node = element;
+    else node = document.createElementNS(null, name);
 
     // Primitive
     if (obj !== Object(obj)) {
-      if (typeof obj == 'number') node.setAttribute("type", "number");
+      if (typeof obj == 'number') node.setAttribute('type', 'number');
       node.append(String(obj));
       return node;
     }
     // Date
     if (Object.prototype.toString.call(obj) == '[object Date]') {
-      node.setAttribute("type", "date");
+      node.setAttribute('type', 'date');
       node.append((obj as Date).toJSON());
     }
     // Array
     else if (Array.isArray(obj)) {
-      node.setAttribute("type", "array");
+      node.setAttribute('type', 'array');
     }
     // Object
     else {
-      node.setAttribute("type", "object");
+      node.setAttribute('type', 'object');
     }
 
     // Iterate through properties
     for (const [key, value] of Object.entries(obj)) {
-      var label: string = Array.isArray(obj) ? "value" + key : key.toString();
+      var label: string = Array.isArray(obj) ? 'value' + key : key.toString();
       node.appendChild(this.createObjectNode(value, label));
     }
 
     return node;
   }
-
 }

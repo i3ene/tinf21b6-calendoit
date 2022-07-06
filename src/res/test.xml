@@ -32,4 +32,20 @@
       </color>
     </value2>
   </events>
+  <habits type="array">
+    <value0 type="object">
+      <start type="date">2022-07-06T09:18:04.377Z</start>
+      <end type="date">2022-07-06T09:18:04.377Z</end>
+      <title>test</title>
+      <description>beschreibung</description>
+      <color type="object">
+        <primary>#000000</primary>
+        <secondary>#FFFFFF</secondary>
+      </color>
+      <deadline type="date">2022-07-14T00:00:00.000Z</deadline>
+      <begin type="date">2022-07-07T00:00:00.000Z</begin>
+      <finish type="date">2022-07-15T00:00:00.000Z</finish>
+      <alternateEvents type="array"/>
+    </value0>
+  </habits>
 </root>
