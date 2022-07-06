@@ -31,6 +31,32 @@ export class Data {
   }
 
   /**
+   * Delete an {@link Event Event} of the list.
+   * @param element An {@link Event Event} or the index
+   */
+  deleEvent(element: Event | number): void {
+    var event: Event;
+    if (typeof element === 'number') event = this.events[element as number];
+    else event = element as Event;
+
+    this.events = this.events.filter(item => !Data.equals(item, event));
+    this.recalculate();
+  }
+
+  /**
+   * Delete an {@link Habit Habit} of the list.
+   * @param element A {@link Habit Habit} or the index
+   */
+  deleteHabit(element: Habit | number): void {
+    var habit: Habit;
+    if (typeof element === 'number') habit = this.habits[element as number];
+    else habit = element as Habit;
+
+    this.habits = this.habits.filter(item => !Data.equals(item, habit));
+    this.recalculate();
+  }
+
+  /**
    * Recalculate all alternate {@link HabitEvent HabitEvents}.
    */
   recalculate(): void {
@@ -46,7 +72,7 @@ export class Data {
     // TODO: Logic that returns Events and Habits (as Events)
     return [];
   }
-  
+
 }
 
 export namespace Data {
@@ -65,5 +91,22 @@ export namespace Data {
       for (const entry of arr) eventArr.push(new clazz(entry));
     }
     return eventArr;
+  }
+
+  /**
+   * Compares two Object based on their values.
+   * @param obj1 Object1
+   * @param obj2 Obect2
+   * @returns `true` if every Value and Attribute are equal based on their content.
+   */
+  export function equals(obj1: any, obj2: any): boolean {
+    if (obj1 == undefined || obj2 == undefined) return obj1 == obj2;
+    for(const key of Object.keys(obj1)) {
+      if (typeof obj1[key] === 'object') {
+        if (!equals(obj1[key], obj2[key])) return false;
+      }
+      if (obj1[key] != obj2[key]) return false;
+    }
+    return true;
   }
 }
