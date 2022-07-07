@@ -4,7 +4,7 @@ export class Habit extends Event {
   /**
    * Until which point this Habit should be repeated
    */
-  deadline?: Date;
+  deadline?: Date | number;
 
   /**
    * The ideal start time
