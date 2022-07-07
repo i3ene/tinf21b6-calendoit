@@ -5,6 +5,8 @@ import { Subject } from 'rxjs';
 import { Event } from 'src/app/models/event.model';
 import { Data } from 'src/app/models/data.model';
 import { AppComponent } from 'src/app/app.component';
+import { CreateEventComponent } from 'src/app/dialogues/create-event/create-event.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 const colors: any = {
@@ -70,7 +72,7 @@ export class CalendarComponent implements OnInit {
 
   activeDayIsOpen: boolean = true;
 
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
   }
@@ -104,29 +106,39 @@ export class CalendarComponent implements OnInit {
       }
       return iEvent;
     });
-    this.handleEvent('Dropped or resized', event);
+    this.handleEvent('DroppedOrResized', event as Event);
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
-    console.log({ event, action });
+  handleEvent(action: string, event: CalendarEvent<any> | Event): void {
+    switch(action) {
+      case "Clicked":
+        this.openEdit(event as Event);
+        break;
+      case "DroppedOrResized":
+        // TODO: Change Event times
+        break;
+      default:
+        console.log({ event, action });
+    }
   }
 
 
-  addEvent(): void {
-    this.data.events = [
-      ...this.data.events,
-      {
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'new Event',
-        color:{primary: colors.red, secondary: colors.yellow },
-        description: "add description here"
-      },
-    ];
+  /**
+   * Add an Event to list and calendar.
+   * (Will refresh the view of the calendar)
+   * @param event The Event to add
+   */
+  addEvent(event: Event): void {
+    this.data.addEvent(event);
+    this.refresh.next();
   }
 
-  deleteEvent(eventToDelete: Event) {
-    this.data.deleEvent(eventToDelete);
+  /**
+   * Delete an Event from list and calendar.
+   * @param event The Event to delete
+   */
+  deleteEvent(event: Event) {
+    this.data.deleEvent(event);
   }
 
   setView(view: CalendarView) {
@@ -135,6 +147,24 @@ export class CalendarComponent implements OnInit {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  /**
+   * Open the dialog for adding an Event
+   */
+  openAdd(): void {
+    const ref = this.dialog.open(CreateEventComponent, {
+      disableClose: true
+    });
+
+    ref.afterClosed().subscribe(result => {
+      if(result != "Add") return;
+      this.addEvent(ref.componentInstance.event);
+    });
+  }
+
+  openEdit(event: Event): void {
+
   }
 
 }

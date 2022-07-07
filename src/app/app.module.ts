@@ -19,6 +19,7 @@ import { CalendarBundleModule } from './modules/calendar.module';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import { HabitHelpComponent } from './dialogues/habit-help/habit-help.component';
+import { CreateEventComponent } from './dialogues/create-event/create-event.component';
 
 /**
  * Registering Language Localization
@@ -37,6 +38,7 @@ registerLocaleData(localeDe);
     SafeHtmlPipe,
     ListHabitComponent,
     HabitHelpComponent,
+    CreateEventComponent,
   ],
   imports: [
     BrowserModule,
