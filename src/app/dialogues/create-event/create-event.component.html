@@ -1,0 +1,86 @@
+<h1 mat-dialog-title>Neuer Termin</h1>
+<div mat-dialog-content>
+  <table>
+    <table [formGroup]="form">
+      <tbody>
+        <tr>
+          <td colspan="2" align="center">
+            <mat-form-field>
+              <mat-label>Title</mat-label>
+              <input
+                matInput
+                type="text"
+                [(ngModel)]="event.title"
+                formControlName="title"
+                required
+              />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>Start:</td>
+          <td>
+            <input
+              type="text"
+              mwlFlatpickr
+              [(ngModel)]="event.start"
+              [altInput]="true"
+              [convertModelValue]="true"
+              [enableTime]="true"
+              dateFormat="Y-m-dTH:i"
+              altFormat="F j, Y H:i"
+              placeholder="Not set"
+              formControlName="start"
+              required
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Ende:</td>
+          <td>
+            <input
+              type="text"
+              mwlFlatpickr
+              [(ngModel)]="event.end"
+              [altInput]="true"
+              [convertModelValue]="true"
+              [enableTime]="true"
+              dateFormat="Y-m-dTH:i"
+              altFormat="F j, Y H:i"
+              placeholder="Not set"
+              formControlName="end"
+              required
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Primärfarbe:</td>
+          <td align="right">
+            <input
+              type="color"
+              [(ngModel)]="event.color!.primary"
+              formControlName="colorPrimary"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Sekundärfarbe:</td>
+          <td align="right">
+            <input
+              type="color"
+              [(ngModel)]="event.color!.secondary"
+              formControlName="colorSecondary"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </table>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close="Add" [disabled]="!form.valid">
+    Hinzufügen
+  </button>
+  <span class="spacer"></span>
+  <button mat-button mat-dialog-close="Cancel">Abbrechen</button>
+</div>
