@@ -10,6 +10,10 @@ export class Data {
     this.habits = Data.parseArray(Habit, obj.habits);
   }
 
+  get allEvents(): Event[] {
+    return this.getEvents();
+  }
+
   /**
    * Add an {@link Event Event} to the list.
    * This will trigger recalculation of the alternate {@link HabitEvent HabitEvents}.
@@ -61,6 +65,11 @@ export class Data {
    */
   recalculate(): void {
     // TODO: Recalculate Habits
+    for(const event of this.events) {
+      for(const habit of this.habits) {
+
+      }
+    }
   }
 
   /**
@@ -70,7 +79,11 @@ export class Data {
    */
   getEvents(): Event[] {
     // TODO: Logic that returns Events and Habits (as Events)
-    return [];
+    const list: Event[] = [];
+    for (const event of this.events) {
+      for (const molecular of event.getEvents())  list.push(molecular);
+    }
+    return list;
   }
 
 }

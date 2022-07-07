@@ -24,9 +24,10 @@ export class EditEventComponent implements OnInit {
     public dialogRef: MatDialogRef<EditEventComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.event = data.event;
+    this.event = data.event.reference;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
 }

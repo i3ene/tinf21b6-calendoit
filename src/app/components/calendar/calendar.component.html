@@ -38,7 +38,7 @@
       <mwl-calendar-month-view
         *ngSwitchCase="CalendarView.Month"
         [viewDate]="viewDate"
-        [events]="data.events"
+        [events]="data.allEvents"
         [refresh]="refresh"
         [activeDayIsOpen]="activeDayIsOpen"
         [locale]="locale"
@@ -50,7 +50,7 @@
       <mwl-calendar-week-view
         *ngSwitchCase="CalendarView.Week"
         [viewDate]="viewDate"
-        [events]="data.events"
+        [events]="data.allEvents"
         [refresh]="refresh"
         [locale]="locale"
         (eventClicked)="handleEvent('Clicked', $event.event)"
@@ -60,7 +60,7 @@
       <mwl-calendar-day-view
         *ngSwitchCase="CalendarView.Day"
         [viewDate]="viewDate"
-        [events]="data.events"
+        [events]="data.allEvents"
         [refresh]="refresh"
         [locale]="locale"
         (eventClicked)="handleEvent('Clicked', $event.event)"

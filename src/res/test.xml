@@ -10,6 +10,13 @@
         <primary>#000000</primary>
         <secondary>#FFFFFF</secondary>
       </color>
+      <repeat type="object">
+        <days type="array">
+          <value0 type="number">0</value0>
+          <value1 type="number">2</value1>
+        </days>
+        <repeating type="date">2022-07-13T07:58:01.533Z</repeating>
+      </repeat>
     </value0>
     <value1 type="object">
       <start type="date">2022-07-06T07:58:01.533Z</start>

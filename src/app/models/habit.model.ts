@@ -2,11 +2,6 @@ import { Event } from './event.model';
 
 export class Habit extends Event {
   /**
-   * Until which point this Habit should be repeated
-   */
-  deadline?: Date | number;
-
-  /**
    * The ideal start time
    */
   idealTime: Date;
@@ -24,8 +19,6 @@ export class Habit extends Event {
   constructor(obj: any) {
     super(obj);
 
-    this.deadline = obj.deadline ? new Date(obj.deadline) : undefined;
-
     this.idealTime = obj.idealTime ? new Date(obj.idealTime) : new Date();
     this.duration = obj.duration ? obj.duration : 0;
 
@@ -35,10 +28,12 @@ export class Habit extends Event {
 
 export class HabitEvent extends Event {
   persistent: boolean;
+  problem?: boolean
 
   constructor(obj: any) {
     super(obj);
 
     this.persistent = obj.persistent ? obj.persistent : false;
+    this.problem = obj.problem ? obj.problem : undefined;
   }
 }

@@ -31,15 +31,12 @@ export class Event implements CalendarEvent {
   end: Date;
 
   /**
-   * TODO: Repeating
-   * ```js
-   * {
-   *  days: DAY[],
-   *  repeating: Date | number
-   * }
-   * ```
+   * Repeating Days and how often/long
    */
-  repeat?: any;
+  repeat?: {
+    days: Event.DAY[],
+    repeating: Date | number
+  };
 
   /**
    * TODO: Position
@@ -66,6 +63,13 @@ export class Event implements CalendarEvent {
     afterEnd?: boolean;
   };
 
+
+  /**
+   * If this is a reference of an other Event
+   * (Generated through repeating etc.)
+   */
+  reference?: Event;
+
   constructor(obj: any) {
     this.start = obj.start ? new Date(obj.start) : new Date();
     this.end = obj.end ? new Date(obj.end) : new Date();
@@ -73,12 +77,130 @@ export class Event implements CalendarEvent {
     this.title = obj.title ? obj.title : '';
     this.description = obj.description ? obj.description : undefined;
 
-    // TODO: Cast implementation of CalendarEvent
-
     this.color = {
       primary: obj.color && obj.color.primary ? obj.color.primary : '',
       secondary: obj.color && obj.color.secondary ? obj.color.secondary : ''
     }
+
+    if (obj.repeat) {
+      this.repeat = {
+        days: obj.repeat.days ? obj.repeat.days : [0],
+        repeating: obj.repeat.repeating ? (typeof obj.repeat.repeating == 'number' ? obj.repeat.repeating : new Date(obj.repeat.repeating)) : 1
+      }
+    }
+
+    // TODO: Cast implementation of CalendarEvent
+
+    this.reference = obj.reference ? obj.reference : undefined;
+  }
+
+  /**
+   * If `repeating` is set, then it will return molecular Event items.
+   * @returns Generated Event list
+   */
+  getEvents(): Event[] {
+    // Check if it repeats and is no child
+    if (this.repeat == undefined || this.reference) {
+      return [new Event({...this, reference: this})]
+    };
+    
+    // Check if it is number. If yes, convert to Date
+    if (typeof this.repeat.repeating === 'number') {
+      this.repeat.repeating = Event.addWeeks(this.start, this.repeat.repeating);
+    }
+
+    // Iterate through the amount of days to repeat
+    const arr: Event[] = [];
+    const days = Event.diffTime(this.start, this.repeat.repeating, Event.TIME.ONE_DAY);
+    for(let i = 0; i < days; i++) {
+      // Check if Day is in repeating defined
+      const current = Event.addDays(this.start, i);
+      if (this.repeat.days.includes(current.getDay() - 1)) {
+        // Create new Date
+        const newEvent: Event = new Event(this);
+        newEvent.reference = this;
+        newEvent.repeat = undefined;
+
+        // Set to new Date
+        const diffTime = Event.diffTime(this.start, this.end, 1);
+        newEvent.start = current;
+        newEvent.end = Event.addTime(current, diffTime);
+
+        // Add to list
+        arr.push(newEvent);
+      }
+    }
+
+    return arr;
+  }
+
+}
+
+export namespace Event {
+
+  /**
+   * Add number of miliseconds to an Date
+   * @param date Start Date
+   * @param mili Number of miliseconds
+   * @returns A new Date with added miliseconds
+   */
+   export function addTime(date: Date, mili: number): Date {
+    const newDate: Date = new Date(date);
+    newDate.setTime(newDate.getTime() + mili);
+    return newDate;
+  }
+
+  /**
+   * Add number of days to an Date
+   * @param date Start Date
+   * @param days Number of days
+   * @returns A new Date with added days
+   */
+  export function addDays(date: Date, days: number): Date {
+    const newDate: Date = new Date(date);
+    newDate.setDate(newDate.getDate() + days);
+    return newDate;
+  }
+
+  /**
+   * Add number of weeks to an Date
+   * @param date Start Date
+   * @param weeks Number of weeks
+   * @returns A new Date with added weeks
+   */
+  export function addWeeks(date: Date, weeks: number): Date {
+    const newDate: Date = new Date(date);
+    newDate.setDate(newDate.getDate() + (weeks * 7));
+    return newDate;
+  }
+
+  /**
+   * Get the difference in days between two Dates
+   * @param date1 Date 1
+   * @param date2 Date 2
+   * @returns Number of days
+   */
+  export function diffTime(date1: Date, date2: Date, multiplier: number): number {
+    const differenceMs = Math.abs(date1.getTime() - date2.getTime());
+    return Math.round(differenceMs / multiplier);
+  }
+
+  export enum DAY {
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY
+  }
+
+  export enum TIME {
+    ONE_SECOND = 1000,
+    ONE_MINUTE = ONE_SECOND * 60,
+    ONE_HOUR = ONE_MINUTE * 60,
+    ONE_DAY = ONE_HOUR * 24,
+    ONE_WEEK = ONE_DAY * 7
   }
 
 }

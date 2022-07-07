@@ -1,86 +1,123 @@
 <h1 mat-dialog-title>Neuer Termin</h1>
 <div mat-dialog-content>
-  <table>
-    <table [formGroup]="form">
-      <tbody>
-        <tr>
-          <td colspan="2" align="center">
-            <mat-form-field>
-              <mat-label>Title</mat-label>
-              <input
-                matInput
-                type="text"
-                [(ngModel)]="event.title"
-                formControlName="title"
-                required
-              />
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td>Start:</td>
-          <td>
+  <table [formGroup]="form">
+    <tbody>
+      <tr>
+        <td colspan="2" align="center">
+          <mat-form-field>
+            <mat-label>Title</mat-label>
             <input
+              matInput
               type="text"
-              mwlFlatpickr
-              [(ngModel)]="event.start"
-              [altInput]="true"
-              [convertModelValue]="true"
-              [enableTime]="true"
-              [time24hr]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-              formControlName="start"
+              [(ngModel)]="event.title"
+              formControlName="title"
               required
             />
-          </td>
-        </tr>
-        <tr>
-          <td>Ende:</td>
-          <td>
-            <input
-              type="text"
-              mwlFlatpickr
-              [(ngModel)]="event.end"
-              [altInput]="true"
-              [convertModelValue]="true"
-              [enableTime]="true"
-              [time24hr]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-              formControlName="end"
-              required
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>Primärfarbe:</td>
-          <td align="right">
-            <input
-              type="color"
-              [(ngModel)]="event.color!.primary"
-              formControlName="colorPrimary"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>Sekundärfarbe:</td>
-          <td align="right">
-            <input
-              type="color"
-              [(ngModel)]="event.color!.secondary"
-              formControlName="colorSecondary"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>Start:</td>
+        <td>
+          <input
+            type="text"
+            mwlFlatpickr
+            [(ngModel)]="event.start"
+            [altInput]="true"
+            [convertModelValue]="true"
+            [enableTime]="true"
+            [time24hr]="true"
+            dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i"
+            placeholder="Not set"
+            formControlName="start"
+            required
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Ende:</td>
+        <td>
+          <input
+            type="text"
+            mwlFlatpickr
+            [(ngModel)]="event.end"
+            [altInput]="true"
+            [convertModelValue]="true"
+            [enableTime]="true"
+            [time24hr]="true"
+            dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i"
+            placeholder="Not set"
+            formControlName="end"
+            required
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Primärfarbe:</td>
+        <td>
+          <input
+            type="color"
+            [(ngModel)]="event.color!.primary"
+            formControlName="colorPrimary"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Sekundärfarbe:</td>
+        <td>
+          <input
+            type="color"
+            [(ngModel)]="event.color!.secondary"
+            formControlName="colorSecondary"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td [colSpan]="checkRepeat.checked ? 1 : 2" align="center">
+          <mat-checkbox formControlName="repeat" #checkRepeat>Wiederholen</mat-checkbox>
+        </td>
+        <td *ngIf="checkRepeat.checked">
+          <mat-form-field appearance="fill">
+            <mat-label>Tage</mat-label>
+            <select matNativeControl formControlName="days" [(ngModel)]="event.repeat!.days">
+              <option *ngFor="let day of days" [value]="day.key">{{ day.name }}</option>
+            </select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr *ngIf="checkRepeat.checked">
+        <td>
+          <mat-slide-toggle #toggleRepeat formControlName="toggle">{{ toggleRepeat.checked ? "Deadline" : "Anzahl:" }}</mat-slide-toggle>
+        </td>
+        <td *ngIf="toggleRepeat.checked">
+          <mat-form-field>
+            <mat-label>Anzahl</mat-label>
+            <input matInput type="number" formControlName="count" [(ngModel)]="event.repeat!.repeating"/>
+          </mat-form-field>
+        </td>
+        <td *ngIf="!toggleRepeat.checked">
+          <input
+            type="text"
+            mwlFlatpickr
+            [altInput]="true"
+            [convertModelValue]="true"
+            [enableTime]="true"
+            [time24hr]="true"
+            [(ngModel)]="event.repeat!.repeating"
+            dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i"
+            placeholder="Not set"
+            formControlName="deadline"
+          />
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close="Add" [disabled]="!form.valid">
+  <button mat-button mat-dialog-close="Add" [disabled]="!isFormValid()">
     Hinzufügen
   </button>
   <span class="spacer"></span>
