@@ -12,3 +12,15 @@
   justify-content: space-between;
   align-items: flex-end;
 }
+
+.action-container {
+  padding-top: 16px;
+  position: sticky;
+  bottom: 16px;
+  float: right;
+}
+
+.button-add {
+  position: relative;
+  right: 16px;
+}
