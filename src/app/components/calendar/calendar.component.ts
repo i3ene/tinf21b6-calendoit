@@ -151,7 +151,7 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to edit
    */
   openEdit(event: Event): void {
-    let copy: Event = Object.assign({}, event);
+    let copy: Event = new Event(event);
 
     const ref = this.dialog.open(EditEventComponent, {
       data: {
