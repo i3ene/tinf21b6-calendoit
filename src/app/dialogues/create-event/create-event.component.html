@@ -10,7 +10,7 @@
               <input
                 matInput
                 type="text"
-                [(ngModel)]="event.title"
+                [(ngModel)]="data.title"
                 formControlName="title"
                 required
               />
@@ -23,7 +23,7 @@
             <input
               type="text"
               mwlFlatpickr
-              [(ngModel)]="event.start"
+              [(ngModel)]="data.start"
               [altInput]="true"
               [convertModelValue]="true"
               [enableTime]="true"
@@ -42,7 +42,7 @@
             <input
               type="text"
               mwlFlatpickr
-              [(ngModel)]="event.end"
+              [(ngModel)]="data.end"
               [altInput]="true"
               [convertModelValue]="true"
               [enableTime]="true"
@@ -60,7 +60,7 @@
           <td align="right">
             <input
               type="color"
-              [(ngModel)]="event.color!.primary"
+              [(ngModel)]="data.color!.primary"
               formControlName="colorPrimary"
             />
           </td>
@@ -70,7 +70,7 @@
           <td align="right">
             <input
               type="color"
-              [(ngModel)]="event.color!.secondary"
+              [(ngModel)]="data.color!.secondary"
               formControlName="colorSecondary"
             />
           </td>

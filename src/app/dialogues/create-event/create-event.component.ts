@@ -10,8 +10,6 @@ import { Event } from 'src/app/models/event.model';
 })
 export class CreateEventComponent implements OnInit {
 
-  event: Event;
-
   form: FormGroup = new FormGroup({
     title: new FormControl(),
     start: new FormControl(),
@@ -23,9 +21,7 @@ export class CreateEventComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<CreateEventComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.event = new Event({});
-  }
+  ) {}
 
   ngOnInit(): void {}
 }
