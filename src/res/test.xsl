@@ -4,8 +4,10 @@
         <html>
             <body>
                 <h2>Upcomming Events</h2>                                  
-                    <xsl:for-each select="catalog/cd">
-                        <h1><xsl:value-of select="title"/> </h1>
+                    <xsl:for-each select="root/events/*">
+                        <div class="app-card">
+                        <h1><xsl:value-of select="./title"/></h1>
+                        </div>
                     </xsl:for-each>                
             </body>
         </html>
