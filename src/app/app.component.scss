@@ -1,10 +1,5 @@
 @use '../styles_variables.scss' as sv;
 
-
-.spacer {
-  flex: 1 1 auto;
-}
-
 .is-active {
   font-weight: bold;
   color: sv.$isActiveColor !important;

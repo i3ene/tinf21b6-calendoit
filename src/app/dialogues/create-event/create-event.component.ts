@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Event } from 'src/app/models/event.model';
 
@@ -10,6 +11,14 @@ import { Event } from 'src/app/models/event.model';
 export class CreateEventComponent implements OnInit {
 
   event: Event;
+
+  form: FormGroup = new FormGroup({
+    title: new FormControl(),
+    start: new FormControl(),
+    end: new FormControl(),
+    colorPrimary: new FormControl(),
+    colorSecondary: new FormControl()
+  });
 
   constructor(
     public dialogRef: MatDialogRef<CreateEventComponent>,
