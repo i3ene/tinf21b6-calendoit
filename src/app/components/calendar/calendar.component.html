@@ -70,88 +70,10 @@
     </div>
   </div>
 
-  <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
-
-  <br /><br /><br />
-
-  <h3>Edit events</h3>
-  <button mat-flat-button (click)="openAdd()">Neuer Termin</button>
-
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Primary color</th>
-          <th>Secondary color</th>
-          <th>Starts at</th>
-          <th>Ends at</th>
-          <th>Remove</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let event of data.events">
-          <td>
-            <mat-form-field>
-              <mat-label>Title</mat-label>
-              <input
-                matInput
-                type="text"
-                [(ngModel)]="event.title"
-                (keyup)="refresh.next()"
-              />
-            </mat-form-field>
-          </td>
-          <td>
-            <input
-              type="color"
-              [(ngModel)]="event.color!.primary"
-              (change)="refresh.next()"
-            />
-          </td>
-          <td>
-            <input
-              type="color"
-              [(ngModel)]="event.color!.secondary"
-              (change)="refresh.next()"
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              mwlFlatpickr
-              [(ngModel)]="event.start"
-              (ngModelChange)="refresh.next()"
-              [altInput]="true"
-              [convertModelValue]="true"
-              [enableTime]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              mwlFlatpickr
-              [(ngModel)]="event.end"
-              (ngModelChange)="refresh.next()"
-              [altInput]="true"
-              [convertModelValue]="true"
-              [enableTime]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-            />
-          </td>
-          <td>
-            <button mat-flat-button color="warn" (click)="deleteEvent(event)">
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="action-container">
+    <button mat-fab (click)="openAdd()" color="primary" class="button-add">
+      <mat-icon>add</mat-icon>
+    </button>
   </div>
+
 </div>

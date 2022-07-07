@@ -7,6 +7,7 @@ import { Data } from 'src/app/models/data.model';
 import { AppComponent } from 'src/app/app.component';
 import { CreateEventComponent } from 'src/app/dialogues/create-event/create-event.component';
 import { MatDialog } from '@angular/material/dialog';
+import { EditEventComponent } from 'src/app/dialogues/edit-event/edit-event.component';
 
 
 const colors: any = {
@@ -39,25 +40,9 @@ export class CalendarComponent implements OnInit {
 
   viewDate: Date = new Date();
 
-  today: Date = new Date();
+  activeDayIsOpen: boolean = false;
 
-  // actions: CalendarEventAction[] = [
-  //   {
-  //     label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-  //     a11yLabel: 'Edit',
-  //     onClick: ({ event }: { event: CalendarEvent }): void => {
-  //       this.handleEvent('Edited', event);
-  //     },
-  //   },
-  //   {
-  //     label: '<i class="fas fa-fw fa-trash-alt"></i>',
-  //     a11yLabel: 'Delete',
-  //     onClick: ({ event }: { event: CalendarEvent }): void => {
-  //       this.events = this.events.filter((iEvent) => iEvent !== event);
-  //       this.handleEvent('Deleted', event);
-  //     },
-  //   },
-  // ];
+  today: Date = new Date();
 
   refresh = new Subject<void>();
 
@@ -70,11 +55,17 @@ export class CalendarComponent implements OnInit {
     return AppComponent.locale;
   }
 
-  activeDayIsOpen: boolean = true;
-
   constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
+  }
+
+  setView(view: CalendarView) {
+    this.view = view;
+  }
+
+  closeOpenMonthViewDay() {
+    this.activeDayIsOpen = false;
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -141,14 +132,6 @@ export class CalendarComponent implements OnInit {
     this.data.deleEvent(event);
   }
 
-  setView(view: CalendarView) {
-    this.view = view;
-  }
-
-  closeOpenMonthViewDay() {
-    this.activeDayIsOpen = false;
-  }
-
   /**
    * Open the dialog for adding an Event
    */
@@ -163,8 +146,33 @@ export class CalendarComponent implements OnInit {
     });
   }
 
+  /**
+   * Open the dialog for editing an Event
+   * @param event The Event to edit
+   */
   openEdit(event: Event): void {
+    let copy: Event = Object.assign({}, event);
 
+    const ref = this.dialog.open(EditEventComponent, {
+      data: {
+        event: event,
+        refresh: this.refresh
+      },
+      disableClose: true
+    });
+
+    ref.afterClosed().subscribe(result => {
+      switch(result) {
+        case "Save":
+          return;
+        case "Delete":
+          this.deleteEvent(event);
+          return;
+        default:
+          Object.assign(event, copy);
+      }
+      this.refresh.next();
+    });
   }
 
 }
