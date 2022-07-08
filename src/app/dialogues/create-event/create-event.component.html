@@ -150,6 +150,7 @@
               matInput
               type="number"
               formControlName="count"
+              min="1"
               [(ngModel)]="event.repeat!.repeating"
             />
           </mat-form-field>
@@ -165,6 +166,7 @@
             altFormat="F j, Y H:i"
             placeholder="Deadline"
             formControlName="deadline"
+            [minDate]="minTime()"
           />
         </td>
       </tr>

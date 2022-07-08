@@ -78,8 +78,8 @@ export class Event implements CalendarEvent {
     this.description = obj.description ? obj.description : undefined;
 
     this.color = {
-      primary: obj.color && obj.color.primary ? obj.color.primary : '',
-      secondary: obj.color && obj.color.secondary ? obj.color.secondary : ''
+      primary: obj.color && obj.color.primary ? obj.color.primary : '#009688',
+      secondary: obj.color && obj.color.secondary ? obj.color.secondary : '#ffffff'
     }
 
     if (obj.repeat) {
@@ -104,15 +104,17 @@ export class Event implements CalendarEvent {
       return [new Event({...this, reference: this})]
     };
     
+    let repeating = this.repeat.repeating;
+
     // Check if it is number. If yes, convert to Date
-    if (typeof this.repeat.repeating === 'number') {
-      this.repeat.repeating = Event.addWeeks(this.start, this.repeat.repeating);
+    if (typeof repeating === 'number') {
+      repeating = Event.addWeeks(this.start, repeating - 1);
     }
 
     // Iterate through the amount of days to repeat
     const arr: Event[] = [];
-    const days = Event.diffTime(this.start, this.repeat.repeating, Event.TIME.ONE_DAY);
-    for(let i = 0; i < days; i++) {
+    const days = Event.diffTime(this.start, repeating, Event.TIME.ONE_DAY);
+    for(let i = 0; i <= days; i++) {
       // Check if Day is in repeating defined
       const current = Event.addDays(this.start, i);
       if (this.repeat.days.includes((current.getDay() + 6) % 7)) {

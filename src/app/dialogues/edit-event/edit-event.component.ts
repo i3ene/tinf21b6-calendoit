@@ -47,6 +47,7 @@ export class EditEventComponent implements OnInit {
           days: [this.getSelectedDay()],
           repeating: 1,
         };
+        this.form.controls['start'].setValue(this.event.start);
       } else {
         this.event.repeat = undefined;
       }
@@ -90,8 +91,15 @@ export class EditEventComponent implements OnInit {
         startDate.setMinutes(endDate.getMinutes());
         endDate = startDate;
       }
-      console.log(endDate);
       this.event.end = endDate;
+
+      if (this.event.repeat && !this.form.controls['toggle'].value) {
+        const startDate = value as Date;
+        const deadlineDate = this.form.controls['deadline'].value as Date;
+        if (!deadlineDate || Event.addDays(startDate, 1).getTime() > deadlineDate.getTime()) {
+          this.form.controls['deadline'].setValue(Event.addDays(startDate, 1));
+        }
+      }
     });
 
     this.form.controls['count'].valueChanges.subscribe((value) => {

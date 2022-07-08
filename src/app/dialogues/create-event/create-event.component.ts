@@ -41,13 +41,21 @@ export class CreateEventComponent implements OnInit {
   ngOnInit(): void {
     this.form.controls['repeat'].valueChanges.subscribe((value) => {
       if(value) {
-        this.event.repeat = { days: [this.getSelectedDay()], repeating: undefined as any };
+        this.event.repeat = { days: [this.getSelectedDay()], repeating: 1 };
       } else {
         this.event.repeat = undefined;
       }
     });
     this.form.controls['toggle'].valueChanges.subscribe((value) => {
-      if (this.event.repeat != undefined) this.event.repeat.repeating = value ? 0 : (undefined as any);
+      if (this.event.repeat != undefined) {
+        if (value) {
+          this.event.repeat.repeating = 1;
+          this.form.controls['count'].setValue(1);
+        }
+        else {
+          this.event.repeat.repeating = this.event.end;
+        }
+      }
     });
     this.form.controls["range"].valueChanges.subscribe((value) => {
       this.event.start = value.from;
@@ -62,6 +70,15 @@ export class CreateEventComponent implements OnInit {
       this.event.end = value;
       this.form.controls['startTime'].setValue(value);
       this.form.controls['endTime'].setValue(value);
+
+      if (this.event.repeat && !this.form.controls['toggle'].value) {
+        const startDate = value as Date;
+        const deadlineDate = this.form.controls['deadline'].value as Date;
+        if (!deadlineDate || startDate.getTime() > deadlineDate.getTime()) {
+          this.form.controls['deadline'].setValue(startDate);
+        }
+      }
+
       this.setSelectedDay();
     });
     this.form.controls['startTime'].valueChanges.subscribe((value) => {

@@ -160,6 +160,7 @@
               matInput
               type="number"
               formControlName="count"
+              min="1"
             />
           </mat-form-field>
         </td>
@@ -174,102 +175,13 @@
             altFormat="F j, Y H:i"
             placeholder="Deadline"
             formControlName="deadline"
+            [minDate]="minTime()"
           />
         </td>
       </tr>
     </tbody>
   </table>
 </div>
-<!-- <div mat-dialog-content>
-  <table>
-    <table [formGroup]="form">
-      <tbody>
-        <tr>
-          <td>
-            <mat-form-field>
-              <mat-label>Title</mat-label>
-              <input
-                matInput
-                type="text"
-                [(ngModel)]="event.title"
-                formControlName="title"
-                required
-                (keyup)="data.refresh.next()"
-              />
-            </mat-form-field>
-          </td>
-          <td align="right">
-            <button mat-flat-button color="warn" mat-dialog-close="Delete">
-              Löschen
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>Start:</td>
-          <td>
-            <input
-              type="text"
-              mwlFlatpickr
-              [(ngModel)]="event.start"
-              [altInput]="true"
-              [convertModelValue]="true"
-              [enableTime]="true"
-              [time24hr]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-              formControlName="start"
-              required
-              (ngModelChange)="data.refresh.next()"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>Ende:</td>
-          <td>
-            <input
-              type="text"
-              mwlFlatpickr
-              [(ngModel)]="event.end"
-              [altInput]="true"
-              [convertModelValue]="true"
-              [enableTime]="true"
-              [time24hr]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-              formControlName="end"
-              required
-              (ngModelChange)="data.refresh.next()"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>Primärfarbe:</td>
-          <td align="right">
-            <input
-              type="color"
-              [(ngModel)]="event.color!.primary"
-              formControlName="colorPrimary"
-              (change)="data.refresh.next()"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>Sekundärfarbe:</td>
-          <td align="right">
-            <input
-              type="color"
-              [(ngModel)]="event.color!.secondary"
-              formControlName="colorSecondary"
-              (change)="data.refresh.next()"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </table>
-</div> -->
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close="Save" [disabled]="!form.valid">
     Speichern
