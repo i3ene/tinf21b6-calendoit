@@ -136,11 +136,11 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to edit
    */
   openEdit(event: Event): void {
-    let copy: Event = new Event(event);
+    let copy: Event = new Event(event.reference);
 
     const ref = this.dialog.open(EditEventComponent, {
       data: {
-        event: event,
+        event: event.reference,
         refresh: this.refresh
       },
       disableClose: true
@@ -154,7 +154,7 @@ export class CalendarComponent implements OnInit {
           this.deleteEvent(event);
           return;
         default:
-          Object.assign(event, copy);
+          Object.assign(event.reference!, copy);
       }
       this.refresh.next();
     });

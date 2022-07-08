@@ -53,7 +53,8 @@ export class CreateEventComponent implements OnInit {
       this.event.start = value.from;
       this.event.end = value.to;
 
-      this.form.controls['start'].setValue(value.from);
+      this.form.controls['startTime'].setValue(value.from);
+      this.setSelectedDay();
     });
 
     this.form.controls['start'].valueChanges.subscribe((value) => {
@@ -101,6 +102,7 @@ export class CreateEventComponent implements OnInit {
   }
 
   setSelectedDay(): void {
+    if (!this.form.controls["start"].value) return;
     this.form.controls["days"].setValue([this.getSelectedDay()]);
   }
 

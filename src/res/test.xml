@@ -1,72 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root type="object">
-  <events type="array">
-    <value0 type="object">
-      <start type="date">2022-07-06T07:58:01.533Z</start>
-      <end type="date">2022-07-06T07:58:01.533Z</end>
-      <title>test1</title>
-      <description>1test1</description>
-      <color type="object">
-        <primary>#000000</primary>
-        <secondary>#FFFFFF</secondary>
-      </color>
-      <repeat type="object">
-        <days type="array">
-          <value0 type="number">0</value0>
-          <value1 type="number">2</value1>
-        </days>
-        <repeating type="date">2022-07-13T07:58:01.533Z</repeating>
-      </repeat>
-    </value0>
-    <value1 type="object">
-      <start type="date">2022-07-06T07:58:01.533Z</start>
-      <end type="date">2022-07-06T07:58:01.533Z</end>
-      <title>test2</title>
-      <description>2test2</description>
-      <color type="object">
-        <primary>#000000</primary>
-        <secondary>#FFFFFF</secondary>
-      </color>
-    </value1>
-    <value2 type="object">
-      <start type="date">2022-07-06T07:58:01.533Z</start>
-      <end type="date">2022-07-06T07:58:01.533Z</end>
-      <title>test3</title>
-      <description>3test3</description>
-      <color type="object">
-        <primary>#000000</primary>
-        <secondary>#FFFFFF</secondary>
-      </color>
-    </value2>
-  </events>
-  <habits type="array">
-    <value0 type="object">
-      <start type="date">2022-07-06T09:18:04.377Z</start>
-      <end type="date">2022-07-06T09:18:04.377Z</end>
-      <title>Test1</title>
-      <description>beschreibung</description>
-      <color type="object">
-        <primary>#000000</primary>
-        <secondary>#FFFFFF</secondary>
-      </color>
-      <deadline type="date">2022-07-14T00:00:00.000Z</deadline>
-      <idealTime type="date">2022-07-07T00:00:00.000Z</idealTime>
-      <duration type="number">30</duration>
-      <alternateEvents type="array"/>
-    </value0>
-    <value1 type="object">
-      <start type="date">2022-07-06T09:18:04.377Z</start>
-      <end type="date">2022-07-06T09:18:04.377Z</end>
-      <title>Test2</title>
-      <description>beschreibung</description>
-      <color type="object">
-        <primary>#000000</primary>
-        <secondary>#FFFFFF</secondary>
-      </color>
-      <deadline type="date">2022-07-14T00:00:00.000Z</deadline>
-      <idealTime type="date">2022-07-07T11:31:00.000Z</idealTime>
-      <duration type="number">45</duration>
-      <alternateEvents type="array"/>
-    </value1>
-  </habits>
+    <events type="array">
+        <value0 type="object">
+            <start type="date">2022-07-06T07:58:01.533Z</start>
+            <end type="date">2022-07-06T07:58:01.533Z</end>
+            <title>test1</title>
+            <description>1test1</description>
+            <color type="object">
+                <primary>#83d332</primary>
+                <secondary>#ffffff</secondary>
+            </color>
+            <repeat type="object">
+                <days type="array">
+                    <value0 type="number">0</value0>
+                    <value1 type="number">2</value1>
+                </days>
+                <repeating type="number">2</repeating>
+            </repeat>
+        </value0>
+        <value1 type="object">
+            <start type="date">2022-07-06T07:58:01.533Z</start>
+            <end type="date">2022-07-06T07:58:01.533Z</end>
+            <title>test2</title>
+            <description>2test2</description>
+            <color type="object">
+                <primary>#59b5e6</primary>
+                <secondary>#ffffff</secondary>
+            </color>
+        </value1>
+        <value2 type="object">
+            <start type="date">2022-07-01T09:14:00.000Z</start>
+            <end type="date">2022-07-01T09:14:00.000Z</end>
+            <title>Test2</title>
+            <description>Test</description>
+            <color type="object">
+                <primary>#f46f35</primary>
+                <secondary>#ffffff</secondary>
+            </color>
+            <repeat type="object">
+                <days type="array">
+                    <value0 type="number">4</value0>
+                </days>
+                <repeating type="date">2022-07-21T22:00:00.000Z</repeating>
+            </repeat>
+        </value2>
+    </events>
+    <habits type="array">
+        <value0 type="object">
+            <start type="date">2022-07-06T09:18:04.377Z</start>
+            <end type="date">2022-07-06T09:18:04.377Z</end>
+            <title>Test1</title>
+            <description>beschreibung</description>
+            <color type="object">
+                <primary>#cb49da</primary>
+                <secondary>#ffffff</secondary>
+            </color>
+            <deadline type="date">2022-07-14T00:00:00.000Z</deadline>
+            <idealTime type="date">2022-07-07T00:00:00.000Z</idealTime>
+            <duration type="number">30</duration>
+            <alternateEvents type="array" />
+        </value0>
+        <value1 type="object">
+            <start type="date">2022-07-06T09:18:04.377Z</start>
+            <end type="date">2022-07-06T09:18:04.377Z</end>
+            <title>Test2</title>
+            <description>beschreibung</description>
+            <color type="object">
+                <primary>#e4dc36</primary>
+                <secondary>#ffffff</secondary>
+            </color>
+            <deadline type="date">2022-07-14T00:00:00.000Z</deadline>
+            <idealTime type="date">2022-07-07T11:31:00.000Z</idealTime>
+            <duration type="number">45</duration>
+            <alternateEvents type="array" />
+        </value1>
+    </habits>
 </root>
