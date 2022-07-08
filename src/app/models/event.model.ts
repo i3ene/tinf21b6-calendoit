@@ -115,7 +115,7 @@ export class Event implements CalendarEvent {
     for(let i = 0; i < days; i++) {
       // Check if Day is in repeating defined
       const current = Event.addDays(this.start, i);
-      if (this.repeat.days.includes(current.getDay() - 1)) {
+      if (this.repeat.days.includes((current.getDay() + 6) % 7)) {
         // Create new Date
         const newEvent: Event = new Event(this);
         newEvent.reference = this;

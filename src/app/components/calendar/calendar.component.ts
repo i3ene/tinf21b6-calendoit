@@ -112,7 +112,9 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to delete
    */
   deleteEvent(event: Event) {
-    this.data.deleEvent(event);
+    this.data.deleEvent(event.reference ? event.reference : event);
+    // TODO: Check if an event remains and keep open
+    this.activeDayIsOpen = false;
   }
 
   /**

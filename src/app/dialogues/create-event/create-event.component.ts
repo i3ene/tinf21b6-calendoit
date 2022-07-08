@@ -13,10 +13,11 @@ export class CreateEventComponent implements OnInit {
 
   event: Event;
 
+  dateRange: { from: Date; to: Date; } = { from: new Date(), to: new Date() };
+
   form: FormGroup = new FormGroup({
     title: new FormControl(),
-    start: new FormControl(),
-    end: new FormControl(),
+    range: new FormControl(),
     colorPrimary: new FormControl(),
     repeat: new FormControl(),
     colorSecondary: new FormControl(),
@@ -24,6 +25,10 @@ export class CreateEventComponent implements OnInit {
     toggle: new FormControl(),
     count: new FormControl(),
     deadline: new FormControl(),
+
+    start: new FormControl(),
+    startTime: new FormControl(),
+    endTime: new FormControl()
   });
 
   constructor(
@@ -35,13 +40,36 @@ export class CreateEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.controls['repeat'].valueChanges.subscribe((value) => {
-      this.event.repeat = value
-        ? ({ days: [], repeating: undefined } as any)
-        : undefined;
+      if(value) {
+        this.event.repeat = { days: [this.getSelectedDay()], repeating: undefined as any };
+      } else {
+        this.event.repeat = undefined;
+      }
     });
     this.form.controls['toggle'].valueChanges.subscribe((value) => {
-      if (this.event.repeat)
-        this.event.repeat.repeating = value ? 0 : (undefined as any);
+      if (this.event.repeat != undefined) this.event.repeat.repeating = value ? 0 : (undefined as any);
+    });
+    this.form.controls["range"].valueChanges.subscribe((value) => {
+      this.event.start = value.from;
+      this.event.end = value.to;
+
+      this.form.controls['start'].setValue(value.from);
+    });
+
+    this.form.controls['start'].valueChanges.subscribe((value) => {
+      this.event.start = value;
+      this.event.end = value;
+      this.form.controls['startTime'].setValue(value);
+      this.form.controls['endTime'].setValue(value);
+      this.setSelectedDay();
+    });
+    this.form.controls['startTime'].valueChanges.subscribe((value) => {
+      const startDate = value as Date;
+      const endDate = this.form.controls['endTime'].value as Date;
+      if (endDate && startDate.getTime() > endDate.getTime()) this.form.controls['endTime'].setValue(startDate);
+    });
+    this.form.controls['endTime'].valueChanges.subscribe((value) => {
+      this.event.end = value as Date;
     });
 
     this.generateDayNames();
@@ -67,4 +95,21 @@ export class CreateEventComponent implements OnInit {
     }
     return this.form.valid;
   }
+
+  getSelectedDay(): number {
+    return ((this.form.controls["start"].value as Date).getDay() + 6) % 7;
+  }
+
+  setSelectedDay(): void {
+    this.form.controls["days"].setValue([this.getSelectedDay()]);
+  }
+
+  isCurrentDay(day: number): boolean {
+    return this.getSelectedDay() == day;
+  }
+
+  minTime(): Date {
+    return (this.form.controls["startTime"].value as Date);
+  }
+
 }
