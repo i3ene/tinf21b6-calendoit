@@ -70,7 +70,7 @@ export class CalendarComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
-    this.data.events = this.data.events.map((iEvent) => {
+    this.data._events = this.data._events.map((iEvent) => {
       if (iEvent === event) {
         return new Event({
           ...event,

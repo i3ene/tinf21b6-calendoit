@@ -2,15 +2,15 @@ import { Event } from './event.model';
 import { Habit, HabitEvent } from './habit.model';
 
 export class Data {
-  events: Event[];
-  habits: Habit[];
+  _events: Event[];
+  _habits: Habit[];
 
   constructor(obj: any) {
-    this.events = Data.parseArray(Event, obj.events);
-    this.habits = Data.parseArray(Habit, obj.habits);
+    this._events = Data.parseArray(Event, obj.events);
+    this._habits = Data.parseArray(Habit, obj.habits);
   }
 
-  get allEvents(): Event[] {
+  get events(): Event[] {
     return this.getEvents();
   }
 
@@ -20,7 +20,7 @@ export class Data {
    * @param event Event to add
    */
   addEvent(event: Event): void {
-    this.events.push(event);
+    this._events.push(event);
     this.recalculate();
   }
 
@@ -30,7 +30,7 @@ export class Data {
    * @param habit Habit to add
    */
   addHabit(habit: Habit): void {
-    this.habits.push(habit);
+    this._habits.push(habit);
     this.recalculate();
   }
 
@@ -40,10 +40,10 @@ export class Data {
    */
   deleEvent(element: Event | number): void {
     var event: Event;
-    if (typeof element === 'number') event = this.events[element as number];
+    if (typeof element === 'number') event = this._events[element as number];
     else event = element as Event;
 
-    this.events = this.events.filter(item => !Data.equals(item, event));
+    this._events = this._events.filter(item => !Data.equals(item, event));
     this.recalculate();
   }
 
@@ -53,10 +53,10 @@ export class Data {
    */
   deleteHabit(element: Habit | number): void {
     var habit: Habit;
-    if (typeof element === 'number') habit = this.habits[element as number];
+    if (typeof element === 'number') habit = this._habits[element as number];
     else habit = element as Habit;
 
-    this.habits = this.habits.filter(item => !Data.equals(item, habit));
+    this._habits = this._habits.filter(item => !Data.equals(item, habit));
     this.recalculate();
   }
 
@@ -65,8 +65,8 @@ export class Data {
    */
   recalculate(): void {
     // TODO: Recalculate Habits
-    for(const event of this.events) {
-      for(const habit of this.habits) {
+    for(const event of this._events) {
+      for(const habit of this._habits) {
 
       }
     }
@@ -80,7 +80,7 @@ export class Data {
   getEvents(): Event[] {
     // TODO: Logic that returns Events and Habits (as Events)
     const list: Event[] = [];
-    for (const event of this.events) {
+    for (const event of this._events) {
       for (const molecular of event.getEvents())  list.push(molecular);
     }
     return list;
