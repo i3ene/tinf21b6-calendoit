@@ -54,6 +54,11 @@ export class Event implements CalendarEvent {
   position?: any;
 
   /**
+   * TODO: (CalendarEvent interface) All Day
+   */
+   allDay?: boolean;
+
+  /**
    * TODO: (CalendarEvent interface) Draggable
    */
   draggable?: boolean;

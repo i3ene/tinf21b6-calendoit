@@ -7,7 +7,7 @@
       <title>test1</title>
       <description>1test1</description>
       <color type="object">
-        <primary>#000000</primary>
+        <primary>#8a1bcd</primary>
         <secondary>#FFFFFF</secondary>
       </color>
     </value0>
@@ -17,7 +17,7 @@
       <title>test2</title>
       <description>2test2</description>
       <color type="object">
-        <primary>#000000</primary>
+        <primary>#31c48c</primary>
         <secondary>#FFFFFF</secondary>
       </color>
     </value1>
@@ -27,8 +27,8 @@
       <title>test3</title>
       <description>3test3</description>
       <color type="object">
-        <primary>#000000</primary>
-        <secondary>#FFFFFF</secondary>
+        <primary>#cf8b25</primary>
+        <secondary>#b3f2f2</secondary>
       </color>
     </value2>
   </events>
