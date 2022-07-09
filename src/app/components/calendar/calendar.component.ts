@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Inject,
   LOCALE_ID,
@@ -42,6 +43,7 @@ import { DateFormatter } from 'src/app/providers/date-formatter.provider';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: CalendarEventTitleFormatter,
@@ -202,4 +204,10 @@ export class CalendarComponent implements OnInit {
       this.refresh.next();
     });
   }
+
+
+  test(obj: any): void {
+    console.log("TEST");
+  }
+
 }
