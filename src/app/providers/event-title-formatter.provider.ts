@@ -10,19 +10,19 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
   }
 
   override month(event: CalendarEvent): string {
-    return `<b>${formatDate(event.start, 'H:m', this.locale)}</b> ${
+    return `<b>${formatDate(event.start, 'H:mm', this.locale)}</b> ${
       event.title
     }`;
   }
 
   override week(event: CalendarEvent): string {
-    return `<b>${formatDate(event.start, 'H:m', this.locale)}</b> ${
+    return `<b>${formatDate(event.start, 'H:mm', this.locale)}</b> ${
       event.title
     }`;
   }
 
   override day(event: CalendarEvent): string {
-    return `<b>${formatDate(event.start, 'H:m', this.locale)}</b> ${
+    return `<b>${formatDate(event.start, 'H:mm', this.locale)}</b> ${
       event.title
     }`;
   }

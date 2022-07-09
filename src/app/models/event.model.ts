@@ -187,9 +187,22 @@ export namespace Event {
    * @param date2 Date 2
    * @returns Number of days
    */
-  export function diffTime(date1: Date, date2: Date, multiplier: number): number {
+  export function diffTime(date1: Date, date2: Date, multiplier?: number): number {
+    if (multiplier == undefined) multiplier = 1;
     const differenceMs = Math.abs(date1.getTime() - date2.getTime());
     return Math.round(differenceMs / multiplier);
+  }
+
+  export function isOverlapping(date1Start: Date, date1End: Date, date2Start: Date, date2End: Date): boolean {
+    return (date1Start.getTime() <= date2End.getTime() && date2Start.getTime() <= date1End.getTime());
+  }
+
+  export function isSameDay(date1: Date, date2: Date): boolean {
+    return (date1.getFullYear() == date2.getFullYear() && date1.getMonth() == date2.getMonth() && date1.getDate() == date2.getDate());
+  }
+
+  export function isBetweenTwoDates(checkDate: Date, startDate: Date, endDate: Date): boolean {
+    return (startDate.getTime() < checkDate.getTime() && endDate.getTime() > checkDate.getTime());
   }
 
   export enum DAY {

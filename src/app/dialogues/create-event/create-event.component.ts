@@ -35,7 +35,7 @@ export class CreateEventComponent implements OnInit {
     public dialogRef: MatDialogRef<CreateEventComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.event = new Event({});
+    this.event = data;
   }
 
   ngOnInit(): void {

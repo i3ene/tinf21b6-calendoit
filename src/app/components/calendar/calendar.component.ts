@@ -79,7 +79,9 @@ export class CalendarComponent implements OnInit {
     @Inject(LOCALE_ID) public locale: string
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.data.recalculate();
+  }
 
   setView(view: CalendarView) {
     this.view = view;
@@ -189,6 +191,7 @@ export class CalendarComponent implements OnInit {
     ref.afterClosed().subscribe((result) => {
       switch (result) {
         case 'Save':
+          this.data.recalculate();
           return;
         case 'Delete':
           this.deleteEvent(event);

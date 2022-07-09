@@ -29,8 +29,8 @@
             </color>
         </value1>
         <value2 type="object">
-            <start type="date">2022-07-01T09:14:00.000Z</start>
-            <end type="date">2022-07-01T09:14:00.000Z</end>
+            <start type="date">2022-07-01T11:44:00.000Z</start>
+            <end type="date">2022-07-01T12:44:00.000Z</end>
             <title>Test2</title>
             <description>Test</description>
             <color type="object">
@@ -61,15 +61,15 @@
             <alternateEvents type="array" />
         </value0>
         <value1 type="object">
-            <start type="date">2022-07-07T09:18:04.377Z</start>
-            <end type="date">2022-07-07T14:18:04.377Z</end>
+            <start type="date">2022-07-07T00:08:04.377Z</start>
+            <end type="date">2022-07-07T15:00:04.377Z</end>
             <title>TestHabit2</title>
             <description>beschreibung</description>
             <color type="object">
                 <primary>#e4dc36</primary>
                 <secondary>#ffffff</secondary>
             </color>
-            <deadline type="date">2022-07-14T00:00:00.000Z</deadline>
+            <deadline type="date">2022-07-14T08:00:00.000Z</deadline>
             <idealTime type="date">2022-07-07T11:31:00.000Z</idealTime>
             <duration type="number">45</duration>
             <alternateEvents type="array" />

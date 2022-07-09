@@ -22,6 +22,7 @@ export class Habit extends Event {
     this.idealTime = obj.idealTime ? new Date(obj.idealTime) : new Date();
     this.duration = obj.duration ? obj.duration : 0;
 
+    // TODO: Parse correctly (with reference)
     this.alternateEvents = obj.alternateEvents ? obj.alternateEvents : [];
   }
 
@@ -29,8 +30,30 @@ export class Habit extends Event {
     const list = super.getEvents();
 
     for (const item of list) {
-      item.start = this.idealTime;
-      item.end = Event.addTime(this.idealTime, this.duration * Event.TIME.ONE_MINUTE);
+      // Set ideal Time
+      item.start.setHours(this.idealTime.getHours());
+      item.start.setMinutes(this.idealTime.getMinutes());
+
+      // Calculate end Date
+      item.end = Event.addTime(item.start, this.duration * Event.TIME.ONE_MINUTE);
+    }
+
+    return list;
+  }
+
+  getHabits(): Event[] {
+    const list = this.getEvents();
+
+    for (const item of list) {      
+      // Check for alternative Events
+      for (const alternate of this.alternateEvents) {
+        // If alternative Event exists for this day, set its start Date
+        if (Event.isSameDay(item.start, alternate.start)) {
+          item.start = alternate.start;
+          // Calculate end Date
+          item.end = Event.addTime(item.start, this.duration * Event.TIME.ONE_MINUTE);
+        }
+      }
     }
 
     return list;
