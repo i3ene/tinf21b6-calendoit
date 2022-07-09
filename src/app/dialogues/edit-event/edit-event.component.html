@@ -135,6 +135,7 @@
               formControlName="days"
               [(ngModel)]="event.repeat!.days"
               multiple
+              (ngModelChange)="data.refresh.next()"
             >
               <mat-option
                 *ngFor="let day of days"
@@ -161,6 +162,7 @@
               type="number"
               formControlName="count"
               min="1"
+              (ngModelChange)="data.refresh.next()"
             />
           </mat-form-field>
         </td>
@@ -176,6 +178,7 @@
             placeholder="Deadline"
             formControlName="deadline"
             [minDate]="minTime()"
+            (ngModelChange)="data.refresh.next()"
           />
         </td>
       </tr>
