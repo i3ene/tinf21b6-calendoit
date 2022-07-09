@@ -1,6 +1,31 @@
-import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
-import { addDays, addHours, endOfDay, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
+import {
+  Component,
+  Inject,
+  LOCALE_ID,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  CalendarDateFormatter,
+  CalendarEvent,
+  CalendarEventAction,
+  CalendarEventTimesChangedEvent,
+  CalendarEventTitleFormatter,
+  CalendarUtils as CalendarUtilsClass,
+  CalendarView,
+} from 'angular-calendar';
+import {
+  addDays,
+  addHours,
+  endOfDay,
+  endOfMonth,
+  isSameDay,
+  isSameMonth,
+  startOfDay,
+  subDays,
+} from 'date-fns';
 import { Subject } from 'rxjs';
 import { Event } from 'src/app/models/event.model';
 import { Data } from 'src/app/models/data.model';
@@ -8,15 +33,31 @@ import { AppComponent } from 'src/app/app.component';
 import { CreateEventComponent } from 'src/app/dialogues/create-event/create-event.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EditEventComponent } from 'src/app/dialogues/edit-event/edit-event.component';
+import { EventTitleFormatter } from 'src/app/providers/event-title-formatter.provider';
+import { CalendarUtils } from 'src/app/providers/calendar-utils.provider';
+import { DateFormatter } from 'src/app/providers/date-formatter.provider';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: CalendarEventTitleFormatter,
+      useClass: EventTitleFormatter,
+    },
+    {
+      provide: CalendarUtilsClass,
+      useClass: CalendarUtils,
+    },
+    {
+      provide: CalendarDateFormatter,
+      useClass: DateFormatter,
+    },
+  ],
 })
 export class CalendarComponent implements OnInit {
-
   view: CalendarView = CalendarView.Month;
 
   CalendarView = CalendarView;
@@ -29,19 +70,16 @@ export class CalendarComponent implements OnInit {
 
   refresh = new Subject<void>();
 
-
-  get data(): Data{
+  get data(): Data {
     return AppComponent.data;
   }
 
-  get locale(): string {
-    return AppComponent.locale;
-  }
+  constructor(
+    private dialog: MatDialog,
+    @Inject(LOCALE_ID) public locale: string
+  ) {}
 
-  constructor(private dialog: MatDialog) {}
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   setView(view: CalendarView) {
     this.view = view;
@@ -84,18 +122,17 @@ export class CalendarComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent<any> | Event): void {
-    switch(action) {
-      case "Clicked":
+    switch (action) {
+      case 'Clicked':
         this.openEdit(event as Event);
         break;
-      case "DroppedOrResized":
+      case 'DroppedOrResized':
         // TODO: Change Event times
         break;
       default:
         console.log({ event, action });
     }
   }
-
 
   /**
    * Add an Event to list and calendar.
@@ -121,13 +158,16 @@ export class CalendarComponent implements OnInit {
    * Open the dialog for adding an Event
    */
   openAdd(): void {
+    let event: Event = new Event({});
+
     const ref = this.dialog.open(CreateEventComponent, {
-      disableClose: true
+      data: event,
+      disableClose: true,
     });
 
-    ref.afterClosed().subscribe(result => {
-      if(result != "Add") return;
-      this.addEvent(ref.componentInstance.event);
+    ref.afterClosed().subscribe((result) => {
+      if (result != 'Add') return;
+      this.addEvent(event);
     });
   }
 
@@ -143,14 +183,14 @@ export class CalendarComponent implements OnInit {
         event: event.reference,
         refresh: this.refresh
       },
-      disableClose: true
+      disableClose: true,
     });
 
-    ref.afterClosed().subscribe(result => {
-      switch(result) {
-        case "Save":
+    ref.afterClosed().subscribe((result) => {
+      switch (result) {
+        case 'Save':
           return;
-        case "Delete":
+        case 'Delete':
           this.deleteEvent(event);
           return;
         default:
@@ -159,5 +199,4 @@ export class CalendarComponent implements OnInit {
       this.refresh.next();
     });
   }
-
 }
