@@ -136,7 +136,7 @@ export class EditEventComponent implements OnInit {
   }
 
   getSelectedDay(): number {
-    return ((this.form.controls['start'].value as Date).getDay() + 6) % 7;
+    return (this.form.controls['start'].value as Date).getDay();
   }
 
   setSelectedDay(): void {

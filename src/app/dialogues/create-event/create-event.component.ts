@@ -115,7 +115,7 @@ export class CreateEventComponent implements OnInit {
   }
 
   getSelectedDay(): number {
-    return ((this.form.controls["startTime"].value as Date).getDay() + 6) % 7;
+    return (this.form.controls["startTime"].value as Date).getDay();
   }
 
   setSelectedDay(): void {

@@ -24,6 +24,18 @@ export class Habit extends Event {
 
     this.alternateEvents = obj.alternateEvents ? obj.alternateEvents : [];
   }
+
+  override getEvents(): Event[] {
+    const list = super.getEvents();
+
+    for (const item of list) {
+      item.start = this.idealTime;
+      item.end = Event.addTime(this.idealTime, this.duration * Event.TIME.ONE_MINUTE);
+    }
+
+    return list;
+  }
+
 }
 
 export class HabitEvent extends Event {

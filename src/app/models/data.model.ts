@@ -81,7 +81,10 @@ export class Data {
     // TODO: Logic that returns Events and Habits (as Events)
     const list: Event[] = [];
     for (const event of this._events) {
-      for (const molecular of event.getEvents())  list.push(molecular);
+      for (const molecular of event.getEvents()) list.push(molecular);
+    }
+    for (const habit of this._habits) {
+      for (const molecular of habit.getEvents()) list.push(molecular);
     }
     return list;
   }
