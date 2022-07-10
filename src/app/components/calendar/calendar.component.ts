@@ -44,7 +44,7 @@ import { DateFormatter } from 'src/app/providers/date-formatter.provider';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  //changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: CalendarEventTitleFormatter,
@@ -87,12 +87,10 @@ export class CalendarComponent implements OnInit {
     this.data.recalculate();
   }
 
-  changeDetection(): void {
-    this.ChangeDetectorRef.detectChanges();
-  }
-
   setView(view: CalendarView) {
+    this.ChangeDetectorRef.detach();
     this.view = view;
+    this.ChangeDetectorRef.detectChanges();
   }
 
   closeOpenMonthViewDay() {
