@@ -1,7 +1,7 @@
 <div class="container">
   <app-create-habit
-    [events]="data.habits"
+    [events]="data._habits"
     (addHabit)="data.addHabit($event)"
   ></app-create-habit>
-  <app-list-habit [habits]="data.habits"></app-list-habit>
+  <app-list-habit [habits]="data._habits"></app-list-habit>
 </div>

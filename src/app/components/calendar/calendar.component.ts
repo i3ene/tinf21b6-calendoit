@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Inject,
   LOCALE_ID,
@@ -37,26 +38,12 @@ import { EventTitleFormatter } from 'src/app/providers/event-title-formatter.pro
 import { CalendarUtils } from 'src/app/providers/calendar-utils.provider';
 import { DateFormatter } from 'src/app/providers/date-formatter.provider';
 
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
-};
-
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: CalendarEventTitleFormatter,
@@ -94,7 +81,9 @@ export class CalendarComponent implements OnInit {
     @Inject(LOCALE_ID) public locale: string
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.data.recalculate();
+  }
 
   setView(view: CalendarView) {
     this.view = view;
@@ -123,7 +112,7 @@ export class CalendarComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
-    this.data.events = this.data.events.map((iEvent) => {
+    this.data._events = this.data._events.map((iEvent) => {
       if (iEvent === event) {
         return new Event({
           ...event,
@@ -164,7 +153,9 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to delete
    */
   deleteEvent(event: Event) {
-    this.data.deleEvent(event);
+    this.data.deleEvent(event.reference ? event.reference : event);
+    // TODO: Check if an event remains and keep open
+    this.activeDayIsOpen = false;
   }
 
   /**
@@ -189,12 +180,12 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to edit
    */
   openEdit(event: Event): void {
-    let copy: Event = Object.assign({}, event);
+    let copy: Event = new Event(event.reference);
 
     const ref = this.dialog.open(EditEventComponent, {
       data: {
-        event: event,
-        refresh: this.refresh,
+        event: event.reference,
+        refresh: this.refresh
       },
       disableClose: true,
     });
@@ -202,14 +193,16 @@ export class CalendarComponent implements OnInit {
     ref.afterClosed().subscribe((result) => {
       switch (result) {
         case 'Save':
+          this.data.recalculate();
           return;
         case 'Delete':
           this.deleteEvent(event);
           return;
         default:
-          Object.assign(event, copy);
+          Object.assign(event.reference!, copy);
       }
       this.refresh.next();
     });
   }
+
 }

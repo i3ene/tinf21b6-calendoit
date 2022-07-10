@@ -1,38 +1,74 @@
 <h1 mat-dialog-title>Neuer Termin</h1>
 <div mat-dialog-content>
-  <table>
-    <table [formGroup]="form">
-      <tbody>
-        <tr>
-          <td colspan="2" align="center">
-            <mat-form-field>
-              <mat-label>Title</mat-label>
-              <input
-                matInput
-                type="text"
-                [(ngModel)]="data.title"
-                formControlName="title"
-                required
-              />
-            </mat-form-field>
-          </td>
-        </tr>
+  <table [formGroup]="form">
+    <tbody>
+      <tr>
+        <td colspan="2" align="center">
+          <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="event.title"
+              formControlName="title"
+              required
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr *ngIf="!checkRepeat.checked">
+        <td>Zeitraum:</td>
+        <td>
+          <input
+            type="text"
+            mwlFlatpickr
+            [(ngModel)]="dateRange"
+            [altInput]="true"
+            [convertModelValue]="true"
+            [enableTime]="true"
+            [time24hr]="true"
+            dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i"
+            placeholder="Not set"
+            formControlName="range"
+            [mode]="'range'"
+          />
+        </td>
+      </tr>
+      <ng-container *ngIf="checkRepeat.checked">
         <tr>
           <td>Start:</td>
           <td>
             <input
               type="text"
               mwlFlatpickr
-              [(ngModel)]="data.start"
               [altInput]="true"
               [convertModelValue]="true"
+              dateFormat="Y-m-d"
+              altFormat="F j, Y"
+              [time24hr]="true"
+              placeholder="Not set"
+              [(ngModel)]="dateRange.from"
+              [(ngModel)]="dateRange.to"
+              formControlName="start"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Beginn:</td>
+          <td>
+            <input
+              type="text"
+              mwlFlatpickr
+              [altInput]="true"
+              [convertModelValue]="true"
+              dateFormat="H:i"
+              altFormat="H:i"
+              placeholder="Not set"
+              [noCalendar]="true"
               [enableTime]="true"
               [time24hr]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-              formControlName="start"
-              required
+              formControlName="startTime"
             />
           </td>
         </tr>
@@ -42,45 +78,103 @@
             <input
               type="text"
               mwlFlatpickr
-              [(ngModel)]="data.end"
               [altInput]="true"
               [convertModelValue]="true"
+              dateFormat="H:i"
+              altFormat="H:i"
+              placeholder="Not set"
+              [noCalendar]="true"
               [enableTime]="true"
               [time24hr]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-              formControlName="end"
-              required
+              [minDate]="minTime()"
+              formControlName="endTime"
             />
           </td>
         </tr>
-        <tr>
-          <td>Primärfarbe:</td>
-          <td align="right">
+      </ng-container>
+      <tr>
+        <td>Primärfarbe:</td>
+        <td>
+          <input
+            type="color"
+            [(ngModel)]="event.color!.primary"
+            formControlName="colorPrimary"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Sekundärfarbe:</td>
+        <td>
+          <input
+            type="color"
+            [(ngModel)]="event.color!.secondary"
+            formControlName="colorSecondary"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td [colSpan]="checkRepeat.checked ? 1 : 2" align="center">
+          <mat-checkbox formControlName="repeat" #checkRepeat
+            >Wiederholen</mat-checkbox
+          >
+        </td>
+        <td *ngIf="checkRepeat.checked">
+          <mat-form-field appearance="fill">
+            <mat-label>Tage</mat-label>
+            <mat-select
+              formControlName="days"
+              [(ngModel)]="event.repeat!.days"
+              multiple
+            >
+              <mat-option
+                *ngFor="let day of days"
+                [value]="day.key"
+                [disabled]="isCurrentDay(day.key)"
+              >
+                {{ day.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr *ngIf="checkRepeat.checked">
+        <td>
+          <mat-slide-toggle #toggleRepeat formControlName="toggle">{{
+            toggleRepeat.checked ? "Anzahl:" : "Deadline"
+          }}</mat-slide-toggle>
+        </td>
+        <td *ngIf="toggleRepeat.checked">
+          <mat-form-field>
+            <mat-label>Anzahl</mat-label>
             <input
-              type="color"
-              [(ngModel)]="data.color!.primary"
-              formControlName="colorPrimary"
+              matInput
+              type="number"
+              formControlName="count"
+              min="1"
+              [(ngModel)]="event.repeat!.repeating"
             />
-          </td>
-        </tr>
-        <tr>
-          <td>Sekundärfarbe:</td>
-          <td align="right">
-            <input
-              type="color"
-              [(ngModel)]="data.color!.secondary"
-              formControlName="colorSecondary"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </mat-form-field>
+        </td>
+        <td *ngIf="!toggleRepeat.checked">
+          <input
+            type="text"
+            mwlFlatpickr
+            [altInput]="true"
+            [convertModelValue]="true"
+            [(ngModel)]="event.repeat!.repeating"
+            dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i"
+            placeholder="Deadline"
+            formControlName="deadline"
+            [minDate]="minTime()"
+          />
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close="Add" [disabled]="!form.valid">
+  <button mat-button mat-dialog-close="Add" [disabled]="!isFormValid()">
     Hinzufügen
   </button>
   <span class="spacer"></span>
