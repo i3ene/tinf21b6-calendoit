@@ -16,7 +16,7 @@
           </mat-form-field>
         </td>
         <td>
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="color-selector">
             <input
               matInput
               type="color"
@@ -144,7 +144,7 @@
           }}</mat-slide-toggle>
         </td>
         <td *ngIf="toggleRepeat.checked">
-          <mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Anzahl</mat-label>
             <input
               matInput
@@ -156,18 +156,22 @@
           </mat-form-field>
         </td>
         <td *ngIf="!toggleRepeat.checked">
-          <input
-            type="text"
-            mwlFlatpickr
-            [altInput]="true"
-            [convertModelValue]="true"
-            [(ngModel)]="event.repeat!.repeating"
-            dateFormat="Y-m-dTH:i"
-            altFormat="F j, Y H:i"
-            placeholder="Deadline"
-            formControlName="deadline"
-            [minDate]="minTime()"
-          />
+          <mat-form-field appearance="fill">
+            <mat-label>Deadline</mat-label>
+            <input
+              matInput
+              type="datetime"
+              mwlFlatpickr
+              [altInput]="true"
+              [convertModelValue]="true"
+              [(ngModel)]="event.repeat!.repeating"
+              dateFormat="Y-m-dTH:i"
+              altFormat="F j, Y H:i"
+              placeholder="Deadline"
+              formControlName="deadline"
+              [minDate]="minTime()"
+            />
+          </mat-form-field>
         </td>
       </tr>
     </tbody>

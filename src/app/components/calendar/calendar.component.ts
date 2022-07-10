@@ -201,6 +201,7 @@ export class CalendarComponent implements OnInit {
           return;
         case 'Delete':
           this.deleteEvent(event);
+          this.refresh.next();
           return;
         default:
           Object.assign(event.reference!, copy);

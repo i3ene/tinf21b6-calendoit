@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>
-  Termin Bearbeiten
+  <span>Termin Bearbeiten</span>
   <span class="spacer"></span>
   <button mat-flat-button color="warn" mat-dialog-close="Delete">
     Löschen
@@ -23,7 +23,7 @@
           </mat-form-field>
         </td>
         <td>
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="color-selector">
             <input
               matInput
               type="color"
@@ -77,6 +77,25 @@
               />
             </mat-form-field>
           </td>
+          <td>
+            <mat-form-field appearance="fill">
+              <mat-label>Tage</mat-label>
+              <mat-select
+                formControlName="days"
+                [(ngModel)]="event.repeat!.days"
+                multiple
+                (ngModelChange)="data.refresh.next()"
+              >
+                <mat-option
+                  *ngFor="let day of days"
+                  [value]="day.key"
+                  [disabled]="isCurrentDay(day.key)"
+                >
+                  {{ day.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
         </tr>
         <tr>
           <td>
@@ -123,29 +142,10 @@
         </tr>
       </ng-container>
       <tr>
-        <td [colSpan]="checkRepeat.checked ? 1 : 2" align="center">
+        <td colspan="2" align="center">
           <mat-checkbox formControlName="repeat" #checkRepeat
             >Wiederholen</mat-checkbox
           >
-        </td>
-        <td *ngIf="checkRepeat.checked">
-          <mat-form-field appearance="fill">
-            <mat-label>Tage</mat-label>
-            <mat-select
-              formControlName="days"
-              [(ngModel)]="event.repeat!.days"
-              multiple
-              (ngModelChange)="data.refresh.next()"
-            >
-              <mat-option
-                *ngFor="let day of days"
-                [value]="day.key"
-                [disabled]="isCurrentDay(day.key)"
-              >
-                {{ day.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
         </td>
       </tr>
       <tr *ngIf="checkRepeat.checked">
@@ -155,7 +155,7 @@
           }}</mat-slide-toggle>
         </td>
         <td *ngIf="toggleRepeat.checked">
-          <mat-form-field>
+          <mat-form-field appearance="fill">
             <mat-label>Anzahl</mat-label>
             <input
               matInput
@@ -167,19 +167,23 @@
           </mat-form-field>
         </td>
         <td *ngIf="!toggleRepeat.checked">
-          <input
-            type="text"
-            mwlFlatpickr
-            [altInput]="true"
-            [convertModelValue]="true"
-            [(ngModel)]="event.repeat!.repeating"
-            dateFormat="Y-m-dTH:i"
-            altFormat="F j, Y H:i"
-            placeholder="Deadline"
-            formControlName="deadline"
-            [minDate]="minTime()"
-            (ngModelChange)="data.refresh.next()"
-          />
+          <mat-form-field appearance="fill">
+            <mat-label>Deadline</mat-label>
+            <input
+              matInput
+              type="datetime"
+              mwlFlatpickr
+              [altInput]="true"
+              [convertModelValue]="true"
+              [(ngModel)]="event.repeat!.repeating"
+              dateFormat="Y-m-dTH:i"
+              altFormat="F j, Y H:i"
+              placeholder="Deadline"
+              formControlName="deadline"
+              [minDate]="minTime()"
+              (ngModelChange)="data.refresh.next()"
+            />
+          </mat-form-field>
         </td>
       </tr>
     </tbody>

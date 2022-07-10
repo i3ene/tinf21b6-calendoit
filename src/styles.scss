@@ -118,6 +118,13 @@ body {
   border-radius: 8px !important;
 }
 
+.color-selector ::ng-deep.mat-form-field-infix {
+  text-align: center;
+  & * {
+    width: 100%;
+  }
+}
+
 .none-selectable {
   user-select: none !important;
 }

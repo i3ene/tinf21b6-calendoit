@@ -5,3 +5,7 @@ table td + td {
 table td:first-child:not(:only-child) {
     text-align: right;
 }
+
+.color-selector {
+    width: 33%;
+}
