@@ -205,9 +205,4 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-
-  test(obj: any): void {
-    console.log("TEST");
-  }
-
 }
