@@ -28,8 +28,8 @@
           </mat-form-field>
         </td>
         <td>
-          <mat-form-field appearance="outline" class="color-selector">
-            <input matInput type="color" formControlName="colorPrimary" />
+          <mat-form-field appearance="outline" class="color-selector" (click)="colorPrimary.click()" >
+            <input matInput type="color" formControlName="colorPrimary" #colorPrimary/>
           </mat-form-field>
         </td>
       </tr>

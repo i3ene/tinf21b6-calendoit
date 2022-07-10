@@ -118,8 +118,11 @@ body {
   border-radius: 8px !important;
 }
 
-.color-selector ::ng-deep.mat-form-field-infix {
+.color-selector .mat-form-field-infix {
   text-align: center;
+  padding: 10px !important;
+  border-top: 5px solid transparent;
+
   & * {
     width: 100%;
   }

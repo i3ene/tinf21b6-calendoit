@@ -16,8 +16,13 @@
           </mat-form-field>
         </td>
         <td>
-          <mat-form-field appearance="outline" class="color-selector">
+          <mat-form-field
+            appearance="outline"
+            class="color-selector"
+            (click)="colorPrimary.click()"
+          >
             <input
+              #colorPrimary
               matInput
               type="color"
               [(ngModel)]="event.color!.primary"
