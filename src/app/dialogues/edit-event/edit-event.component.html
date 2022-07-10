@@ -1,4 +1,10 @@
-<h1 mat-dialog-title>Termin Bearbeiten</h1>
+<h1 mat-dialog-title>
+  Termin Bearbeiten
+  <span class="spacer"></span>
+  <button mat-flat-button color="warn" mat-dialog-close="Delete">
+    Löschen
+  </button>
+</h1>
 <div mat-dialog-content>
   <table [formGroup]="form">
     <tbody>
@@ -16,112 +22,106 @@
             />
           </mat-form-field>
         </td>
-        <td align="right">
-          <button mat-flat-button color="warn" mat-dialog-close="Delete">
-            Löschen
-          </button>
+        <td>
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              type="color"
+              [(ngModel)]="event.color!.primary"
+              formControlName="colorPrimary"
+              (ngModelChange)="data.refresh.next()"
+            />
+          </mat-form-field>
         </td>
       </tr>
       <tr *ngIf="!checkRepeat.checked">
-        <td>Zeitraum:</td>
-        <td>
-          <input
-            type="text"
-            mwlFlatpickr
-            [(ngModel)]="dateRange"
-            [altInput]="true"
-            [convertModelValue]="true"
-            [enableTime]="true"
-            [time24hr]="true"
-            dateFormat="Y-m-dTH:i"
-            altFormat="F j, Y H:i"
-            placeholder="Not set"
-            formControlName="range"
-            [mode]="'range'"
-            (ngModelChange)="data.refresh.next()"
-          />
+        <td colspan="2" align="center">
+          <mat-form-field appearance="fill">
+            <mat-label>Zeitraum</mat-label>
+            <input
+              matInput
+              type="text"
+              mwlFlatpickr
+              [(ngModel)]="dateRange"
+              [altInput]="true"
+              [convertModelValue]="true"
+              [enableTime]="true"
+              [time24hr]="true"
+              dateFormat="Y-m-dTH:i"
+              altFormat="F j, Y H:i"
+              placeholder="Not set"
+              formControlName="range"
+              [mode]="'range'"
+              (ngModelChange)="data.refresh.next()"
+            />
+          </mat-form-field>
         </td>
       </tr>
       <ng-container *ngIf="checkRepeat.checked">
         <tr>
-          <td>Start:</td>
           <td>
-            <input
-              type="text"
-              mwlFlatpickr
-              [altInput]="true"
-              [convertModelValue]="true"
-              dateFormat="Y-m-d"
-              altFormat="F j, Y"
-              [time24hr]="true"
-              placeholder="Not set"
-              formControlName="start"
-              (ngModelChange)="data.refresh.next()"
-            />
+            <mat-form-field appearance="fill">
+              <mat-label>Start</mat-label>
+              <input
+                matInput
+                type="date"
+                mwlFlatpickr
+                [altInput]="true"
+                [convertModelValue]="true"
+                dateFormat="Y-m-d"
+                altFormat="F j, Y"
+                [time24hr]="true"
+                placeholder="Not set"
+                formControlName="start"
+                (ngModelChange)="data.refresh.next()"
+              />
+            </mat-form-field>
           </td>
         </tr>
         <tr>
-          <td>Beginn:</td>
           <td>
-            <input
-              type="text"
-              mwlFlatpickr
-              [altInput]="true"
-              [convertModelValue]="true"
-              dateFormat="H:i"
-              altFormat="H:i"
-              placeholder="Not set"
-              [noCalendar]="true"
-              [enableTime]="true"
-              [time24hr]="true"
-              formControlName="startTime"
-              (ngModelChange)="data.refresh.next()"
-            />
+            <mat-form-field appearance="fill">
+              <mat-label>Beginn</mat-label>
+              <input
+                matInput
+                type="datetime"
+                mwlFlatpickr
+                [altInput]="true"
+                [convertModelValue]="true"
+                dateFormat="H:i"
+                altFormat="H:i"
+                placeholder="Not set"
+                [noCalendar]="true"
+                [enableTime]="true"
+                [time24hr]="true"
+                formControlName="startTime"
+                (ngModelChange)="data.refresh.next()"
+              />
+            </mat-form-field>
           </td>
-        </tr>
-        <tr>
-          <td>Ende:</td>
           <td>
-            <input
-              type="text"
-              mwlFlatpickr
-              [altInput]="true"
-              [convertModelValue]="true"
-              dateFormat="H:i"
-              altFormat="H:i"
-              placeholder="Not set"
-              [noCalendar]="true"
-              [enableTime]="true"
-              [time24hr]="true"
-              [minDate]="minTime()"
-              formControlName="endTime"
-              (ngModelChange)="data.refresh.next()"
-            />
+            <mat-form-field appearance="fill">
+              <mat-label>Ende</mat-label>
+              <input
+                matInput
+                type="datetime"
+                mwlFlatpickr
+                [altInput]="true"
+                [convertModelValue]="true"
+                dateFormat="H:i"
+                altFormat="H:i"
+                placeholder="Not set"
+                [noCalendar]="true"
+                [enableTime]="true"
+                [time24hr]="true"
+                [minDate]="minTime()"
+                formControlName="endTime"
+                (ngModelChange)="data.refresh.next()"
+              />
+            </mat-form-field>
           </td>
         </tr>
       </ng-container>
-      <tr>
-        <td>Primärfarbe:</td>
-        <td>
-          <input
-            type="color"
-            [(ngModel)]="event.color!.primary"
-            formControlName="colorPrimary"
-            (ngModelChange)="data.refresh.next()"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td>Sekundärfarbe:</td>
-        <td>
-          <input
-            type="color"
-            [(ngModel)]="event.color!.secondary"
-            formControlName="colorSecondary"
-            (ngModelChange)="data.refresh.next()"
-          />
-        </td>
-      </tr>
       <tr>
         <td [colSpan]="checkRepeat.checked ? 1 : 2" align="center">
           <mat-checkbox formControlName="repeat" #checkRepeat

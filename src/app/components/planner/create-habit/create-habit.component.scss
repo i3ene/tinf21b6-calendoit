@@ -6,3 +6,11 @@
   border: 1px solid;
   padding: 8px;
 }
+
+::ng-deep.mat-tab-body {
+  padding: 8px;
+}
+
+::ng-deep.mat-tab-body-content {
+  overflow-y: hidden !important;
+}

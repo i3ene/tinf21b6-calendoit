@@ -87,7 +87,6 @@ export class EditEventComponent implements OnInit {
       this.event.start = startDate;
       const endDate = this.form.controls['endTime'].value as Date;
       if (!endDate || startDate.getTime() > endDate.getTime()) this.form.controls['endTime'].setValue(startDate);
-      console.log(endDate);
     });
     this.form.controls['endTime'].valueChanges.subscribe((value) => {
       let endDate = value as Date;
