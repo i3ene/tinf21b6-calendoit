@@ -78,7 +78,7 @@ export class CalendarComponent implements OnInit {
   }
 
   constructor(
-    private ChangeDetectorRef: ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef,
     private dialog: MatDialog,
     @Inject(LOCALE_ID) public locale: string
   ) {}
@@ -88,9 +88,9 @@ export class CalendarComponent implements OnInit {
   }
 
   setView(view: CalendarView) {
-    this.ChangeDetectorRef.detach();
+    this.changeDetectorRef.detach();
     this.view = view;
-    this.ChangeDetectorRef.detectChanges();
+    this.changeDetectorRef.detectChanges();
   }
 
   closeOpenMonthViewDay() {
