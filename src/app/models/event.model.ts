@@ -113,7 +113,8 @@ export class Event implements CalendarEvent {
 
     // Check if it is number. If yes, convert to Date
     if (typeof repeating === 'number') {
-      repeating = Event.addWeeks(this.start, repeating - 1);
+      repeating = Event.addWeeks(this.start, repeating);
+      repeating = Event.addDays(repeating, -1);
     }
 
     // Iterate through the amount of days to repeat
