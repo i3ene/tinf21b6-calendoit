@@ -34,7 +34,7 @@
 
     <br />
 
-    <div [ngSwitch]="view">
+    <div [ngSwitch]="view" (mouseenter)="changeDetection()">
       <mwl-calendar-month-view
         *ngSwitchCase="CalendarView.Month"
         [viewDate]="viewDate"

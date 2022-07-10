@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Inject,
   LOCALE_ID,
@@ -77,12 +78,17 @@ export class CalendarComponent implements OnInit {
   }
 
   constructor(
+    private ChangeDetectorRef: ChangeDetectorRef,
     private dialog: MatDialog,
     @Inject(LOCALE_ID) public locale: string
   ) {}
 
   ngOnInit(): void {
     this.data.recalculate();
+  }
+
+  changeDetection(): void {
+    this.ChangeDetectorRef.detectChanges();
   }
 
   setView(view: CalendarView) {
