@@ -45,7 +45,8 @@ export class CreateEditEventComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<CreateEditEventComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { isEditMode: boolean; event: Event }
+    @Inject(MAT_DIALOG_DATA)
+    public data: { isEditMode: boolean; event: Event; refresh?: any }
   ) {
     this.isEditMode = data.isEditMode;
     this.isRepeating = data.event.repeat != undefined;
@@ -68,8 +69,13 @@ export class CreateEditEventComponent implements OnInit {
     if (this.isRepeating) {
       this.setValue('days', event.repeat?.days);
 
-      this.setValue('count', event.repeat?.repeating);
-      this.setValue('deadline', event.repeat?.repeating);
+      if (typeof event.repeat?.repeating === 'number') {
+        this.selectedTab = 1;
+        this.setValue('count', event.repeat?.repeating);
+      } else {
+        this.selectedTab = 2;
+        this.setValue('deadline', event.repeat?.repeating);
+      }
     }
   }
 

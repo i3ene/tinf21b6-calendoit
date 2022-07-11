@@ -172,22 +172,8 @@ export class CalendarComponent implements OnInit {
     const ref = this.dialog.open(CreateEditEventComponent, {
       data: {
         event: event,
-        isEditMode: true
+        isEditMode: false
       },
-      disableClose: true,
-    });
-
-    ref.afterClosed().subscribe((result) => {
-      if (result != 'Add') return;
-      this.addEvent(event);
-    });
-  }
-
-  _openAdd(): void {
-    let event: Event = new Event({});
-
-    const ref = this.dialog.open(CreateEventComponent, {
-      data: event,
       disableClose: true,
     });
 
@@ -204,10 +190,11 @@ export class CalendarComponent implements OnInit {
   openEdit(event: Event): void {
     let copy: Event = new Event(event.reference);
 
-    const ref = this.dialog.open(EditEventComponent, {
+    const ref = this.dialog.open(CreateEditEventComponent, {
       data: {
         event: event.reference,
         refresh: this.refresh,
+        isEditMode: true
       },
       disableClose: true,
     });
