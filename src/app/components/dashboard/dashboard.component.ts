@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
+
 import { XsltService } from 'src/app/services/xslt.service';
 @Component({
   selector: 'app-dashboard',
@@ -16,5 +17,5 @@ export class DashboardComponent implements OnInit {
    
    this.xslt.asyncTransform("res/test.xml","res/test.xsl").then(frag=>{document.getElementById("container")?.appendChild(frag)})
   }
-
+//document.getElementById("container")?.appendChild(frag)
 }
