@@ -203,11 +203,14 @@ export class CreateEditEventComponent implements OnInit {
     this.data.event.end.setMinutes(value.getMinutes());
     this.data.event.end.setSeconds(value.getSeconds());
 
-    if (this.data.event.end < this.data.event.start)
-      this.data.event.end = this.data.event.start;
+    if (this.data.event.end < this.data.event.start) {
+      this.data.event.end = new Date(this.data.event.start);
+      this.setValue('endDate', this.data.event.end);
+    }
   }
 
   daysChanged(value: Event.DAY[]): void {
+    if (this.data.event.repeat == undefined) return;
     this.data.event.repeat!.days = value;
   }
 
