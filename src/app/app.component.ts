@@ -24,13 +24,13 @@ export class AppComponent {
    * @param xml Path to XML
    * @param xsl Path to XSL
    */
-  static loadData(xml: string, xsl: string): void {
-    var obj = new XsltService().transformJSON(xml, xsl);
+  static loadData(xsl: string, xml: string): void {
+    var obj = new XsltService().transformJSON(xsl, xml);
     AppComponent.data = new Data(obj.root);
   }
 
   constructor(public themeService: ThemeService) {
-    AppComponent.loadData('res/data.xml', 'res/json.xsl');
+    AppComponent.loadData('res/template.xsl', 'res/test.xml');
   }
 
   get theme() {
