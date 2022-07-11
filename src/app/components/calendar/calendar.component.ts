@@ -39,6 +39,7 @@ import { EventTitleFormatter } from 'src/app/providers/event-title-formatter.pro
 import { CalendarUtils } from 'src/app/providers/calendar-utils.provider';
 import { DateFormatter } from 'src/app/providers/date-formatter.provider';
 import { CreateEditEventComponent } from 'src/app/dialogues/create-edit-event/create-edit-event.component';
+import { Habit } from 'src/app/models/habit.model';
 
 @Component({
   selector: 'app-calendar',
@@ -187,7 +188,12 @@ export class CalendarComponent implements OnInit {
    * Open the dialog for editing an Event
    * @param event The Event to edit
    */
-  openEdit(event: Event): void {
+  openEdit(event: Event | Habit): void {
+    if ((event.reference as Habit).idealTime != undefined) {
+      console.log("This is an Habit");
+      return;
+    }
+
     let copy: Event = new Event(event.reference);
 
     const ref = this.dialog.open(CreateEditEventComponent, {
@@ -203,13 +209,13 @@ export class CalendarComponent implements OnInit {
       switch (result) {
         case 'Save':
           this.data.recalculate();
-          return;
+          break;
         case 'Delete':
           this.deleteEvent(event);
-          this.refresh.next();
-          return;
+          break;
         default:
           Object.assign(event.reference!, copy);
+          break;
       }
       this.refresh.next();
     });

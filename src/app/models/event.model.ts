@@ -1,4 +1,5 @@
 import { CalendarEvent } from 'angular-calendar';
+import { Habit } from './habit.model';
 
 export class Event implements CalendarEvent {
 
@@ -73,7 +74,7 @@ export class Event implements CalendarEvent {
    * If this is a reference of an other Event
    * (Generated through repeating etc.)
    */
-  reference?: Event;
+  reference?: Event | Habit;
 
   constructor(obj: any) {
     this.start = obj.start ? new Date(obj.start) : new Date();
