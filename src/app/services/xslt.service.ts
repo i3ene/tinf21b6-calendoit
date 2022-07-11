@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AppComponent } from '../app.component';
 import { Event } from '../models/event.model';
 
 @Injectable({
@@ -18,10 +19,10 @@ export class XsltService {
    * @param xslPath Path to XSL
    * @returns generated DocumentFragment
    */
-  async asyncTransform(xmlPath: string, xslPath: string): Promise<any> {
+  async asyncTransform(xslPath: string, xmlPath?: string): Promise<any> {
     this.xslStylesheet = await this.asyncGetFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
-    this.xmlDoc = await this.asyncGetFile(xmlPath);
+    this.xmlDoc = xmlPath ? await this.asyncGetFile(xmlPath) : this.saveXML(AppComponent.data.getSaveData());
 
     return this.xsltProcessor.transformToFragment(this.xmlDoc, document);
   }
@@ -32,8 +33,8 @@ export class XsltService {
    * @param xslPath Path to XSL
    * @returns generated JSON
    */
-  async asyncTransformJSON(xmlPath: string, xslPath: string): Promise<any> {
-    var fragment = await this.asyncTransform(xmlPath, xslPath);
+  async asyncTransformJSON(xslPath: string, xmlPath?: string): Promise<any> {
+    var fragment = await this.asyncTransform(xslPath, xmlPath);
     var text = fragment.firstChild?.nodeValue;
     var obj = JSON.parse(text!);
 
@@ -54,10 +55,10 @@ export class XsltService {
   /**
    * @deprecated Use {@link asyncTransform}
    */
-  transform(xmlPath: string, xslPath: string): any {
+  transform(xslPath: string, xmlPath?: string): any {
     this.xslStylesheet = this.getFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
-    this.xmlDoc = this.getFile(xmlPath);
+    this.xmlDoc = xmlPath ? this.getFile(xmlPath) : this.saveXML(AppComponent.data.getSaveData());
 
     return this.xsltProcessor.transformToFragment(this.xmlDoc, document);
   }
@@ -65,8 +66,8 @@ export class XsltService {
   /**
    * @deprecated Use {@link asyncTransformJSON}
    */
-  transformJSON(xmlPath: string, xslPath: string): any {
-    var fragment = this.transform(xmlPath, xslPath);
+  transformJSON(xslPath: string, xmlPath?: string): any {
+    var fragment = this.transform(xslPath, xmlPath);
     var text = fragment.firstChild?.nodeValue;
     var obj = JSON.parse(text!);
 
