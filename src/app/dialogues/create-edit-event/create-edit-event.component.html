@@ -1,0 +1,215 @@
+<h1 mat-dialog-title>
+  <span>{{ isEditMode ? "Termin Bearbeiten" : "Neuer Termin" }}</span>
+  <span class="spacer"></span>
+  <button
+    mat-flat-button
+    color="warn"
+    mat-dialog-close="Delete"
+    *ngIf="isEditMode"
+  >
+    Löschen
+  </button>
+</h1>
+<div mat-dialog-content>
+  <table [formGroup]="form">
+    <tbody>
+      <tr>
+        <td>
+          <!-- Titel -->
+          <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input matInput type="text" formControlName="title" required />
+            <button matSuffix mat-icon-button>
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </td>
+        <td align="right">
+          <!-- Color -->
+          <mat-form-field
+            appearance="outline"
+            class="color-selector"
+            (click)="colorPrimary.click()"
+          >
+            <input
+              #colorPrimary
+              matInput
+              type="color"
+              formControlName="colorPrimary"
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr *ngIf="false">
+        <td colspan="2" align="center">
+          <!-- Description -->
+          <mat-form-field appearance="fill">
+            <mat-label>Beschreibung</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr *ngIf="!isRepeating">
+        <td colspan="2">
+          <!-- Date-Range -->
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Zeitraum</mat-label>
+            <mat-date-range-input [rangePicker]="rangePicker" disabled>
+              <input
+                matStartDate
+                placeholder="Start Datum"
+                formControlName="startDate"
+              />
+              <input
+                matEndDate
+                placeholder="End Datum"
+                formControlName="endDate"
+              />
+            </mat-date-range-input>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="rangePicker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker
+              #rangePicker
+              disabled="false"
+            ></mat-date-range-picker>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr *ngIf="isRepeating">
+        <td>
+          <!-- Date-Start -->
+          <mat-form-field appearance="fill">
+            <mat-label>Start Datum</mat-label>
+            <input
+              matInput
+              [matDatepicker]="startDatePicker"
+              formControlName="startDate"
+              [disabled]="true"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="startDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </td>
+        <td>
+          <!-- Days-Select -->
+          <mat-form-field appearance="fill">
+            <mat-label>Tage</mat-label>
+            <mat-select formControlName="days" multiple>
+              <mat-option
+                *ngFor="let day of days"
+                [value]="day.value"
+                [disabled]="isCurrentDay(day.value)"
+              >
+                {{ day.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <!-- Time-Begin -->
+          <mat-form-field appearance="fill">
+            <mat-label>Beginn</mat-label>
+            <input
+              matInput
+              type="datetime"
+              mwlFlatpickr
+              [altInput]="true"
+              [convertModelValue]="true"
+              dateFormat="H:i"
+              altFormat="H:i"
+              placeholder="Not set"
+              [noCalendar]="true"
+              [enableTime]="true"
+              [time24hr]="true"
+              formControlName="startTime"
+            />
+            <button matSuffix mat-icon-button>
+              <mat-icon>schedule</mat-icon>
+            </button>
+          </mat-form-field>
+        </td>
+        <td>
+          <!-- Time-End -->
+          <mat-form-field appearance="fill">
+            <mat-label>Ende</mat-label>
+            <input
+              matInput
+              type="datetime"
+              mwlFlatpickr
+              [altInput]="true"
+              [convertModelValue]="true"
+              dateFormat="H:i"
+              altFormat="H:i"
+              placeholder="Not set"
+              [noCalendar]="true"
+              [enableTime]="true"
+              [time24hr]="true"
+              formControlName="endTime"
+              [minDate]="minTime()"
+            />
+            <button matSuffix mat-icon-button>
+              <mat-icon>schedule</mat-icon>
+            </button>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center">
+          <!-- Repeating-Tabs (None, Deadline, Weeks) -->
+          <mat-tab-group
+            mat-align-tabs="center"
+            dynamicHeight
+            (selectedTabChange)="tabChange($event)"
+          >
+            <mat-tab label="Keine Wiederholung"></mat-tab>
+            <mat-tab label="Wochen">
+              <!-- Week-Count -->
+              <mat-form-field appearance="fill">
+                <mat-label>Wochen</mat-label>
+                <input matInput type="number" formControlName="count" min="1" />
+              </mat-form-field>
+            </mat-tab>
+            <mat-tab label="Deadline">
+              <!-- Deadline-Date -->
+              <mat-form-field appearance="fill">
+                <mat-label>Deadline</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="deadlineDatePicker"
+                  formControlName="deadline"
+                  [disabled]="true"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="deadlineDatePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker
+                  #deadlineDatePicker
+                  disabled="false"
+                ></mat-datepicker>
+              </mat-form-field>
+            </mat-tab>
+          </mat-tab-group>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div mat-dialog-actions>
+  <button
+    mat-button
+    [mat-dialog-close]="isEditMode ? 'Save' : 'Add'"
+    [disabled]="!isFormValid()"
+  >
+    {{ isEditMode ? "Speichern" : "Hinzufügen" }}
+  </button>
+  <span class="spacer"></span>
+  <button mat-button mat-dialog-close="Cancel">Abbrechen</button>
+</div>

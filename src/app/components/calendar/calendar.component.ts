@@ -38,6 +38,7 @@ import { EditEventComponent } from 'src/app/dialogues/edit-event/edit-event.comp
 import { EventTitleFormatter } from 'src/app/providers/event-title-formatter.provider';
 import { CalendarUtils } from 'src/app/providers/calendar-utils.provider';
 import { DateFormatter } from 'src/app/providers/date-formatter.provider';
+import { CreateEditEventComponent } from 'src/app/dialogues/create-edit-event/create-edit-event.component';
 
 @Component({
   selector: 'app-calendar',
@@ -168,6 +169,23 @@ export class CalendarComponent implements OnInit {
   openAdd(): void {
     let event: Event = new Event({});
 
+    const ref = this.dialog.open(CreateEditEventComponent, {
+      data: {
+        event: event,
+        isEditMode: true
+      },
+      disableClose: true,
+    });
+
+    ref.afterClosed().subscribe((result) => {
+      if (result != 'Add') return;
+      this.addEvent(event);
+    });
+  }
+
+  _openAdd(): void {
+    let event: Event = new Event({});
+
     const ref = this.dialog.open(CreateEventComponent, {
       data: event,
       disableClose: true,
@@ -189,7 +207,7 @@ export class CalendarComponent implements OnInit {
     const ref = this.dialog.open(EditEventComponent, {
       data: {
         event: event.reference,
-        refresh: this.refresh
+        refresh: this.refresh,
       },
       disableClose: true,
     });
@@ -209,5 +227,4 @@ export class CalendarComponent implements OnInit {
       this.refresh.next();
     });
   }
-
 }
