@@ -4,15 +4,53 @@
         <html>
             <body>
                 <h1 class="app-card">Upcomming Events</h1>                                  
-                    <xsl:for-each select="root/events/*">
-                        <div class="app-card">
-                        <h2><xsl:value-of select="./title"/></h2>                        
-                        <p id="start">von: <xsl:value-of select="./start"/> bis: <xsl:value-of select="./end"/></p>    
-                        <p>{{title}}</p>                    
-                        <p><xsl:value-of select="./description"/></p>
-                        </div>
-                    </xsl:for-each>                
+                    <xsl:for-each select="root/events/*">   
+                       <!-- <xsl:if test="today==startdate"> -->
+                            <div class="app-card">
+                            <h2><xsl:value-of select="./title"/></h2>    
+                            
+                            <p id="start">von: <xsl:call-template name="format-time">
+                                    <xsl:with-param name="iso-date" select="./start"/>
+                                </xsl:call-template>
+                                
+                                 bis: <xsl:call-template name="format-time">
+                                    <xsl:with-param name="iso-date" select="./end"/>
+                                </xsl:call-template></p>    
+                            <p>{{title}}</p>                    
+                            <p><xsl:value-of select="./description"/></p>     
+                            <p>
+                                <xsl:call-template name="format-iso-date">
+                                    <xsl:with-param name="iso-date" select="./start"/>
+                                </xsl:call-template>
+                            </p>                          
+                            </div>
+                             
+                            
+                        <!-- </xsl:if>  -->
+                    </xsl:for-each>    
+                    
+
+
             </body>
         </html>
+    </xsl:template>
+
+
+    <!-- DateTime zu Date Formatieren (MM dd yyyy)-->
+     <xsl:template name="format-iso-date">
+        <xsl:param name="iso-date"/>
+        <xsl:variable name="year" select="substring($iso-date, 1, 4)"/>
+        <xsl:variable name="month" select="substring($iso-date, 6, 2)"/>
+        <xsl:variable name="day" select="substring($iso-date, 9, 2)"/>        
+        <xsl:value-of select="concat($month, ' ',$day, ', ', $year)"/>
+    </xsl:template>
+
+    <!-- DateTime zu Zeit formatieren (HH:mm) -->
+    <xsl:template name="format-time">
+        <xsl:param name="iso-date"/>
+        <xsl:variable name="hour" select="substring($iso-date, 12, 2)"/>
+        <xsl:variable name="minute" select="substring($iso-date, 15, 2)"/>
+             
+        <xsl:value-of select="concat($hour,':',$minute, ', ')"/>
     </xsl:template>
 </xsl:stylesheet>
