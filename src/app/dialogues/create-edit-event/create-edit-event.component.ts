@@ -9,11 +9,25 @@ import { Event } from 'src/app/models/event.model';
   styleUrls: ['./create-edit-event.component.scss'],
 })
 export class CreateEditEventComponent implements OnInit {
+
+  /**
+   * If editing an event or creating a new one
+   */
   isEditMode: boolean;
+
+  /**
+   * If event is repeating
+   */
   isRepeating: boolean;
 
+  /**
+   * Current selected tab for repeating options
+   */
   selectedTab: number = 0;
 
+  /**
+   * Form group for individual controls
+   */
   form: FormGroup = new FormGroup({
     title: new FormControl(),
     description: new FormControl(),
@@ -33,6 +47,9 @@ export class CreateEditEventComponent implements OnInit {
     deadline: new FormControl(),
   });
 
+  /**
+   * Array for selecting repeating days
+   */
   days: any = [
     { name: 'Sonntag', value: 0 },
     { name: 'Montag', value: 1 },
@@ -53,6 +70,10 @@ export class CreateEditEventComponent implements OnInit {
     this.initializeControls(this.data.event);
   }
 
+  /**
+   * Initialize UI to show correct data
+   * @param event Event to show data of
+   */
   initializeControls(event: Event): void {
     this.setValue('title', event.title);
     this.setValue('description', event.description);
@@ -79,6 +100,11 @@ export class CreateEditEventComponent implements OnInit {
     }
   }
 
+  /**
+   * Set a safe value for a control
+   * @param control The control to set value for
+   * @param value The value to set
+   */
   setValue(control: string, value: any): void {
     if (value == undefined) return;
     this.form.controls[control].setValue(value);
@@ -120,22 +146,47 @@ export class CreateEditEventComponent implements OnInit {
     });
   }
 
+  /**
+   * Validator for the whole form
+   * @returns `true` if everything is correctly filled out
+   */
   isFormValid(): boolean {
+    if (!this.data.event.title) return false;
+    if (!this.data.event.start) return false;
+    if (!this.data.event.end) return false;
+    if (!this.data.event.color.primary) return false;
+    if (!this.form.controls['endDate'].value) return false;
     return true;
   }
 
+  /**
+   * Checks if a day of the week is the same as the currently selected
+   * @param dayWeekNumber Day of the week as number [Sunday=0, Monday=1, Tuesday=2, ...]
+   * @returns `true` if is same day
+   */
   isCurrentDay(dayWeekNumber: number): boolean {
     return this.data.event.start.getDay() == dayWeekNumber;
   }
 
+  /**
+   * Refresh selection UI for days
+   */
   refreshDays(): void {
     this.setValue('days', [this.data.event.start.getDay()]);
   }
 
+  /**
+   * The minimal possible time to select
+   * @returns Date of the event start
+   */
   minTime(): Date {
     return new Date(this.data.event.start);
   }
 
+  /**
+   * On change of tab selection
+   * @param event Tab event
+   */
   tabChange(event: any): void {
     this.selectedTab = event.index;
     this.repeatingChanged(event.index > 0);
