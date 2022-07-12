@@ -137,7 +137,9 @@ export class Data {
     }
 
     // Calculate best start for alternate event
-    if (nearestSlot.isStart) {
+    if (nearestSlot.slot == undefined) {
+      alternate.start = habit.idealTime;
+    } else if (nearestSlot.isStart) {
       alternate.start = nearestSlot.slot!.start;
     } else {
       alternate.start = Event.addTime(nearestSlot.slot!.end, habit.duration * Event.TIME.ONE_MINUTE * -1);
