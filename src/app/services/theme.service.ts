@@ -12,22 +12,23 @@ export class ThemeService {
    * @param document for document operations
    */
   constructor(@Inject(DOCUMENT) private document: Document) {
+    let activeTheme: Theme.Mode;
+
     // Check document theme
     for (var theme in Theme.Mode) {
       if (
         this.document.documentElement.classList.contains(Theme.getTheme(theme))
       ) {
-        Theme.currentTheme = theme as Theme.Mode;
+        activeTheme = theme as Theme.Mode;
       }
     }
-    Theme.currentTheme =
+    activeTheme =
       Theme.currentTheme == undefined ? Theme.defaultTheme : Theme.currentTheme;
 
     // Check chache theme
     if (localStorage[LocalConfig.theme])
       this.selectTheme(localStorage[LocalConfig.theme] as Theme.Mode);
-
-    this.selectTheme(Theme.getTheme(Theme.currentTheme));
+    else this.selectTheme(Theme.getTheme(activeTheme));
 
     // Listen for local 'storage' changes
     window.addEventListener('storage', (e: any) => this.onThemeChange(e), true);

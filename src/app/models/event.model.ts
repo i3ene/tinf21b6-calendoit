@@ -1,4 +1,5 @@
 import { CalendarEvent } from 'angular-calendar';
+import { Habit } from './habit.model';
 
 export class Event implements CalendarEvent {
 
@@ -73,7 +74,7 @@ export class Event implements CalendarEvent {
    * If this is a reference of an other Event
    * (Generated through repeating etc.)
    */
-  reference?: Event;
+  reference?: Event | Habit;
 
   constructor(obj: any) {
     this.start = obj.start ? new Date(obj.start) : new Date();
@@ -113,7 +114,8 @@ export class Event implements CalendarEvent {
 
     // Check if it is number. If yes, convert to Date
     if (typeof repeating === 'number') {
-      repeating = Event.addWeeks(this.start, repeating - 1);
+      repeating = Event.addWeeks(this.start, repeating);
+      repeating = Event.addDays(repeating, -1);
     }
 
     // Iterate through the amount of days to repeat

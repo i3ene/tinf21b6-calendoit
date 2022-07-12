@@ -14,10 +14,14 @@ export class CreateHabitComponent implements OnInit {
   @Output() addHabit: EventEmitter<Habit> = new EventEmitter<Habit>();
   form: FormGroup = new FormGroup({
     title: new FormControl(),
+    days: new FormControl(),
+    colorPrimary: new FormControl(),
     description: new FormControl(),
+    start: new FormControl(),
+    startTime: new FormControl(),
+    endTime: new FormControl(),
     deadline: new FormControl(),
-    begin: new FormControl(),
-    finish: new FormControl(),
+    count: new FormControl()
   });
 
   constructor(private dialog: MatDialog) {}
