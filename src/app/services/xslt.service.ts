@@ -100,15 +100,9 @@ export class XsltService {
 
     // Timestamps
     if (timeStamps) {
-      var datetime = document.createElementNS(null, 'datetime');
-      var day = document.createElementNS(null, 'day');
-
       const date = new Date();
-      datetime.append(new DatePipe('de-DE').transform(date, 'yyyy-MM-dd')!);
-      day.append(date.getDay().toString());
-
-      root.appendChild(datetime);
-      root.appendChild(day)
+      xmlDoc.documentElement.setAttribute("datetime", new DatePipe('de-DE').transform(date, 'yyyy-MM-dd')!);
+      xmlDoc.documentElement.setAttribute("day", date.getDay().toString());
     }
 
     // Tag Instruction
