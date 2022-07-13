@@ -57,6 +57,10 @@ $CalenDoIt-dark-theme: mat.define-dark-theme((
     background: mat.get-color-from-palette($_background, card);
   }
 
+  .app-background-default {
+    background: mat.get-color-from-palette($_background, background);
+  }
+
   .app-foreground {
     color: $app-foreground-color;
   }

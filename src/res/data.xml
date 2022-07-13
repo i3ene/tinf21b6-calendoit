@@ -8,7 +8,7 @@
             <description>An Event with a set count of repeating Days</description>
             <color type="object">
                 <primary>#83d332</primary>
-                <secondary>#ffffff</secondary>
+                <secondary>#FFFFFFc0</secondary>
             </color>
             <repeat type="object">
                 <days type="array">

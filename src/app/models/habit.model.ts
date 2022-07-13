@@ -65,3 +65,9 @@ export class Habit extends Event {
   }
 
 }
+
+export namespace Habit {
+  export function isHabit(event: any): boolean {
+    return ((event as Event).reference as Habit).idealTime != undefined;
+  }
+}

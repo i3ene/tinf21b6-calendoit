@@ -37,7 +37,7 @@
       </mat-button-toggle-group>
 
       <!-- Title -->
-      <h2>{{ viewDate | calendarDate: view + "ViewTitle":"de" }}</h2>
+      <h2 class="app-background-default">{{ viewDate | calendarDate: view + "ViewTitle":"de" }}</h2>
 
       <!-- View-Navigation -->
       <mat-button-toggle-group [value]="view" (valueChange)="setView($event)">
@@ -63,7 +63,6 @@
         (dayClicked)="dayClicked($event.day)"
         (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
-        (beforeViewRender)="beforeViewRender($event)"
       >
       </mwl-calendar-month-view>
       <mwl-calendar-week-view
@@ -75,7 +74,6 @@
         [locale]="locale"
         (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
-        (beforeViewRender)="beforeViewRender($event)"
       >
       </mwl-calendar-week-view>
       <mwl-calendar-day-view
@@ -86,7 +84,6 @@
         [locale]="locale"
         (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
-        (beforeViewRender)="beforeViewRender($event)"
       >
       </mwl-calendar-day-view>
     </div>
