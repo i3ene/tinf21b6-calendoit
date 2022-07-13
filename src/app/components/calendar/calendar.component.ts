@@ -38,6 +38,7 @@ import { CalendarUtils } from 'src/app/providers/calendar-utils.provider';
 import { DateFormatter } from 'src/app/providers/date-formatter.provider';
 import { CreateEditEventComponent } from 'src/app/dialogues/create-edit-event/create-edit-event.component';
 import { Habit } from 'src/app/models/habit.model';
+import { UtilDate } from 'src/app/models/util.model';
 
 @Component({
   selector: 'app-calendar',
@@ -74,6 +75,10 @@ export class CalendarComponent implements OnInit {
   refresh = new Subject<void>();
 
   events: Event[] = [];
+
+  navigation: string = 'today';
+
+  viewRange!: { start: Date; end: Date };
 
   constructor(
     public changeDetectorRef: ChangeDetectorRef,
@@ -170,7 +175,7 @@ export class CalendarComponent implements OnInit {
     const ref = this.dialog.open(CreateEditEventComponent, {
       data: {
         event: event,
-        isEditMode: false
+        isEditMode: false,
       },
       disableClose: true,
     });
@@ -187,7 +192,7 @@ export class CalendarComponent implements OnInit {
    */
   openEdit(event: Event | Habit): void {
     if ((event.reference as Habit).idealTime != undefined) {
-      console.log("This is an Habit");
+      console.log('This is an Habit');
       return;
     }
 
@@ -197,7 +202,7 @@ export class CalendarComponent implements OnInit {
       data: {
         event: event.reference,
         refresh: this.refresh,
-        isEditMode: true
+        isEditMode: true,
       },
       disableClose: true,
     });
@@ -225,4 +230,11 @@ export class CalendarComponent implements OnInit {
     this.events = AppComponent.data.getEvents();
   }
 
+  beforeViewRender(event: any): void {
+    this.viewRange = { start: event.period.start, end: event.period.end };
+  }
+
+  onNavigationChange(event: any, element: any): void {
+    if (event != undefined) element.value = undefined;
+  }
 }

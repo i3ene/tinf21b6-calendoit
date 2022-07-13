@@ -2,24 +2,38 @@
   <div class="calendar">
     <div class="calendar-header">
       <!-- Navigation -->
-      <mat-button-toggle-group>
+      <mat-button-toggle-group
+        #group="matButtonToggleGroup"
+        [(ngModel)]="navigation"
+        (valueChange)="onNavigationChange($event, group)"
+      >
         <mat-button-toggle
           mwlCalendarPreviousView
           [view]="view"
           [(viewDate)]="viewDate"
           (viewDateChange)="closeOpenMonthViewDay()"
-          >Vorherige</mat-button-toggle
+          [value]="'previous'"
         >
-        <mat-button-toggle mwlCalendarToday [(viewDate)]="viewDate"
-          >Heue</mat-button-toggle
+          <mat-icon>navigate_before</mat-icon>
+          <span>Vorherige</span>
+        </mat-button-toggle>
+        <mat-button-toggle
+          mwlCalendarToday
+          [(viewDate)]="viewDate"
+          [value]="'today'"
         >
+          <span>Heute</span>
+        </mat-button-toggle>
         <mat-button-toggle
           mwlCalendarNextView
           [view]="view"
           [(viewDate)]="viewDate"
           (viewDateChange)="closeOpenMonthViewDay()"
-          >Nächste</mat-button-toggle
+          [value]="'next'"
         >
+          <span>Nächste</span>
+          <mat-icon>navigate_next</mat-icon>
+        </mat-button-toggle>
       </mat-button-toggle-group>
 
       <!-- Title -->
@@ -49,6 +63,7 @@
         (dayClicked)="dayClicked($event.day)"
         (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
+        (beforeViewRender)="beforeViewRender($event)"
       >
       </mwl-calendar-month-view>
       <mwl-calendar-week-view
@@ -60,6 +75,7 @@
         [locale]="locale"
         (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
+        (beforeViewRender)="beforeViewRender($event)"
       >
       </mwl-calendar-week-view>
       <mwl-calendar-day-view
@@ -70,6 +86,7 @@
         [locale]="locale"
         (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
+        (beforeViewRender)="beforeViewRender($event)"
       >
       </mwl-calendar-day-view>
     </div>
