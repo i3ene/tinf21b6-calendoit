@@ -3,20 +3,31 @@
     <xsl:template match="/">
         <html>
             <body>
-                <h1 class="app-card">Upcomming Events</h1>                                  
+                <h1 class="app-card">Upcomming Events</h1>    
+                <xsl:variable name="yearNow" as="xs:numeric" select="substring(@dateTime,1,4)"/>
+                <xsl:variable name="monthNow" as="xs:numeric" select="substring(@dateTime,6,2)"/>
+                <xsl:variable name="dayNow" as="xs:numeric" select="substring(@dateTime,9,2)"/>
                     <xsl:for-each select="root/events/*">   
-                       <!-- <xsl:if test="today==startdate"> -->
+                        <xsl:variable name="yearEvent" as="xs:numeric" select="substring(./start,1,4)"/>
+                        <xsl:variable name="monthEvent" as="xs:numeric" select="substring(./start,6,2)"/>
+                        <xsl:variable name="dayEvent" as="xs:numeric" select="substring(./start,9,2)"/>
+                        <!-- Check if event is today -->
+                       <xsl:if test="$yearNow=$yearEvent and $monthNow=$monthEvent and $dayNow=$dayEvent " >
                             <div class="app-card">
                             <h2><xsl:value-of select="./title"/></h2>    
                             
-                            <p id="start">von: <xsl:call-template name="format-time">
+                            <p id="start">
+                                von:
+                                <xsl:call-template name="format-time">
                                     <xsl:with-param name="iso-date" select="./start"/>
                                 </xsl:call-template>
                                 
-                                 bis: <xsl:call-template name="format-time">
+                                bis:
+                                <xsl:call-template name="format-time">
                                     <xsl:with-param name="iso-date" select="./end"/>
-                                </xsl:call-template></p>    
-                            <p>{{title}}</p>                    
+                                </xsl:call-template>
+                            </p>    
+                                           
                             <p><xsl:value-of select="./description"/></p>     
                             <p>
                                 <xsl:call-template name="format-iso-date">
@@ -26,7 +37,7 @@
                             </div>
                              
                             
-                        <!-- </xsl:if>  -->
+                        </xsl:if> 
                     </xsl:for-each>    
                     
 
