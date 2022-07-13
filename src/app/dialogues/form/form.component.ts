@@ -6,16 +6,21 @@ import { Habit } from 'src/app/models/habit.model';
 import { UtilDate } from 'src/app/models/util.model';
 
 @Component({
-  selector: 'app-create-edit-event',
-  templateUrl: './create-edit-event.component.html',
-  styleUrls: ['./create-edit-event.component.scss'],
+  selector: 'app-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.scss'],
 })
-export class CreateEditEventComponent implements OnInit {
+export class FormComponent implements OnInit {
 
   /**
    * Event or Habit reference
    */
   @Input() event: Event | Habit;
+
+  /**
+   * Subject for refreshing external UI
+   */
+  @Input() refresh?: any;
 
   /**
    * If event is a habit
@@ -30,7 +35,7 @@ export class CreateEditEventComponent implements OnInit {
   /**
    * If event is repeating
    */
-  isRepeating: boolean;
+  isRepeating: boolean = false;
 
   /**
    * Current selected tab for repeating options
@@ -67,32 +72,26 @@ export class CreateEditEventComponent implements OnInit {
    */
   days: any[];
 
-  constructor(
-    public dialogRef: MatDialogRef<CreateEditEventComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    public data: { isHabit: boolean; isEditMode: boolean; event: Event | Habit; refresh?: any }
-  ) {
-    this.days = UtilDate.getDays();
+  /**
+   * If form is initialized
+   */
+  isInitialized = false;
 
-    if (data) {
-      this.event = this.data.event;
-      this.isHabit = this.data.isHabit;
-      this.isEditMode = data.isEditMode;
-    } else {
-      this.event = new Event({});
-      this.isHabit = false;
-      this.isEditMode = false;
-    }
-    
-    this.isRepeating = this.event.repeat != undefined;
-    this.initializeControls(this.event);
+  constructor() {
+    this.days = UtilDate.getDays();
+    this.event = new Event({});
+    this.isHabit = false;
+    this.isEditMode = false;
   }
 
   /**
    * Initialize UI to show correct data
    * @param event Event to show data of
    */
-  initializeControls(event: Event): void {
+  initializeControls(event?: Event): void {
+    if (!event) event = this.event;
+    this.isRepeating = event.repeat != undefined;
+
     this.setValue('title', event.title);
     this.setValue('description', event.description);
 
@@ -121,19 +120,12 @@ export class CreateEditEventComponent implements OnInit {
       this.setValue('idealTime', (event as Habit).idealTime);
       this.setValue('duration', (event as Habit).duration);
     }
+
+    this.initializeListeners();
+    this.isInitialized = true;
   }
 
-  /**
-   * Set a safe value for a control
-   * @param control The control to set value for
-   * @param value The value to set
-   */
-  setValue(control: string, value: any): void {
-    if (value == undefined) return;
-    this.form.controls[control].setValue(value);
-  }
-
-  ngOnInit(): void {
+  initializeListeners(): void {
     this.form.controls['title'].valueChanges.subscribe((value) => {
       this.titleChanged(value);
     });
@@ -173,6 +165,19 @@ export class CreateEditEventComponent implements OnInit {
     this.form.controls['deadline'].valueChanges.subscribe((value) => {
       this.deadlineChanged(value);
     });
+  }
+
+  /**
+   * Set a safe value for a control
+   * @param control The control to set value for
+   * @param value The value to set
+   */
+  setValue(control: string, value: any): void {
+    if (value == undefined) return;
+    this.form.controls[control].setValue(value);
+  }
+
+  ngOnInit(): void {
   }
 
   /**
@@ -220,6 +225,10 @@ export class CreateEditEventComponent implements OnInit {
     return new Date(this.event.end);
   }
 
+  maxDuration(): number {
+    return UtilDate.diffTime((this.event as Habit).idealTime, this.event.end) / UtilDate.TIME.ONE_MINUTE;
+  }
+
   /**
    * Change the selected repeating tab
    * @param index Tab index
@@ -235,6 +244,7 @@ export class CreateEditEventComponent implements OnInit {
    */
   tabChange(event: any): void {
     this.selectedTab = event.index;
+
     this.repeatingChanged(this.selectedTab > 0);
 
     switch (this.selectedTab) {
@@ -317,7 +327,6 @@ export class CreateEditEventComponent implements OnInit {
   }
 
   idealTimeChanged(value: Date): void {
-    console.log(value);
     if (value == null) return;
     (this.event as Habit).idealTime.setHours(value.getHours());
     (this.event as Habit).idealTime.setMinutes(value.getMinutes());
@@ -332,7 +341,7 @@ export class CreateEditEventComponent implements OnInit {
   }
 
   durationChanged(value: number): void {
-
+    (this.event as Habit).duration = value;
   }
 
   daysChanged(value: UtilDate.DAY[]): void {

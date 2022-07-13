@@ -34,9 +34,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { EventTitleFormatter } from 'src/app/providers/event-title-formatter.provider';
 import { CalendarUtils } from 'src/app/providers/calendar-utils.provider';
 import { DateFormatter } from 'src/app/providers/date-formatter.provider';
-import { CreateEditEventComponent } from 'src/app/dialogues/create-edit-event/create-edit-event.component';
+import { FormComponent } from 'src/app/dialogues/form/form.component';
 import { Habit } from 'src/app/models/habit.model';
 import { UtilDate } from 'src/app/models/util.model';
+import { FormDialogComponent } from 'src/app/dialogues/form-dialog/form-dialog.component';
 
 @Component({
   selector: 'app-calendar',
@@ -176,7 +177,7 @@ export class CalendarComponent implements OnInit {
   openAdd(): void {
     let event: Event = new Event({});
 
-    const ref = this.dialog.open(CreateEditEventComponent, {
+    const ref = this.dialog.open(FormDialogComponent, {
       data: {
         event: event,
         isEditMode: false,
@@ -199,7 +200,7 @@ export class CalendarComponent implements OnInit {
 
     let copy: Event | Habit = isHabit ? new Habit(event.reference) : new Event(event.reference);
 
-    const ref = this.dialog.open(CreateEditEventComponent, {
+    const ref = this.dialog.open(FormDialogComponent, {
       data: {
         event: event.reference,
         refresh: this.refresh,

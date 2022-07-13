@@ -9,6 +9,9 @@ import { Habit } from 'src/app/models/habit.model';
   styleUrls: ['./planner.component.scss'],
 })
 export class PlannerComponent implements OnInit {
+
+  habit: Habit = new Habit({});
+
   constructor() {}
 
   ngOnInit(): void {}
