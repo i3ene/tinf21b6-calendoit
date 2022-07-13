@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { HabitHelpComponent } from 'src/app/dialogues/habit-help/habit-help.component';
-import { Habit, HabitEvent } from 'src/app/models/habit.model';
+import { Habit } from 'src/app/models/habit.model';
 
 @Component({
   selector: 'app-create-habit',

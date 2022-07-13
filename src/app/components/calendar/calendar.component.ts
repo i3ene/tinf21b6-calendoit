@@ -38,6 +38,7 @@ import { CalendarUtils } from 'src/app/providers/calendar-utils.provider';
 import { DateFormatter } from 'src/app/providers/date-formatter.provider';
 import { CreateEditEventComponent } from 'src/app/dialogues/create-edit-event/create-edit-event.component';
 import { Habit } from 'src/app/models/habit.model';
+import { UtilDate } from 'src/app/models/util.model';
 
 @Component({
   selector: 'app-calendar',
@@ -73,24 +74,27 @@ export class CalendarComponent implements OnInit {
 
   refresh = new Subject<void>();
 
-  get data(): Data {
-    return AppComponent.data;
-  }
+  events: Event[] = [];
+
+  navigation: string = 'today';
+
+  viewRange!: { start: Date; end: Date };
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
+    public changeDetectorRef: ChangeDetectorRef,
     private dialog: MatDialog,
     @Inject(LOCALE_ID) public locale: string
-  ) {}
+  ) {
+    this.refresh.subscribe(() => this.refreshEvents());
+  }
 
   ngOnInit(): void {
-    this.data.recalculate();
+    AppComponent.data.recalculate();
+    this.refresh.next();
   }
 
   setView(view: CalendarView) {
     this.view = view;
-    // TODO: Adjust changeDetection for Chrome
-    //this.changeDetectorRef.detectChanges();
   }
 
   closeOpenMonthViewDay() {
@@ -116,7 +120,7 @@ export class CalendarComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
-    this.data._events = this.data._events.map((iEvent) => {
+    AppComponent.data._events = AppComponent.data._events.map((iEvent) => {
       if (iEvent === event) {
         return new Event({
           ...event,
@@ -148,7 +152,7 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to add
    */
   addEvent(event: Event): void {
-    this.data.addEvent(event);
+    AppComponent.data.addEvent(event);
     this.refresh.next();
   }
 
@@ -157,7 +161,7 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to delete
    */
   deleteEvent(event: Event) {
-    this.data.deleEvent(event.reference ? event.reference : event);
+    AppComponent.data.deleEvent(event.reference ? event.reference : event);
     // TODO: Check if an event remains and keep open
     this.activeDayIsOpen = false;
   }
@@ -171,7 +175,7 @@ export class CalendarComponent implements OnInit {
     const ref = this.dialog.open(CreateEditEventComponent, {
       data: {
         event: event,
-        isEditMode: false
+        isEditMode: false,
       },
       disableClose: true,
     });
@@ -188,7 +192,7 @@ export class CalendarComponent implements OnInit {
    */
   openEdit(event: Event | Habit): void {
     if ((event.reference as Habit).idealTime != undefined) {
-      console.log("This is an Habit");
+      console.log('This is an Habit');
       return;
     }
 
@@ -198,7 +202,7 @@ export class CalendarComponent implements OnInit {
       data: {
         event: event.reference,
         refresh: this.refresh,
-        isEditMode: true
+        isEditMode: true,
       },
       disableClose: true,
     });
@@ -206,7 +210,7 @@ export class CalendarComponent implements OnInit {
     ref.afterClosed().subscribe((result) => {
       switch (result) {
         case 'Save':
-          this.data.recalculate();
+          AppComponent.data.recalculate();
           break;
         case 'Delete':
           this.deleteEvent(event);
@@ -217,5 +221,20 @@ export class CalendarComponent implements OnInit {
       }
       this.refresh.next();
     });
+  }
+
+  /**
+   * Get current event list of data
+   */
+  refreshEvents(): void {
+    this.events = AppComponent.data.getEvents();
+  }
+
+  beforeViewRender(event: any): void {
+    this.viewRange = { start: event.period.start, end: event.period.end };
+  }
+
+  onNavigationChange(event: any, element: any): void {
+    if (event != undefined) element.value = undefined;
   }
 }
