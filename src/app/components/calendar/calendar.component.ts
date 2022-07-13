@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   Inject,
   LOCALE_ID,
@@ -30,7 +29,6 @@ import {
 } from 'date-fns';
 import { Subject } from 'rxjs';
 import { Event } from 'src/app/models/event.model';
-import { Data } from 'src/app/models/data.model';
 import { AppComponent } from 'src/app/app.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EventTitleFormatter } from 'src/app/providers/event-title-formatter.provider';
@@ -78,14 +76,22 @@ export class CalendarComponent implements OnInit {
 
   navigation: string = 'today';
 
-  viewRange!: { start: Date; end: Date };
-
   constructor(
-    public changeDetectorRef: ChangeDetectorRef,
     private dialog: MatDialog,
     @Inject(LOCALE_ID) public locale: string
   ) {
+    // Update event list
     this.refresh.subscribe(() => this.refreshEvents());
+    // Update selected day
+    this.refresh.subscribe(() => {
+      for(const event of this.events) {
+        if (isSameDay(event.start, this.viewDate) || UtilDate.isBetweenTimespan(this.viewDate, event.start, event.end)) {
+          this.activeDayIsOpen = true;
+          return;
+        }
+      }
+      this.activeDayIsOpen = false;
+    });
   }
 
   ngOnInit(): void {
@@ -162,8 +168,6 @@ export class CalendarComponent implements OnInit {
    */
   deleteEvent(event: Event) {
     AppComponent.data.deleEvent(event.reference ? event.reference : event);
-    // TODO: Check if an event remains and keep open
-    this.activeDayIsOpen = false;
   }
 
   /**
@@ -228,10 +232,6 @@ export class CalendarComponent implements OnInit {
    */
   refreshEvents(): void {
     this.events = AppComponent.data.getEvents();
-  }
-
-  beforeViewRender(event: any): void {
-    this.viewRange = { start: event.period.start, end: event.period.end };
   }
 
   onNavigationChange(event: any, element: any): void {

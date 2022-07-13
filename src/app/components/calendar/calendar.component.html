@@ -63,7 +63,6 @@
         (dayClicked)="dayClicked($event.day)"
         (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
-        (beforeViewRender)="beforeViewRender($event)"
       >
       </mwl-calendar-month-view>
       <mwl-calendar-week-view
@@ -75,7 +74,6 @@
         [locale]="locale"
         (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
-        (beforeViewRender)="beforeViewRender($event)"
       >
       </mwl-calendar-week-view>
       <mwl-calendar-day-view
@@ -86,7 +84,6 @@
         [locale]="locale"
         (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
-        (beforeViewRender)="beforeViewRender($event)"
       >
       </mwl-calendar-day-view>
     </div>
