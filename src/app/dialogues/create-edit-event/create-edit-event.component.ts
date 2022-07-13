@@ -1,7 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Event } from 'src/app/models/event.model';
+import { Habit } from 'src/app/models/habit.model';
 import { UtilDate } from 'src/app/models/util.model';
 
 @Component({
@@ -12,9 +13,19 @@ import { UtilDate } from 'src/app/models/util.model';
 export class CreateEditEventComponent implements OnInit {
 
   /**
+   * Event or Habit reference
+   */
+  @Input() event: Event | Habit;
+
+  /**
+   * If event is a habit
+   */
+  @Input() isHabit: boolean;
+
+  /**
    * If editing an event or creating a new one
    */
-  isEditMode: boolean;
+  @Input() isEditMode: boolean;
 
   /**
    * If event is repeating
@@ -42,6 +53,9 @@ export class CreateEditEventComponent implements OnInit {
     startTime: new FormControl(),
     endTime: new FormControl(),
 
+    idealTime: new FormControl(),
+    duration: new FormControl(),
+
     days: new FormControl(),
 
     count: new FormControl(),
@@ -56,12 +70,22 @@ export class CreateEditEventComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<CreateEditEventComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { isEditMode: boolean; event: Event; refresh?: any }
+    public data: { isHabit: boolean; isEditMode: boolean; event: Event | Habit; refresh?: any }
   ) {
     this.days = UtilDate.getDays();
-    this.isEditMode = data.isEditMode;
-    this.isRepeating = data.event.repeat != undefined;
-    this.initializeControls(this.data.event);
+
+    if (data) {
+      this.event = this.data.event;
+      this.isHabit = this.data.isHabit;
+      this.isEditMode = data.isEditMode;
+    } else {
+      this.event = new Event({});
+      this.isHabit = false;
+      this.isEditMode = false;
+    }
+    
+    this.isRepeating = this.event.repeat != undefined;
+    this.initializeControls(this.event);
   }
 
   /**
@@ -85,12 +109,17 @@ export class CreateEditEventComponent implements OnInit {
       this.setValue('days', event.repeat?.days);
 
       if (typeof event.repeat?.repeating === 'number') {
-        this.selectedTab = 1;
+        this.changeSelectedTab(1);
         this.setValue('count', event.repeat?.repeating);
       } else {
-        this.selectedTab = 2;
+        this.changeSelectedTab(2);
         this.setValue('deadline', event.repeat?.repeating);
       }
+    }
+
+    if (this.isHabit) {
+      this.setValue('idealTime', (event as Habit).idealTime);
+      this.setValue('duration', (event as Habit).duration);
     }
   }
 
@@ -129,6 +158,12 @@ export class CreateEditEventComponent implements OnInit {
     this.form.controls['endTime'].valueChanges.subscribe((value) => {
       this.endTimeChanged(value);
     });
+    this.form.controls['idealTime'].valueChanges.subscribe((value) => {
+      this.idealTimeChanged(value);
+    });
+    this.form.controls['duration'].valueChanges.subscribe((value) => {
+      this.durationChanged(value);
+    });
     this.form.controls['days'].valueChanges.subscribe((value) => {
       this.daysChanged(value);
     });
@@ -145,10 +180,10 @@ export class CreateEditEventComponent implements OnInit {
    * @returns `true` if everything is correctly filled out
    */
   isFormValid(): boolean {
-    if (!this.data.event.title) return false;
-    if (!this.data.event.start) return false;
-    if (!this.data.event.end) return false;
-    if (!this.data.event.color.primary) return false;
+    if (!this.event.title) return false;
+    if (!this.event.start) return false;
+    if (!this.event.end) return false;
+    if (!this.event.color.primary) return false;
     if (!this.form.controls['endDate'].value) return false;
     return true;
   }
@@ -159,14 +194,14 @@ export class CreateEditEventComponent implements OnInit {
    * @returns `true` if is same day
    */
   isCurrentDay(dayWeekNumber: number): boolean {
-    return this.data.event.start.getDay() == dayWeekNumber;
+    return this.event.start.getDay() == dayWeekNumber;
   }
 
   /**
    * Refresh selection UI for days
    */
   refreshDays(): void {
-    this.setValue('days', [this.data.event.start.getDay()]);
+    this.setValue('days', [this.event.start.getDay()]);
   }
 
   /**
@@ -174,7 +209,24 @@ export class CreateEditEventComponent implements OnInit {
    * @returns Date of the event start
    */
   minTime(): Date {
-    return new Date(this.data.event.start);
+    return new Date(this.event.start);
+  }
+
+  /**
+   * The maximal possible time to select
+   * @returns Date of the event end
+   */
+  maxTime(): Date {
+    return new Date(this.event.end);
+  }
+
+  /**
+   * Change the selected repeating tab
+   * @param index Tab index
+   */
+  changeSelectedTab(index: number) {
+    if (this.isHabit) index--;
+    this.selectedTab = index;
   }
 
   /**
@@ -183,14 +235,14 @@ export class CreateEditEventComponent implements OnInit {
    */
   tabChange(event: any): void {
     this.selectedTab = event.index;
-    this.repeatingChanged(event.index > 0);
+    this.repeatingChanged(this.selectedTab > 0);
 
-    switch (event.index) {
+    switch (this.selectedTab) {
       case 1:
         this.setValue('count', 1);
         break;
       case 2:
-        this.setValue('deadline', this.data.event.end);
+        this.setValue('deadline', this.event.end);
         break;
     }
   }
@@ -198,95 +250,118 @@ export class CreateEditEventComponent implements OnInit {
   //** Handler **//
 
   titleChanged(value: string): void {
-    this.data.event.title = value;
+    this.event.title = value;
   }
 
   descriptionChanged(value: string): void {
-    this.data.event.description = value;
+    this.event.description = value;
   }
 
   colorPrimaryChanged(value: string): void {
-    if (this.data.event.color != undefined)
-      this.data.event.color.primary = value;
-    else this.data.event.color = { primary: value, secondary: '#ffffff' };
+    if (this.event.color != undefined)
+      this.event.color.primary = value;
+    else this.event.color = { primary: value, secondary: '#ffffff' };
   }
 
   colorSecondaryChanged(value: string): void {
-    if (this.data.event.color != undefined)
-      this.data.event.color.secondary = value;
-    else this.data.event.color = { primary: '#ffffff', secondary: value };
+    if (this.event.color != undefined)
+      this.event.color.secondary = value;
+    else this.event.color = { primary: '#ffffff', secondary: value };
   }
 
   startDateChanged(value: Date): void {
     if (value == null) return;
-    this.data.event.start.setFullYear(value.getFullYear());
-    this.data.event.start.setMonth(value.getMonth());
-    this.data.event.start.setDate(value.getDate());
-    this.setValue('startTime', this.data.event.start);
+    this.event.start.setFullYear(value.getFullYear());
+    this.event.start.setMonth(value.getMonth());
+    this.event.start.setDate(value.getDate());
+    this.setValue('startTime', this.event.start);
     this.refreshDays();
 
     if (
       this.isRepeating &&
-      this.selectedTab == 2 &&
-      (this.data.event.repeat?.repeating as Date) < this.data.event.start
+      this.selectedTab == (this.isHabit ? 1 : 2) &&
+      (this.event.repeat?.repeating as Date) < this.event.start
     )
-      this.setValue('deadline', this.data.event.start);
+      this.setValue('deadline', this.event.start);
   }
 
   endDateChanged(value: Date): void {
     if (value == null) return;
-    this.data.event.end.setFullYear(value.getFullYear());
-    this.data.event.end.setMonth(value.getMonth());
-    this.data.event.end.setDate(value.getDate());
-    this.setValue('endTime', this.data.event.end);
+    this.event.end.setFullYear(value.getFullYear());
+    this.event.end.setMonth(value.getMonth());
+    this.event.end.setDate(value.getDate());
+    this.setValue('endTime', this.event.end);
   }
 
   startTimeChanged(value: Date): void {
     if (value == null) return;
-    this.data.event.start.setHours(value.getHours());
-    this.data.event.start.setMinutes(value.getMinutes());
-    this.data.event.start.setSeconds(value.getSeconds());
+    this.event.start.setHours(value.getHours());
+    this.event.start.setMinutes(value.getMinutes());
+    this.event.start.setSeconds(value.getSeconds());
+
+    if (this.isHabit && this.event.start > (this.event as Habit).idealTime) this.setValue('idealTime', new Date(this.event.start));
   }
 
   endTimeChanged(value: Date): void {
     if (value == null) return;
-    this.data.event.end.setHours(value.getHours());
-    this.data.event.end.setMinutes(value.getMinutes());
-    this.data.event.end.setSeconds(value.getSeconds());
+    this.event.end.setHours(value.getHours());
+    this.event.end.setMinutes(value.getMinutes());
+    this.event.end.setSeconds(value.getSeconds());
 
-    if (this.data.event.end < this.data.event.start) {
-      this.data.event.end = new Date(this.data.event.start);
-      this.setValue('endDate', this.data.event.end);
+    if (this.event.end < this.event.start) {
+      this.event.end = new Date(this.event.start);
+      this.setValue('endDate', this.event.end);
+    }
+
+    if (this.isHabit && this.event.end < (this.event as Habit).idealTime) this.setValue('idealTime', new Date(this.event.end));
+  }
+
+  idealTimeChanged(value: Date): void {
+    console.log(value);
+    if (value == null) return;
+    (this.event as Habit).idealTime.setHours(value.getHours());
+    (this.event as Habit).idealTime.setMinutes(value.getMinutes());
+    (this.event as Habit).idealTime.setSeconds(value.getSeconds());
+
+    if (this.event.start > (this.event as Habit).idealTime) {
+      (this.event as Habit).idealTime = new Date(this.event.start);
+    }
+    if (this.event.end < (this.event as Habit).idealTime) {
+      (this.event as Habit).idealTime = new Date(this.event.end);
     }
   }
 
+  durationChanged(value: number): void {
+
+  }
+
   daysChanged(value: UtilDate.DAY[]): void {
-    if (this.data.event.repeat == undefined) return;
-    this.data.event.repeat!.days = value;
+    if (this.event.repeat == undefined) return;
+    this.event.repeat!.days = value;
   }
 
   countChanged(value: number): void {
-    this.data.event.repeat!.repeating = value;
+    this.event.repeat!.repeating = value;
   }
 
   deadlineChanged(value: Date): void {
-    this.data.event.repeat!.repeating = value;
+    this.event.repeat!.repeating = value;
   }
 
   repeatingChanged(value: boolean): void {
     this.isRepeating = value;
 
     if (this.isRepeating) {
-      if (this.data.event.repeat == undefined) {
-        this.data.event.repeat = {
-          days: [this.data.event.start.getDay()],
+      if (this.event.repeat == undefined) {
+        this.event.repeat = {
+          days: [this.event.start.getDay()],
           repeating: 1,
         };
       }
-      this.setValue('endDate', this.data.event.start);
+      this.setValue('endDate', this.event.start);
       this.refreshDays();
     } else {
-      this.data.event.repeat = undefined;
+      this.event.repeat = undefined;
     }
   }
 }

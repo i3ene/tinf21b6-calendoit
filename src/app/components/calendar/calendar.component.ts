@@ -195,18 +195,16 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to edit
    */
   openEdit(event: Event | Habit): void {
-    if ((event.reference as Habit).idealTime != undefined) {
-      console.log('This is an Habit');
-      return;
-    }
+    const isHabit = (event.reference as Habit).idealTime != undefined
 
-    let copy: Event = new Event(event.reference);
+    let copy: Event | Habit = isHabit ? new Habit(event.reference) : new Event(event.reference);
 
     const ref = this.dialog.open(CreateEditEventComponent, {
       data: {
         event: event.reference,
         refresh: this.refresh,
         isEditMode: true,
+        isHabit: isHabit
       },
       disableClose: true,
     });

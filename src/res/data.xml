@@ -60,6 +60,12 @@
             <idealTime type="date">2022-07-07T00:00:00.000Z</idealTime>
             <duration type="number">30</duration>
             <alternateEvents type="array" />
+            <repeat type="object">
+                <days type="array">
+                    <value1 type="number">3</value1>
+                </days>
+                <repeating type="number">2</repeating>
+            </repeat>
         </value0>
         <value1 type="object">
             <start type="date">2022-07-07T00:08:04.377Z</start>
@@ -74,6 +80,12 @@
             <idealTime type="date">2022-07-07T11:31:00.000Z</idealTime>
             <duration type="number">45</duration>
             <alternateEvents type="array" />
+            <repeat type="object">
+                <days type="array">
+                    <value1 type="number">4</value1>
+                </days>
+                <repeating type="number">1</repeating>
+            </repeat>
         </value1>
     </habits>
 </root>
