@@ -61,9 +61,10 @@
             <alternateEvents type="array" />
             <repeat type="object">
                 <days type="array">
-                    <value1 type="number">3</value1>
+                    <value0 type="number">3</value0>
+                    <value1 type="number">1</value1>
                 </days>
-                <repeating type="number">2</repeating>
+                <repeating type="number">10</repeating>
             </repeat>
         </value0>
         <value1 type="object">
