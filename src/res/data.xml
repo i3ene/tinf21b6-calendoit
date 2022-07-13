@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root type="object">
+
+<root type="object" dateTime="2022-07-13" day="2"> 
     <events type="array">
         <value0 type="object">
             <start type="date">2022-07-10T07:58:01.533Z</start>
