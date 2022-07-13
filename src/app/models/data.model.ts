@@ -114,7 +114,10 @@ export class Data {
    */
   calculateAlternateEvent(habitEvent: Event, events: Event[]): HabitEvent {
     const alternate = new HabitEvent(habitEvent);
-    const habit = habitEvent.reference as Habit;
+    const habit = new Habit(habitEvent.reference);
+    const idealTime = UtilDate.setDayTime(alternate.start, habit.idealTime);
+    habit.start = UtilDate.setDayTime(alternate.start, habit.start);
+    habit.end = UtilDate.setDayTime(alternate.end, habit.end);
     const filteredEvents = events.filter((x) =>
       UtilDate.isOverlapping(habit.start, habit.end, x.start, x.end)
     );
@@ -171,10 +174,8 @@ export class Data {
     } = { difference: Number.MAX_VALUE, isStart: false, slot: undefined };
     for (const slot of timeSlots) {
       // Calculate differences from start ad beginning of timespan
-      let diffStart = Math.abs(
-        habit.idealTime.getTime() - slot.start.getTime()
-      );
-      let diffEnd = Math.abs(habit.idealTime.getTime() - slot.end.getTime());
+      let diffStart = Math.abs(idealTime.getTime() - slot.start.getTime());
+      let diffEnd = Math.abs(idealTime.getTime() - slot.end.getTime());
 
       // Select nearest difference
       let isStartNearest;
@@ -199,7 +200,7 @@ export class Data {
     // Calculate best start for alternate event
     if (nearestSlot.slot == undefined) {
       alternate.problem = true;
-      alternate.start = habit.idealTime;
+      alternate.start = idealTime;
     } else if (nearestSlot.isStart) {
       alternate.start = nearestSlot.slot!.start;
     } else {
