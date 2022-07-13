@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Event } from 'src/app/models/event.model';
+import { UtilDate } from 'src/app/models/util.model';
 
 @Component({
   selector: 'app-create-edit-event',
@@ -50,21 +51,14 @@ export class CreateEditEventComponent implements OnInit {
   /**
    * Array for selecting repeating days
    */
-  days: any = [
-    { name: 'Sonntag', value: 0 },
-    { name: 'Montag', value: 1 },
-    { name: 'Dienstag', value: 2 },
-    { name: 'Mittwoch', value: 3 },
-    { name: 'Donnerstag', value: 4 },
-    { name: 'Freitag', value: 5 },
-    { name: 'Samstag', value: 6 },
-  ];
+  days: any[];
 
   constructor(
     public dialogRef: MatDialogRef<CreateEditEventComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { isEditMode: boolean; event: Event; refresh?: any }
   ) {
+    this.days = UtilDate.getDays();
     this.isEditMode = data.isEditMode;
     this.isRepeating = data.event.repeat != undefined;
     this.initializeControls(this.data.event);
@@ -266,7 +260,7 @@ export class CreateEditEventComponent implements OnInit {
     }
   }
 
-  daysChanged(value: Event.DAY[]): void {
+  daysChanged(value: UtilDate.DAY[]): void {
     if (this.data.event.repeat == undefined) return;
     this.data.event.repeat!.days = value;
   }

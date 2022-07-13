@@ -106,8 +106,8 @@
             <mat-select formControlName="days" multiple (ngModelChange)="this.data.refresh?.next()">
               <mat-option
                 *ngFor="let day of days"
-                [value]="day.value"
-                [disabled]="isCurrentDay(day.value)"
+                [value]="day.index"
+                [disabled]="isCurrentDay(day.index)"
               >
                 {{ day.name }}
               </mat-option>

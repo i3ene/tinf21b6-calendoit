@@ -1,5 +1,6 @@
 import { Event } from './event.model';
 import { Habit, HabitEvent } from './habit.model';
+import { UtilDate } from './util.model';
 
 export class Data {
   _events: Event[];
@@ -76,7 +77,7 @@ export class Data {
       habit.alternateEvents = [];
       for (const mHabit of habit.getHabits()) {
         for (const event of events) {
-          if (Event.isOverlapping(mHabit.start, mHabit.end, event.start, event.end)) {
+          if (UtilDate.isOverlapping(mHabit.start, mHabit.end, event.start, event.end)) {
             habit.alternateEvents.push(this.calculateAlternateEvent(mHabit, events));
           }
         }
@@ -87,16 +88,16 @@ export class Data {
   calculateAlternateEvent(habitEvent: Event, events: Event[]): HabitEvent {
     const alternate = new HabitEvent(habitEvent);
     const habit = habitEvent.reference as Habit;
-    const filteredEvents = events.filter(x => Event.isOverlapping(habit.start, habit.end, x.start, x.end));
+    const filteredEvents = events.filter(x => UtilDate.isOverlapping(habit.start, habit.end, x.start, x.end));
     const timeSlots: { start: Date; end: Date; duration: number }[] = [];
 
     // Sort after start date
     filteredEvents.sort((a, b) => a.start.getTime() > b.start.getTime() ? 1 : -1);
     // Calculate available time between start of habit range and first event
     const firstEvent = filteredEvents[0];
-    if (!Event.isBetweenTwoDates(habit.start, firstEvent.start, firstEvent.end)) {
+    if (!UtilDate.isBetweenTimespan(habit.start, firstEvent.start, firstEvent.end)) {
       const firstSlot = this.calculateTimeSlot(firstEvent.start, habit.start);
-      if (firstSlot.duration > habit.duration * Event.TIME.ONE_MINUTE) timeSlots.push(firstSlot);
+      if (firstSlot.duration > habit.duration * UtilDate.TIME.ONE_MINUTE) timeSlots.push(firstSlot);
     }
 
     // Calculate available times between start and end of habit with each event in between
@@ -104,18 +105,18 @@ export class Data {
       const first = filteredEvents[i-1];
       const second = filteredEvents[i];
 
-      if (Event.isOverlapping(first.start, first.end, second.start, second.end)) break;
+      if (UtilDate.isOverlapping(first.start, first.end, second.start, second.end)) break;
       const newSlot = this.calculateTimeSlot(second.start, first.end);
-      if (newSlot.duration > habit.duration * Event.TIME.ONE_MINUTE) timeSlots.push(newSlot);
+      if (newSlot.duration > habit.duration * UtilDate.TIME.ONE_MINUTE) timeSlots.push(newSlot);
     }
 
     // Sort after end date
     filteredEvents.sort((a, b) => a.end.getTime() > b.end.getTime() ? 1 : -1);
     // Calculate available time between end of habit range and last event
     const lastEvent = filteredEvents[filteredEvents.length - 1];
-    if (!Event.isBetweenTwoDates(habit.end, lastEvent.start, lastEvent.end)) {
+    if (!UtilDate.isBetweenTimespan(habit.end, lastEvent.start, lastEvent.end)) {
       const lastSlot = this.calculateTimeSlot(lastEvent.end, habit.end);
-      if (lastSlot.duration > habit.duration * Event.TIME.ONE_MINUTE) timeSlots.push(lastSlot);
+      if (lastSlot.duration > habit.duration * UtilDate.TIME.ONE_MINUTE) timeSlots.push(lastSlot);
     }
 
     // Get nearest time slot to ideal time
@@ -124,7 +125,7 @@ export class Data {
       let diffStart = Math.abs(habit.idealTime.getTime() - slot.start.getTime());
       let diffEnd = Math.abs(habit.idealTime.getTime() - slot.end.getTime());
       let isStartNearest;
-      let shortestDiff; 
+      let shortestDiff;
       if (diffStart < diffEnd) {
         shortestDiff = diffStart;
         isStartNearest = true;
@@ -142,7 +143,7 @@ export class Data {
     } else if (nearestSlot.isStart) {
       alternate.start = nearestSlot.slot!.start;
     } else {
-      alternate.start = Event.addTime(nearestSlot.slot!.end, habit.duration * Event.TIME.ONE_MINUTE * -1);
+      alternate.start = UtilDate.addTime(nearestSlot.slot!.end, habit.duration * UtilDate.TIME.ONE_MINUTE * -1);
     }
 
     return alternate;
@@ -152,7 +153,7 @@ export class Data {
     const slot = {
       start: date1.getTime() > date2.getTime() ? date2 : date1,
       end: date1.getTime() < date2.getTime() ? date2 : date1,
-      duration: Event.diffTime(date1, date2)
+      duration: UtilDate.diffTime(date1, date2)
     }
     return slot;
   }
