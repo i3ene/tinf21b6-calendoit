@@ -1,9 +1,10 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Event } from 'src/app/models/event.model';
 import { Habit } from 'src/app/models/habit.model';
 import { UtilDate } from 'src/app/models/util.model';
+import { HabitHelpComponent } from '../habit-help/habit-help.component';
 
 @Component({
   selector: 'app-form',
@@ -77,7 +78,7 @@ export class FormComponent implements OnInit {
    */
   isInitialized = false;
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     this.days = UtilDate.getDays();
     this.event = new Event({});
     this.isHabit = false;
@@ -125,6 +126,9 @@ export class FormComponent implements OnInit {
     this.isInitialized = true;
   }
 
+  /**
+   * Initialize all form listeners
+   */
   initializeListeners(): void {
     this.form.controls['title'].valueChanges.subscribe((value) => {
       this.titleChanged(value);
@@ -225,6 +229,10 @@ export class FormComponent implements OnInit {
     return new Date(this.event.end);
   }
 
+  /**
+   * The maximal duration to select
+   * @returns Duration between ideal time and end date
+   */
   maxDuration(): number {
     return UtilDate.diffTime((this.event as Habit).idealTime, this.event.end) / UtilDate.TIME.ONE_MINUTE;
   }
@@ -255,6 +263,13 @@ export class FormComponent implements OnInit {
         this.setValue('deadline', this.event.end);
         break;
     }
+  }
+
+  /**
+   * Open help dialog for habit
+   */
+  openHelp(): void {
+    this.dialog.open(HabitHelpComponent);
   }
 
   //** Handler **//
