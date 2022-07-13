@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-    <xsl:template match="/">
+    <xsl:template match="root">
         <html>
             <body>
                 <h1 class="app-card">Upcomming Events</h1>    
-                <xsl:variable name="yearNow" as="xs:numeric" select="substring(@dateTime,1,4)"/>
-                <xsl:variable name="monthNow" as="xs:numeric" select="substring(@dateTime,6,2)"/>
-                <xsl:variable name="dayNow" as="xs:numeric" select="substring(@dateTime,9,2)"/>
-                    <xsl:for-each select="root/events/*">   
+                <xsl:variable name="yearNow" as="xs:numeric" select="substring(@datetime,1,4)"/>
+                <xsl:variable name="monthNow" as="xs:numeric" select="substring(@datetime,6,2)"/>
+                <xsl:variable name="dayNow" as="xs:numeric" select="substring(@datetime,9,2)"/>                    
+                    <xsl:for-each select="events/*">   
+                    
                         <xsl:variable name="yearEvent" as="xs:numeric" select="substring(./start,1,4)"/>
                         <xsl:variable name="monthEvent" as="xs:numeric" select="substring(./start,6,2)"/>
                         <xsl:variable name="dayEvent" as="xs:numeric" select="substring(./start,9,2)"/>
