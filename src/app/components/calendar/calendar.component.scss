@@ -12,6 +12,17 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-end;
+  position: sticky;
+  top: 4px;
+  z-index: 3;
+  padding-left: 4px;
+  padding-right: 4px;
+
+  & h2 {
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 0px !important;
+  }
 }
 
 .action-container {
@@ -27,5 +38,5 @@
 }
 
 .cal-habit-title {
-  text-decoration: underline dotted 4px;
+  text-decoration: underline dotted 3px;
 }

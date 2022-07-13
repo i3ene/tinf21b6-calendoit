@@ -85,7 +85,7 @@ export class Event implements CalendarEvent {
     this.color = {
       primary: obj.color && obj.color.primary ? obj.color.primary : '#009688',
       secondary:
-        obj.color && obj.color.secondary ? obj.color.secondary : '#ffffff',
+        obj.color && obj.color.secondary ? obj.color.secondary : '#ffffffc0',
     };
 
     if (obj.repeat) {
