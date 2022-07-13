@@ -60,6 +60,13 @@
             <idealTime type="date">2022-07-07T00:00:00.000Z</idealTime>
             <duration type="number">30</duration>
             <alternateEvents type="array" />
+            <repeat type="object">
+                <days type="array">
+                    <value0 type="number">3</value0>
+                    <value1 type="number">1</value1>
+                </days>
+                <repeating type="number">10</repeating>
+            </repeat>
         </value0>
         <value1 type="object">
             <start type="date">2022-07-07T00:08:04.377Z</start>

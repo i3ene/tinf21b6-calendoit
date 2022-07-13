@@ -84,13 +84,54 @@
         <p><xsl:value-of select="./description"/></p>
 
         <div class="day-list">
-          <span class="active-day">Mo</span>
-          <span>Di</span>
-          <span>Mi</span>
-          <span>Do</span>
-          <span class="active-day">Fr</span>
-          <span>Sa</span>
-          <span>So</span>
+          <span >
+            <xsl:if test="repeat/days/*=1">
+              <xsl:attribute name="class">active-day</xsl:attribute>
+            </xsl:if>
+            Mo
+          </span>
+
+          <span>
+            <xsl:if test="repeat/days/*=2">
+              <xsl:attribute name="class">active-day</xsl:attribute>
+            </xsl:if>
+            Di
+          </span>
+
+          <span>
+            <xsl:if test="repeat/days/*=3">
+              <xsl:attribute name="class">active-day</xsl:attribute>
+            </xsl:if>
+            Mi
+          </span>
+
+          <span>
+            <xsl:if test="repeat/days/*=4">
+              <xsl:attribute name="class">active-day</xsl:attribute>
+            </xsl:if>
+            Do
+          </span>
+
+          <span>
+            <xsl:if test="repeat/days/*=5">
+              <xsl:attribute name="class">active-day</xsl:attribute>
+            </xsl:if>
+            Fr
+          </span>
+
+          <span>
+            <xsl:if test="repeat/days/*=6">
+              <xsl:attribute name="class">active-day</xsl:attribute>
+            </xsl:if>
+            Sa
+          </span>
+
+          <span>
+            <xsl:if test="repeat/days/*=0">
+              <xsl:attribute name="class">active-day</xsl:attribute>
+            </xsl:if>
+            So
+          </span>
         </div>
       </div>
     </xsl:for-each>
