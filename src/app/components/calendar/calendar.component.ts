@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Inject,
   LOCALE_ID,
@@ -31,12 +32,12 @@ import { Subject } from 'rxjs';
 import { Event } from 'src/app/models/event.model';
 import { Data } from 'src/app/models/data.model';
 import { AppComponent } from 'src/app/app.component';
-import { CreateEventComponent } from 'src/app/dialogues/create-event/create-event.component';
 import { MatDialog } from '@angular/material/dialog';
-import { EditEventComponent } from 'src/app/dialogues/edit-event/edit-event.component';
 import { EventTitleFormatter } from 'src/app/providers/event-title-formatter.provider';
 import { CalendarUtils } from 'src/app/providers/calendar-utils.provider';
 import { DateFormatter } from 'src/app/providers/date-formatter.provider';
+import { CreateEditEventComponent } from 'src/app/dialogues/create-edit-event/create-edit-event.component';
+import { Habit } from 'src/app/models/habit.model';
 
 @Component({
   selector: 'app-calendar',
@@ -77,6 +78,7 @@ export class CalendarComponent implements OnInit {
   }
 
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private dialog: MatDialog,
     @Inject(LOCALE_ID) public locale: string
   ) {}
@@ -87,6 +89,8 @@ export class CalendarComponent implements OnInit {
 
   setView(view: CalendarView) {
     this.view = view;
+    // TODO: Adjust changeDetection for Chrome
+    //this.changeDetectorRef.detectChanges();
   }
 
   closeOpenMonthViewDay() {
@@ -164,8 +168,11 @@ export class CalendarComponent implements OnInit {
   openAdd(): void {
     let event: Event = new Event({});
 
-    const ref = this.dialog.open(CreateEventComponent, {
-      data: event,
+    const ref = this.dialog.open(CreateEditEventComponent, {
+      data: {
+        event: event,
+        isEditMode: false
+      },
       disableClose: true,
     });
 
@@ -179,13 +186,19 @@ export class CalendarComponent implements OnInit {
    * Open the dialog for editing an Event
    * @param event The Event to edit
    */
-  openEdit(event: Event): void {
+  openEdit(event: Event | Habit): void {
+    if ((event.reference as Habit).idealTime != undefined) {
+      console.log("This is an Habit");
+      return;
+    }
+
     let copy: Event = new Event(event.reference);
 
-    const ref = this.dialog.open(EditEventComponent, {
+    const ref = this.dialog.open(CreateEditEventComponent, {
       data: {
         event: event.reference,
-        refresh: this.refresh
+        refresh: this.refresh,
+        isEditMode: true
       },
       disableClose: true,
     });
@@ -194,15 +207,15 @@ export class CalendarComponent implements OnInit {
       switch (result) {
         case 'Save':
           this.data.recalculate();
-          return;
+          break;
         case 'Delete':
           this.deleteEvent(event);
-          return;
+          break;
         default:
           Object.assign(event.reference!, copy);
+          break;
       }
       this.refresh.next();
     });
   }
-
 }

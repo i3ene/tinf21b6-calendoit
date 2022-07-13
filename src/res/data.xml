@@ -3,10 +3,10 @@
 <root type="object" dateTime="2022-07-13" day="2"> 
     <events type="array">
         <value0 type="object">
-            <start type="date">2022-07-06T07:58:01.533Z</start>
-            <end type="date">2022-07-06T07:58:01.533Z</end>
-            <title>test1</title>
-            <description>1test1</description>
+            <start type="date">2022-07-10T07:58:01.533Z</start>
+            <end type="date">2022-07-10T07:58:01.533Z</end>
+            <title>Repeating Event</title>
+            <description>An Event with a set count of repeating Days</description>
             <color type="object">
                 <primary>#83d332</primary>
                 <secondary>#ffffff</secondary>
@@ -22,8 +22,8 @@
         <value1 type="object">
             <start type="date">2022-07-06T07:58:01.533Z</start>
             <end type="date">2022-07-06T07:58:01.533Z</end>
-            <title>test2</title>
-            <description>2test2</description>
+            <title>Single Event</title>
+            <description>An Event with only a single occurence</description>
             <color type="object">
                 <primary>#59b5e6</primary>
                 <secondary>#ffffff</secondary>
@@ -32,8 +32,8 @@
         <value2 type="object">
             <start type="date">2022-07-01T11:44:00.000Z</start>
             <end type="date">2022-07-01T12:44:00.000Z</end>
-            <title>Test2</title>
-            <description>Test</description>
+            <title>Event Deadline</title>
+            <description>An Event with a set Deadline</description>
             <color type="object">
                 <primary>#f46f35</primary>
                 <secondary>#ffffff</secondary>
@@ -50,8 +50,8 @@
         <value0 type="object">
             <start type="date">2022-07-06T09:18:04.377Z</start>
             <end type="date">2022-07-06T09:18:04.377Z</end>
-            <title>TestHabit1</title>
-            <description>beschreibung</description>
+            <title>Repeating Habit</title>
+            <description>A Habit with a set count of repeating Days</description>
             <color type="object">
                 <primary>#cb49da</primary>
                 <secondary>#ffffff</secondary>
@@ -64,8 +64,8 @@
         <value1 type="object">
             <start type="date">2022-07-07T00:08:04.377Z</start>
             <end type="date">2022-07-07T15:00:04.377Z</end>
-            <title>TestHabit2</title>
-            <description>beschreibung</description>
+            <title>Deadline Habit</title>
+            <description>A Habit with a set Deadline</description>
             <color type="object">
                 <primary>#e4dc36</primary>
                 <secondary>#ffffff</secondary>

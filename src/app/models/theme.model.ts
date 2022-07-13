@@ -7,7 +7,7 @@ export class Theme {
   /**
     * Default value for {@link Theme.Mode theme}
     */
-  public static defaultTheme: Theme.Mode = 'light-theme' as Theme.Mode;
+  public static defaultTheme: Theme.Mode = 'dark-theme' as Theme.Mode;
 
   /**
    * Parse a String into a Theme key

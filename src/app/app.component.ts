@@ -30,7 +30,7 @@ export class AppComponent {
   }
 
   constructor(public themeService: ThemeService) {
-    AppComponent.loadData('res/template.xsl', 'res/test.xml');
+    AppComponent.loadData('res/json.xsl', 'res/data.xml');
   }
 
   get theme() {

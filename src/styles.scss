@@ -118,6 +118,16 @@ body {
   border-radius: 8px !important;
 }
 
+.color-selector .mat-form-field-infix {
+  text-align: center;
+  padding: 10px !important;
+  border-top: 5px solid transparent;
+
+  & * {
+    width: 100%;
+  }
+}
+
 .none-selectable {
   user-select: none !important;
 }
