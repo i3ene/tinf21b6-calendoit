@@ -17,7 +17,7 @@ export namespace UtilObject {
   }
 
   /**
-   * Compares two Object based on their values.
+   * Compares two Objects based on their values.
    * @param obj1 Object1
    * @param obj2 Obect2
    * @returns `true` if every Value and Attribute are equal based on their content.

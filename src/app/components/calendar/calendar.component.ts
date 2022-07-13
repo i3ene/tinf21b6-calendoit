@@ -73,24 +73,23 @@ export class CalendarComponent implements OnInit {
 
   refresh = new Subject<void>();
 
-  get data(): Data {
-    return AppComponent.data;
-  }
+  events: Event[] = [];
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
+    public changeDetectorRef: ChangeDetectorRef,
     private dialog: MatDialog,
     @Inject(LOCALE_ID) public locale: string
-  ) {}
+  ) {
+    this.refresh.subscribe(() => this.refreshEvents());
+  }
 
   ngOnInit(): void {
-    this.data.recalculate();
+    AppComponent.data.recalculate();
+    this.refresh.next();
   }
 
   setView(view: CalendarView) {
     this.view = view;
-    // TODO: Adjust changeDetection for Chrome
-    //this.changeDetectorRef.detectChanges();
   }
 
   closeOpenMonthViewDay() {
@@ -116,7 +115,7 @@ export class CalendarComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
-    this.data._events = this.data._events.map((iEvent) => {
+    AppComponent.data._events = AppComponent.data._events.map((iEvent) => {
       if (iEvent === event) {
         return new Event({
           ...event,
@@ -148,7 +147,7 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to add
    */
   addEvent(event: Event): void {
-    this.data.addEvent(event);
+    AppComponent.data.addEvent(event);
     this.refresh.next();
   }
 
@@ -157,7 +156,7 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to delete
    */
   deleteEvent(event: Event) {
-    this.data.deleEvent(event.reference ? event.reference : event);
+    AppComponent.data.deleEvent(event.reference ? event.reference : event);
     // TODO: Check if an event remains and keep open
     this.activeDayIsOpen = false;
   }
@@ -206,7 +205,7 @@ export class CalendarComponent implements OnInit {
     ref.afterClosed().subscribe((result) => {
       switch (result) {
         case 'Save':
-          this.data.recalculate();
+          AppComponent.data.recalculate();
           break;
         case 'Delete':
           this.deleteEvent(event);
@@ -218,4 +217,12 @@ export class CalendarComponent implements OnInit {
       this.refresh.next();
     });
   }
+
+  /**
+   * Get current event list of data
+   */
+  refreshEvents(): void {
+    this.events = AppComponent.data.getEvents();
+  }
+
 }

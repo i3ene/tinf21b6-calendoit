@@ -1,6 +1,7 @@
 <div class="container">
   <div class="calendar">
     <div class="calendar-header">
+      <!-- Navigation -->
       <mat-button-toggle-group>
         <mat-button-toggle
           mwlCalendarPreviousView
@@ -21,8 +22,10 @@
         >
       </mat-button-toggle-group>
 
+      <!-- Title -->
       <h2>{{ viewDate | calendarDate: view + "ViewTitle":"de" }}</h2>
 
+      <!-- View-Navigation -->
       <mat-button-toggle-group [value]="view" (valueChange)="setView($event)">
         <mat-button-toggle [value]="CalendarView.Month"
           >Monat</mat-button-toggle
@@ -34,11 +37,12 @@
 
     <br />
 
-    <div [ngSwitch]="view" >
+    <!-- Calendar -->
+    <div [ngSwitch]="view">
       <mwl-calendar-month-view
         *ngSwitchCase="CalendarView.Month"
         [viewDate]="viewDate"
-        [events]="data.events"
+        [events]="events"
         [refresh]="refresh"
         [activeDayIsOpen]="activeDayIsOpen"
         [locale]="locale"
@@ -51,7 +55,7 @@
         *ngSwitchCase="CalendarView.Week"
         precision="minutes"
         [viewDate]="viewDate"
-        [events]="data.events"
+        [events]="events"
         [refresh]="refresh"
         [locale]="locale"
         (eventClicked)="handleEvent('Clicked', $event.event)"
@@ -61,7 +65,7 @@
       <mwl-calendar-day-view
         *ngSwitchCase="CalendarView.Day"
         [viewDate]="viewDate"
-        [events]="data.events"
+        [events]="events"
         [refresh]="refresh"
         [locale]="locale"
         (eventClicked)="handleEvent('Clicked', $event.event)"
@@ -71,10 +75,10 @@
     </div>
   </div>
 
+  <!-- Floating-Actions -->
   <div class="action-container">
     <button mat-fab (click)="openAdd()" color="primary" class="button-add">
       <mat-icon>add</mat-icon>
     </button>
   </div>
-
 </div>
