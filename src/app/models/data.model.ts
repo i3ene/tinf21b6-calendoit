@@ -1,14 +1,14 @@
 import { Event } from './event.model';
 import { Habit, HabitEvent } from './habit.model';
-import { UtilDate } from './util.model';
+import { UtilDate, UtilObject } from './util.model';
 
 export class Data {
   _events: Event[];
   _habits: Habit[];
 
   constructor(obj: any) {
-    this._events = Data.parseArray(Event, obj.events);
-    this._habits = Data.parseArray(Habit, obj.habits);
+    this._events = UtilObject.parseArray(Event, obj.events);
+    this._habits = UtilObject.parseArray(Habit, obj.habits);
   }
 
   get events(): Event[] {
@@ -44,7 +44,7 @@ export class Data {
     if (typeof element === 'number') event = this._events[element as number];
     else event = element as Event;
 
-    this._events = this._events.filter(item => !Data.equals(item, event));
+    this._events = this._events.filter(item => !UtilObject.equals(item, event));
     this.recalculate();
   }
 
@@ -57,7 +57,7 @@ export class Data {
     if (typeof element === 'number') habit = this._habits[element as number];
     else habit = element as Habit;
 
-    this._habits = this._habits.filter(item => !Data.equals(item, habit));
+    this._habits = this._habits.filter(item => !UtilObject.equals(item, habit));
     this.recalculate();
   }
 
@@ -85,6 +85,12 @@ export class Data {
     }
   }
 
+  /**
+   * Calculate a single alternate event
+   * @param habitEvent Single habit event to alternate
+   * @param events Event list to check against
+   * @returns Alternated habit event
+   */
   calculateAlternateEvent(habitEvent: Event, events: Event[]): HabitEvent {
     const alternate = new HabitEvent(habitEvent);
     const habit = habitEvent.reference as Habit;
@@ -96,7 +102,7 @@ export class Data {
     // Calculate available time between start of habit range and first event
     const firstEvent = filteredEvents[0];
     if (!UtilDate.isBetweenTimespan(habit.start, firstEvent.start, firstEvent.end)) {
-      const firstSlot = this.calculateTimeSlot(firstEvent.start, habit.start);
+      const firstSlot = UtilDate.calculateTimeSlot(firstEvent.start, habit.start);
       if (firstSlot.duration > habit.duration * UtilDate.TIME.ONE_MINUTE) timeSlots.push(firstSlot);
     }
 
@@ -106,7 +112,7 @@ export class Data {
       const second = filteredEvents[i];
 
       if (UtilDate.isOverlapping(first.start, first.end, second.start, second.end)) break;
-      const newSlot = this.calculateTimeSlot(second.start, first.end);
+      const newSlot = UtilDate.calculateTimeSlot(second.start, first.end);
       if (newSlot.duration > habit.duration * UtilDate.TIME.ONE_MINUTE) timeSlots.push(newSlot);
     }
 
@@ -115,15 +121,18 @@ export class Data {
     // Calculate available time between end of habit range and last event
     const lastEvent = filteredEvents[filteredEvents.length - 1];
     if (!UtilDate.isBetweenTimespan(habit.end, lastEvent.start, lastEvent.end)) {
-      const lastSlot = this.calculateTimeSlot(lastEvent.end, habit.end);
+      const lastSlot = UtilDate.calculateTimeSlot(lastEvent.end, habit.end);
       if (lastSlot.duration > habit.duration * UtilDate.TIME.ONE_MINUTE) timeSlots.push(lastSlot);
     }
 
     // Get nearest time slot to ideal time
     let nearestSlot: { difference: number, isStart: boolean, slot: { start: Date; end: Date; duration: number } | undefined } = { difference: Number.MAX_VALUE, isStart: false, slot: undefined };
     for(const slot of timeSlots) {
+      // Calculate differences from start ad beginning of timespan
       let diffStart = Math.abs(habit.idealTime.getTime() - slot.start.getTime());
       let diffEnd = Math.abs(habit.idealTime.getTime() - slot.end.getTime());
+
+      // Select nearest difference
       let isStartNearest;
       let shortestDiff;
       if (diffStart < diffEnd) {
@@ -134,6 +143,7 @@ export class Data {
         isStartNearest = false;
       }
 
+      // If difference is smaller, set new difference to current slot
       if (shortestDiff < nearestSlot.difference) nearestSlot = { difference: shortestDiff, isStart: isStartNearest, slot: slot };
     }
 
@@ -148,17 +158,6 @@ export class Data {
 
     return alternate;
   }
-
-  calculateTimeSlot(date1: Date, date2: Date): { start: Date; end: Date; duration: number } {
-    const slot = {
-      start: date1.getTime() > date2.getTime() ? date2 : date1,
-      end: date1.getTime() < date2.getTime() ? date2 : date1,
-      duration: UtilDate.diffTime(date1, date2)
-    }
-    return slot;
-  }
-
-
 
   /**
    * Get a single array of events and habits.
@@ -180,9 +179,11 @@ export class Data {
     return list;
   }
 
-
-
-  getSaveData(): any {
+  /**
+   * Creates an object without recursion. (Safe for looping etc.)
+   * @returns A santized and safe object
+   */
+  getSafeData(): any {
     const data = {
       events: this._events,
       habits: this._habits
@@ -197,40 +198,4 @@ export class Data {
     return data;
   }
 
-}
-
-export namespace Data {
-  /**
-   * Parse an Object Array into the specified Class Array
-   * @param clazz The Class to cast into
-   * @param arr The Array to cast
-   * @returns Casted Array
-   */
-  export function parseArray(
-    clazz: { new (...args: any): any },
-    arr: any[]
-  ): any[] {
-    const eventArr: typeof clazz[] = [];
-    if (Array.isArray(arr)) {
-      for (const entry of arr) eventArr.push(new clazz(entry));
-    }
-    return eventArr;
-  }
-
-  /**
-   * Compares two Object based on their values.
-   * @param obj1 Object1
-   * @param obj2 Obect2
-   * @returns `true` if every Value and Attribute are equal based on their content.
-   */
-  export function equals(obj1: any, obj2: any): boolean {
-    if (obj1 == undefined || obj2 == undefined) return obj1 == obj2;
-    for(const key of Object.keys(obj1)) {
-      if (typeof obj1[key] === 'object') {
-        if (!equals(obj1[key], obj2[key])) return false;
-      }
-      if (obj1[key] != obj2[key]) return false;
-    }
-    return true;
-  }
 }

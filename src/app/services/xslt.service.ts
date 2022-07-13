@@ -23,7 +23,7 @@ export class XsltService {
   async asyncTransform(xslPath: string, xmlPath?: string, timeStamps?: boolean): Promise<any> {
     this.xslStylesheet = await this.asyncGetFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
-    this.xmlDoc = xmlPath ? await this.asyncGetFile(xmlPath) : this.saveXML(AppComponent.data.getSaveData(), timeStamps);
+    this.xmlDoc = xmlPath ? await this.asyncGetFile(xmlPath) : this.saveXML(AppComponent.data.getSafeData(), timeStamps);
 
     return this.xsltProcessor.transformToFragment(this.xmlDoc, document);
   }
@@ -59,7 +59,7 @@ export class XsltService {
   transform(xslPath: string, xmlPath?: string, timeStamps?: boolean): any {
     this.xslStylesheet = this.getFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
-    this.xmlDoc = xmlPath ? this.getFile(xmlPath) : this.saveXML(AppComponent.data.getSaveData(), timeStamps);
+    this.xmlDoc = xmlPath ? this.getFile(xmlPath) : this.saveXML(AppComponent.data.getSafeData(), timeStamps);
 
     return this.xsltProcessor.transformToFragment(this.xmlDoc, document);
   }

@@ -16,7 +16,7 @@ export class ExchangeService {
    * Function to download data
    */
   public download(): void {
-    var text = new XMLSerializer().serializeToString(this.xsltService.saveXML(AppComponent.data.getSaveData(), true));
+    var text = new XMLSerializer().serializeToString(this.xsltService.saveXML(AppComponent.data.getSafeData(), true));
     var blob = new Blob([text], { type: 'text/xml' });
     saveAs(blob, 'data.xml')
   }

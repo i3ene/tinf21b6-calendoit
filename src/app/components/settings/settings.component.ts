@@ -14,7 +14,7 @@ export class SettingsComponent implements OnInit {
   constructor(public exchangeService: ExchangeService) {}
 
   ngOnInit(): void {
-    this.obj = AppComponent.data.getSaveData();
+    this.obj = AppComponent.data.getSafeData();
   }
 
 }

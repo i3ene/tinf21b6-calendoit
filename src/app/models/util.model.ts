@@ -1,3 +1,39 @@
+export namespace UtilObject {
+  /**
+   * Parse an Object Array into the specified Class Array
+   * @param clazz The Class to cast into
+   * @param arr The Array to cast
+   * @returns Casted Array
+   */
+  export function parseArray(
+    clazz: { new (...args: any): any },
+    arr: any[]
+  ): any[] {
+    const eventArr: typeof clazz[] = [];
+    if (Array.isArray(arr)) {
+      for (const entry of arr) eventArr.push(new clazz(entry));
+    }
+    return eventArr;
+  }
+
+  /**
+   * Compares two Object based on their values.
+   * @param obj1 Object1
+   * @param obj2 Obect2
+   * @returns `true` if every Value and Attribute are equal based on their content.
+   */
+  export function equals(obj1: any, obj2: any): boolean {
+    if (obj1 == undefined || obj2 == undefined) return obj1 == obj2;
+    for(const key of Object.keys(obj1)) {
+      if (typeof obj1[key] === 'object') {
+        if (!equals(obj1[key], obj2[key])) return false;
+      }
+      if (obj1[key] != obj2[key]) return false;
+    }
+    return true;
+  }
+}
+
 export namespace UtilDate {
   /**
    * Add number of miliseconds to an Date
@@ -101,6 +137,21 @@ export namespace UtilDate {
       startDate.getTime() < checkDate.getTime() &&
       endDate.getTime() > checkDate.getTime()
     );
+  }
+
+  /**
+   * Calculate available time between two dates
+   * @param date1 First date
+   * @param date2 Second date
+   * @returns A time slot element with duration
+   */
+  export function calculateTimeSlot(date1: Date, date2: Date): { start: Date; end: Date; duration: number } {
+    const slot = {
+      start: date1.getTime() > date2.getTime() ? date2 : date1,
+      end: date1.getTime() < date2.getTime() ? date2 : date1,
+      duration: UtilDate.diffTime(date1, date2)
+    }
+    return slot;
   }
 
   /**
