@@ -1,4 +1,5 @@
 import { Event } from './event.model';
+import { HabitEvent } from './habit-event.model';
 import { UtilDate } from './util.model';
 
 export class Habit extends Event {
@@ -41,6 +42,10 @@ export class Habit extends Event {
     return list;
   }
 
+  /**
+   * Generates a new list with molecular habit events
+   * @returns Generated Habit list
+   */
   getHabits(): Event[] {
     const list = this.getEvents();
 
@@ -59,16 +64,4 @@ export class Habit extends Event {
     return list;
   }
 
-}
-
-export class HabitEvent extends Event {
-  persistent: boolean;
-  problem?: boolean
-
-  constructor(obj: any) {
-    super(obj);
-
-    this.persistent = obj.persistent ? obj.persistent : false;
-    this.problem = obj.problem ? obj.problem : undefined;
-  }
 }

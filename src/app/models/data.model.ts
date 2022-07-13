@@ -1,9 +1,17 @@
 import { Event } from './event.model';
-import { Habit, HabitEvent } from './habit.model';
+import { HabitEvent } from './habit-event.model';
+import { Habit } from './habit.model';
 import { UtilDate, UtilObject } from './util.model';
 
 export class Data {
+  /**
+   * List for all events
+   */
   _events: Event[];
+
+  /**
+   * List for all habits
+   */
   _habits: Habit[];
 
   constructor(obj: any) {
@@ -44,7 +52,9 @@ export class Data {
     if (typeof element === 'number') event = this._events[element as number];
     else event = element as Event;
 
-    this._events = this._events.filter(item => !UtilObject.equals(item, event));
+    this._events = this._events.filter(
+      (item) => !UtilObject.equals(item, event)
+    );
     this.recalculate();
   }
 
@@ -57,7 +67,9 @@ export class Data {
     if (typeof element === 'number') habit = this._habits[element as number];
     else habit = element as Habit;
 
-    this._habits = this._habits.filter(item => !UtilObject.equals(item, habit));
+    this._habits = this._habits.filter(
+      (item) => !UtilObject.equals(item, habit)
+    );
     this.recalculate();
   }
 
@@ -66,19 +78,28 @@ export class Data {
    */
   recalculate(): void {
     const events: Event[] = [];
-    for(const event of this._events) {
+    for (const event of this._events) {
       for (const mEvent of event.getEvents()) {
         events.push(mEvent);
       }
     }
-    events.sort((a, b) => a.start.getTime() > b.start.getTime() ? 1 : -1);
+    events.sort((a, b) => (a.start.getTime() > b.start.getTime() ? 1 : -1));
 
-    for(const habit of this._habits) {
+    for (const habit of this._habits) {
       habit.alternateEvents = [];
       for (const mHabit of habit.getHabits()) {
         for (const event of events) {
-          if (UtilDate.isOverlapping(mHabit.start, mHabit.end, event.start, event.end)) {
-            habit.alternateEvents.push(this.calculateAlternateEvent(mHabit, events));
+          if (
+            UtilDate.isOverlapping(
+              mHabit.start,
+              mHabit.end,
+              event.start,
+              event.end
+            )
+          ) {
+            habit.alternateEvents.push(
+              this.calculateAlternateEvent(mHabit, events)
+            );
           }
         }
       }
@@ -94,42 +115,65 @@ export class Data {
   calculateAlternateEvent(habitEvent: Event, events: Event[]): HabitEvent {
     const alternate = new HabitEvent(habitEvent);
     const habit = habitEvent.reference as Habit;
-    const filteredEvents = events.filter(x => UtilDate.isOverlapping(habit.start, habit.end, x.start, x.end));
+    const filteredEvents = events.filter((x) =>
+      UtilDate.isOverlapping(habit.start, habit.end, x.start, x.end)
+    );
     const timeSlots: { start: Date; end: Date; duration: number }[] = [];
 
     // Sort after start date
-    filteredEvents.sort((a, b) => a.start.getTime() > b.start.getTime() ? 1 : -1);
+    filteredEvents.sort((a, b) =>
+      a.start.getTime() > b.start.getTime() ? 1 : -1
+    );
     // Calculate available time between start of habit range and first event
     const firstEvent = filteredEvents[0];
-    if (!UtilDate.isBetweenTimespan(habit.start, firstEvent.start, firstEvent.end)) {
-      const firstSlot = UtilDate.calculateTimeSlot(firstEvent.start, habit.start);
-      if (firstSlot.duration > habit.duration * UtilDate.TIME.ONE_MINUTE) timeSlots.push(firstSlot);
+    if (
+      !UtilDate.isBetweenTimespan(habit.start, firstEvent.start, firstEvent.end)
+    ) {
+      const firstSlot = UtilDate.calculateTimeSlot(
+        firstEvent.start,
+        habit.start
+      );
+      if (firstSlot.duration > habit.duration * UtilDate.TIME.ONE_MINUTE)
+        timeSlots.push(firstSlot);
     }
 
     // Calculate available times between start and end of habit with each event in between
-    for(let i = 1; i < filteredEvents.length; i++) {
-      const first = filteredEvents[i-1];
+    for (let i = 1; i < filteredEvents.length; i++) {
+      const first = filteredEvents[i - 1];
       const second = filteredEvents[i];
 
-      if (UtilDate.isOverlapping(first.start, first.end, second.start, second.end)) break;
+      if (
+        UtilDate.isOverlapping(first.start, first.end, second.start, second.end)
+      )
+        break;
       const newSlot = UtilDate.calculateTimeSlot(second.start, first.end);
-      if (newSlot.duration > habit.duration * UtilDate.TIME.ONE_MINUTE) timeSlots.push(newSlot);
+      if (newSlot.duration > habit.duration * UtilDate.TIME.ONE_MINUTE)
+        timeSlots.push(newSlot);
     }
 
     // Sort after end date
-    filteredEvents.sort((a, b) => a.end.getTime() > b.end.getTime() ? 1 : -1);
+    filteredEvents.sort((a, b) => (a.end.getTime() > b.end.getTime() ? 1 : -1));
     // Calculate available time between end of habit range and last event
     const lastEvent = filteredEvents[filteredEvents.length - 1];
-    if (!UtilDate.isBetweenTimespan(habit.end, lastEvent.start, lastEvent.end)) {
+    if (
+      !UtilDate.isBetweenTimespan(habit.end, lastEvent.start, lastEvent.end)
+    ) {
       const lastSlot = UtilDate.calculateTimeSlot(lastEvent.end, habit.end);
-      if (lastSlot.duration > habit.duration * UtilDate.TIME.ONE_MINUTE) timeSlots.push(lastSlot);
+      if (lastSlot.duration > habit.duration * UtilDate.TIME.ONE_MINUTE)
+        timeSlots.push(lastSlot);
     }
 
     // Get nearest time slot to ideal time
-    let nearestSlot: { difference: number, isStart: boolean, slot: { start: Date; end: Date; duration: number } | undefined } = { difference: Number.MAX_VALUE, isStart: false, slot: undefined };
-    for(const slot of timeSlots) {
+    let nearestSlot: {
+      difference: number;
+      isStart: boolean;
+      slot: { start: Date; end: Date; duration: number } | undefined;
+    } = { difference: Number.MAX_VALUE, isStart: false, slot: undefined };
+    for (const slot of timeSlots) {
       // Calculate differences from start ad beginning of timespan
-      let diffStart = Math.abs(habit.idealTime.getTime() - slot.start.getTime());
+      let diffStart = Math.abs(
+        habit.idealTime.getTime() - slot.start.getTime()
+      );
       let diffEnd = Math.abs(habit.idealTime.getTime() - slot.end.getTime());
 
       // Select nearest difference
@@ -144,16 +188,25 @@ export class Data {
       }
 
       // If difference is smaller, set new difference to current slot
-      if (shortestDiff < nearestSlot.difference) nearestSlot = { difference: shortestDiff, isStart: isStartNearest, slot: slot };
+      if (shortestDiff < nearestSlot.difference)
+        nearestSlot = {
+          difference: shortestDiff,
+          isStart: isStartNearest,
+          slot: slot,
+        };
     }
 
     // Calculate best start for alternate event
     if (nearestSlot.slot == undefined) {
+      alternate.problem = true;
       alternate.start = habit.idealTime;
     } else if (nearestSlot.isStart) {
       alternate.start = nearestSlot.slot!.start;
     } else {
-      alternate.start = UtilDate.addTime(nearestSlot.slot!.end, habit.duration * UtilDate.TIME.ONE_MINUTE * -1);
+      alternate.start = UtilDate.addTime(
+        nearestSlot.slot!.end,
+        habit.duration * UtilDate.TIME.ONE_MINUTE * -1
+      );
     }
 
     return alternate;
@@ -181,21 +234,20 @@ export class Data {
 
   /**
    * Creates an object without recursion. (Safe for looping etc.)
-   * @returns A santized and safe object
+   * @returns A sanitized and safe object
    */
   getSafeData(): any {
     const data = {
       events: this._events,
-      habits: this._habits
+      habits: this._habits,
     };
 
-    for(const habit of data.habits) {
-      for(const alternate of habit.alternateEvents) {
+    for (const habit of data.habits) {
+      for (const alternate of habit.alternateEvents) {
         alternate.reference = undefined;
       }
     }
 
     return data;
   }
-
 }
