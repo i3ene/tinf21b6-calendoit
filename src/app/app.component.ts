@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import packageJson from '../../package.json';
-import {Data} from './models/data.model';
-import {Theme} from './models/theme.model';
-import {ThemeService} from './services/theme.service';
-import {XsltService} from './services/xslt.service';
+import { Data } from './models/data.model';
+import { Theme } from './models/theme.model';
+import { ThemeService } from './services/theme.service';
+import { XsltService } from './services/xslt.service';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +24,7 @@ export class AppComponent {
    * @param xml Path to XML
    * @param xsl Path to XSL
    */
-  static loadData(xsl: string, xml: string): void {
+  static loadData(xsl: string, xml: string | Document): void {
     var obj = new XsltService().transformJSON(xsl, xml);
     AppComponent.data = new Data(obj.root);
   }
@@ -36,5 +36,4 @@ export class AppComponent {
   get theme() {
     return Theme;
   }
-
 }

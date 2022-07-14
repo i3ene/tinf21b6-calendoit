@@ -1,10 +1,6 @@
 <button mat-flat-button (click)="exchangeService.download()">Download</button>
-<pre>{{obj | json }}</pre>
-<div [innerHTML]="obj | safeHtml"></div>
-
-
 <div class="form-group">
-  <input type="file"
-         id="file"
-         (change)="handleFileInput($event)">
+  <input type="file" id="file" (change)="exchangeService.upload($event)" />
 </div>
+<pre>{{ obj | json }}</pre>
+<div [innerHTML]="obj | safeHtml"></div>
