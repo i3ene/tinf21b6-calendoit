@@ -47,7 +47,7 @@ export class Data {
    * Delete an {@link Event Event} of the list.
    * @param element An {@link Event Event} or the index
    */
-  deleEvent(element: Event | number): void {
+  deleteEvent(element: Event | number): void {
     var event: Event;
     if (typeof element === 'number') event = this._events[element as number];
     else event = element as Event;

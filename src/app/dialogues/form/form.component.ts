@@ -1,6 +1,6 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Event } from 'src/app/models/event.model';
 import { Habit } from 'src/app/models/habit.model';
 import { UtilDate } from 'src/app/models/util.model';
@@ -12,6 +12,9 @@ import { HabitHelpComponent } from '../habit-help/habit-help.component';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
+  @Output() savedEvent: EventEmitter<Event | Habit> = new EventEmitter<
+    Event | Habit
+  >();
 
   /**
    * Event or Habit reference
@@ -32,6 +35,11 @@ export class FormComponent implements OnInit {
    * If editing an event or creating a new one
    */
   @Input() isEditMode: boolean;
+
+  /**
+   * If component is a dialog
+   */
+  @Input() isDialog: boolean;
 
   /**
    * If event is repeating
@@ -83,6 +91,7 @@ export class FormComponent implements OnInit {
     this.event = new Event({});
     this.isHabit = false;
     this.isEditMode = false;
+    this.isDialog = false;
   }
 
   /**
@@ -90,6 +99,7 @@ export class FormComponent implements OnInit {
    * @param event Event to show data of
    */
   initializeControls(event?: Event): void {
+    this.isInitialized = false;
     if (!event) event = this.event;
     this.isRepeating = event.repeat != undefined;
 
@@ -105,6 +115,15 @@ export class FormComponent implements OnInit {
     this.setValue('startTime', event.start);
     this.setValue('endTime', event.end);
 
+    if (this.isHabit) {
+      this.setValue('idealTime', (event as Habit).idealTime);
+      this.setValue('duration', (event as Habit).duration);
+
+      if (!this.isRepeating) {
+        this.repeatingChanged(true);
+      }
+    }
+
     if (this.isRepeating) {
       this.setValue('days', event.repeat?.days);
 
@@ -115,11 +134,6 @@ export class FormComponent implements OnInit {
         this.changeSelectedTab(2);
         this.setValue('deadline', event.repeat?.repeating);
       }
-    }
-
-    if (this.isHabit) {
-      this.setValue('idealTime', (event as Habit).idealTime);
-      this.setValue('duration', (event as Habit).duration);
     }
 
     this.initializeListeners();
@@ -181,8 +195,7 @@ export class FormComponent implements OnInit {
     this.form.controls[control].setValue(value);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   /**
    * Validator for the whole form
@@ -234,7 +247,10 @@ export class FormComponent implements OnInit {
    * @returns Duration between ideal time and end date
    */
   maxDuration(): number {
-    return UtilDate.diffTime((this.event as Habit).idealTime, this.event.end) / UtilDate.TIME.ONE_MINUTE;
+    return (
+      UtilDate.diffTime((this.event as Habit).idealTime, this.event.end) /
+      UtilDate.TIME.ONE_MINUTE
+    );
   }
 
   /**
@@ -272,6 +288,13 @@ export class FormComponent implements OnInit {
     this.dialog.open(HabitHelpComponent);
   }
 
+  /**
+   * On save emit saved element
+   */
+  saveClicked(): void {
+    this.savedEvent.emit(this.event);
+  }
+
   //** Handler **//
 
   titleChanged(value: string): void {
@@ -283,14 +306,12 @@ export class FormComponent implements OnInit {
   }
 
   colorPrimaryChanged(value: string): void {
-    if (this.event.color != undefined)
-      this.event.color.primary = value;
+    if (this.event.color != undefined) this.event.color.primary = value;
     else this.event.color = { primary: value, secondary: '#ffffff' };
   }
 
   colorSecondaryChanged(value: string): void {
-    if (this.event.color != undefined)
-      this.event.color.secondary = value;
+    if (this.event.color != undefined) this.event.color.secondary = value;
     else this.event.color = { primary: '#ffffff', secondary: value };
   }
 
@@ -324,7 +345,8 @@ export class FormComponent implements OnInit {
     this.event.start.setMinutes(value.getMinutes());
     this.event.start.setSeconds(value.getSeconds());
 
-    if (this.isHabit && this.event.start > (this.event as Habit).idealTime) this.setValue('idealTime', new Date(this.event.start));
+    if (this.isHabit && this.event.start > (this.event as Habit).idealTime)
+      this.setValue('idealTime', new Date(this.event.start));
   }
 
   endTimeChanged(value: Date): void {
@@ -338,7 +360,8 @@ export class FormComponent implements OnInit {
       this.setValue('endDate', this.event.end);
     }
 
-    if (this.isHabit && this.event.end < (this.event as Habit).idealTime) this.setValue('idealTime', new Date(this.event.end));
+    if (this.isHabit && this.event.end < (this.event as Habit).idealTime)
+      this.setValue('idealTime', new Date(this.event.end));
   }
 
   idealTimeChanged(value: Date): void {

@@ -167,8 +167,9 @@ export class CalendarComponent implements OnInit {
    * Delete an Event from list and calendar.
    * @param event The Event to delete
    */
-  deleteEvent(event: Event) {
-    AppComponent.data.deleEvent(event.reference ? event.reference : event);
+  deleteEvent(event: Event | Habit, isHabit?: boolean) {
+    if (isHabit) AppComponent.data.deleteHabit((event.reference ? event.reference : event) as Habit);
+    else AppComponent.data.deleteEvent(event.reference ? event.reference : event);
   }
 
   /**
@@ -216,7 +217,7 @@ export class CalendarComponent implements OnInit {
           AppComponent.data.recalculate();
           break;
         case 'Delete':
-          this.deleteEvent(event);
+          this.deleteEvent(event, isHabit);
           break;
         default:
           Object.assign(event.reference!, copy);
