@@ -11,7 +11,6 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { CreateHabitComponent } from './components/planner/create-habit/create-habit.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
-import { HttpClientModule } from '@angular/common/http';
 import { ListHabitComponent } from './components/planner/list-habit/list-habit.component';
 import { CalendarBundleModule } from './modules/calendar.module';
 
@@ -43,7 +42,6 @@ registerLocaleData(localeDe);
     AppRoutingModule,
     MaterialModule,
     CalendarBundleModule,
-    HttpClientModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'de' }
