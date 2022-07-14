@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from 'src/app/app.component';
-import { Data } from 'src/app/models/data.model';
 import { ExchangeService } from 'src/app/services/exchange.service';
 
 @Component({
@@ -10,11 +9,15 @@ import { ExchangeService } from 'src/app/services/exchange.service';
 })
 export class SettingsComponent implements OnInit {
   obj: any;
+  file: any;
 
   constructor(public exchangeService: ExchangeService) {}
 
   ngOnInit(): void {
-    this.obj = AppComponent.data.getSafeData();
+    this.getData();
   }
 
+  private getData(): void {
+    this.obj = AppComponent.data.getSafeData();
+  }
 }

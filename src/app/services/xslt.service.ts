@@ -20,10 +20,10 @@ export class XsltService {
    * @param xslPath Path to XSL
    * @returns generated DocumentFragment
    */
-  async asyncTransform(xslPath: string, xmlPath?: string, timeStamps?: boolean): Promise<any> {
+  async asyncTransform(xslPath: string, xmlPath?: string | Document, timeStamps?: boolean): Promise<any> {
     this.xslStylesheet = await this.asyncGetFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
-    this.xmlDoc = xmlPath ? await this.asyncGetFile(xmlPath) : this.saveXML(AppComponent.data.getSafeData(), timeStamps);
+    this.xmlDoc = xmlPath ? (typeof xmlPath == 'string' ? this.asyncGetFile(xmlPath) : xmlPath) : this.saveXML(AppComponent.data.getSafeData(), timeStamps);
 
     return this.xsltProcessor.transformToFragment(this.xmlDoc, document);
   }
@@ -34,7 +34,7 @@ export class XsltService {
    * @param xslPath Path to XSL
    * @returns generated JSON
    */
-  async asyncTransformJSON(xslPath: string, xmlPath?: string, timeStamps?: boolean): Promise<any> {
+  async asyncTransformJSON(xslPath: string, xmlPath?: string | Document, timeStamps?: boolean): Promise<any> {
     var fragment = await this.asyncTransform(xslPath, xmlPath, timeStamps);
     var text = fragment.firstChild?.nodeValue;
     var obj = JSON.parse(text!);
@@ -56,10 +56,10 @@ export class XsltService {
   /**
    * @deprecated Use {@link asyncTransform}
    */
-  transform(xslPath: string, xmlPath?: string, timeStamps?: boolean): any {
+  transform(xslPath: string, xmlPath?: string | Document, timeStamps?: boolean): any {
     this.xslStylesheet = this.getFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
-    this.xmlDoc = xmlPath ? this.getFile(xmlPath) : this.saveXML(AppComponent.data.getSafeData(), timeStamps);
+    this.xmlDoc = xmlPath ? (typeof xmlPath == 'string' ? this.getFile(xmlPath) : xmlPath) : this.saveXML(AppComponent.data.getSafeData(), timeStamps);
 
     return this.xsltProcessor.transformToFragment(this.xmlDoc, document);
   }
@@ -67,7 +67,7 @@ export class XsltService {
   /**
    * @deprecated Use {@link asyncTransformJSON}
    */
-  transformJSON(xslPath: string, xmlPath?: string, timeStamps?: boolean): any {
+  transformJSON(xslPath: string, xmlPath?: string | Document, timeStamps?: boolean): any {
     var fragment = this.transform(xslPath, xmlPath, timeStamps);
     var text = fragment.firstChild?.nodeValue;
     var obj = JSON.parse(text!);
@@ -95,7 +95,7 @@ export class XsltService {
   saveXML(obj: any, timeStamps?: boolean) {
     // Root Tag
     var xmlDoc = document.implementation.createDocument(null, 'root');
-    var root = this.createObjectNode(obj, 'root', xmlDoc.documentElement);
+    this.createObjectNode(obj, 'root', xmlDoc.documentElement);
     xmlDoc.documentElement.setAttribute("type", "object");
 
     // Timestamps

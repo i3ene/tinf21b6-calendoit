@@ -84,6 +84,7 @@
                     <value1 type="number">4</value1>
                 </days>
                 <repeating type="number">1</repeating>
+
             </repeat>
         </value1>
     </habits>
