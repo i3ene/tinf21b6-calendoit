@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './modules/material.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { WidgetComponent } from './components/dashboard/widget/widget.component';
 import { PlannerComponent } from './components/planner/planner.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 
@@ -30,7 +29,6 @@ registerLocaleData(localeDe);
   declarations: [
     AppComponent,
     DashboardComponent,
-    WidgetComponent,
     PlannerComponent,
     CalendarComponent,
     SettingsComponent,

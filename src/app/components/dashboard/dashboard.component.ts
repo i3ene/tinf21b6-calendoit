@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.xsltService.asyncTransform('res/test.xsl', undefined, true).then((frag) => {
+    this.xsltService.asyncTransform('res/view.xsl', undefined, true).then((frag) => {
       document.getElementById('container')?.appendChild(frag);
     });
   }
