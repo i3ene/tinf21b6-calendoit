@@ -281,9 +281,13 @@
   </table>
 </div>
 <div mat-dialog-actions>
+  <button mat-button mat-dialog-close="Cancel" *ngIf="isDialog">
+    Abbrechen
+  </button>
+  <span class="spacer"></span>
   <button
     *ngIf="!isDialog"
-    mat-button
+    mat-stroked-button
     (click)="saveClicked()"
     [disabled]="!isFormValid()"
   >
@@ -291,14 +295,10 @@
   </button>
   <button
     *ngIf="isDialog"
-    mat-button
+    mat-stroked-button
     [mat-dialog-close]="isEditMode ? 'Save' : 'Add'"
     [disabled]="!isFormValid()"
   >
     {{ isEditMode ? "Speichern" : "Hinzufügen" }}
-  </button>
-  <span class="spacer"></span>
-  <button mat-button mat-dialog-close="Cancel" *ngIf="isDialog">
-    Abbrechen
-  </button>
+  </button>  
 </div>

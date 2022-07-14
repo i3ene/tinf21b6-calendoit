@@ -6,6 +6,10 @@
 }
 
 .app-card {
-  padding: 16px;
-  margin-bottom: 8px;
+  padding: 24px;
+  margin-bottom: 16px;
+
+  & ::ng-deep.mat-dialog-actions {
+    display: flex;
+  }
 }

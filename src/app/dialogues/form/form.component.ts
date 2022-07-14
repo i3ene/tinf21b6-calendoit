@@ -101,6 +101,7 @@ export class FormComponent implements OnInit {
   initializeControls(event?: Event): void {
     this.isInitialized = false;
     if (!event) event = this.event;
+    else this.event = event;
     this.isRepeating = event.repeat != undefined;
 
     this.setValue('title', event.title);
