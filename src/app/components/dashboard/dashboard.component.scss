@@ -20,9 +20,12 @@
 }
 
 ::ng-deep.day-list {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   gap: 8px;
+  padding: 8px;
+  border: 1px solid;
+  border-radius: 32px;
 
   & span {
     text-align: center;
