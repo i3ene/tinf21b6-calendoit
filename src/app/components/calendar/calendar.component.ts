@@ -85,8 +85,11 @@ export class CalendarComponent implements OnInit {
     this.refresh.subscribe(() => this.refreshEvents());
     // Update selected day
     this.refresh.subscribe(() => {
-      for(const event of this.events) {
-        if (isSameDay(event.start, this.viewDate) || UtilDate.isBetweenTimespan(this.viewDate, event.start, event.end)) {
+      for (const event of this.events) {
+        if (
+          isSameDay(event.start, this.viewDate) ||
+          UtilDate.isBetweenTimespan(this.viewDate, event.start, event.end)
+        ) {
           this.activeDayIsOpen = true;
           return;
         }
@@ -127,26 +130,23 @@ export class CalendarComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
-    AppComponent.data._events = AppComponent.data._events.map((iEvent) => {
-      if (iEvent === event) {
-        return new Event({
-          ...event,
-          start: newStart,
-          end: newEnd,
-        });
-      }
-      return iEvent;
+    this.handleEvent('DroppedOrResized', event as Event, {
+      start: newStart,
+      end: newEnd,
     });
-    this.handleEvent('DroppedOrResized', event as Event);
   }
 
-  handleEvent(action: string, event: CalendarEvent<any> | Event): void {
+  handleEvent(
+    action: string,
+    event: CalendarEvent<any> | Event,
+    options?: any
+  ): void {
     switch (action) {
       case 'Clicked':
         this.openEdit(event as Event);
         break;
       case 'DroppedOrResized':
-        // TODO: Change Event times
+        this.changeEventTimes(event as Event, options);
         break;
       default:
         console.log({ event, action });
@@ -168,8 +168,31 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to delete
    */
   deleteEvent(event: Event | Habit, isHabit?: boolean) {
-    if (isHabit) AppComponent.data.deleteHabit((event.reference ? event.reference : event) as Habit);
-    else AppComponent.data.deleteEvent(event.reference ? event.reference : event);
+    if (isHabit)
+      AppComponent.data.deleteHabit(
+        (event.reference ? event.reference : event) as Habit
+      );
+    else
+      AppComponent.data.deleteEvent(event.reference ? event.reference : event);
+  }
+
+  /**
+   * On change of an events times
+   * @param event The event that was changed
+   * @param times The new time it changed to
+   */
+  changeEventTimes(event: Event, times: { start: Date; end: Date }) {
+    let ref = event.reference!;
+    // If it is a repeating event, only change time, not date
+    if (ref.repeat) {
+      ref.start = UtilDate.setDayTime(ref.start, times.start);
+      ref.end = UtilDate.setDayTime(ref.end, times.end);
+    } else {
+      ref.start = times.start;
+      ref.end = times.end;
+    }
+    AppComponent.data.recalculate();
+    this.refresh.next();
   }
 
   /**
@@ -197,16 +220,18 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to edit
    */
   openEdit(event: Event | Habit): void {
-    const isHabit = (event.reference as Habit).idealTime != undefined
+    const isHabit = (event.reference as Habit).idealTime != undefined;
 
-    let copy: Event | Habit = isHabit ? new Habit(event.reference) : new Event(event.reference);
+    let copy: Event | Habit = isHabit
+      ? new Habit(event.reference)
+      : new Event(event.reference);
 
     const ref = this.dialog.open(FormDialogComponent, {
       data: {
         event: event.reference,
         refresh: this.refresh,
         isEditMode: true,
-        isHabit: isHabit
+        isHabit: isHabit,
       },
       disableClose: true,
     });
