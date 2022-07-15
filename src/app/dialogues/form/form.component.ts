@@ -285,10 +285,11 @@ export class FormComponent implements AfterViewInit {
    */
   tabChange(event: any): void {
     this.selectedTab = event.index;
+    let adjustedTab = this.isHabit ? this.selectedTab + 1 : this.selectedTab;
 
-    this.repeatingChanged(this.selectedTab > 0);
+    this.repeatingChanged(adjustedTab > 0);
 
-    switch (this.selectedTab) {
+    switch (adjustedTab) {
       case 1:
         this.setValue('count', 1);
         break;
