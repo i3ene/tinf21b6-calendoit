@@ -67,7 +67,7 @@
             <!-- Description -->
             <mat-form-field appearance="fill">
               <mat-label>Beschreibung</mat-label>
-              <textarea matInput formControlName="description"></textarea>
+              <textarea matInput formControlName="description" (keyup)="refresh?.next()"></textarea>
             </mat-form-field>
           </mat-expansion-panel>
         </td>
