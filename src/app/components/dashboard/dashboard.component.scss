@@ -1,4 +1,4 @@
-@import '../../../styles/styles_variables.scss';
+@import "../../../styles/styles_variables.scss";
 
 .container {
   display: flex;
@@ -30,6 +30,25 @@
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 16px;
+
+  & p {
+    font-style: italic;
+    opacity: 0.75;
+  }
+}
+
+::ng-deep.alternate-habit-list {
+  margin-bottom: 16px;
+  border-radius: 8px;
+
+  & ::ng-deep.mat-expansion-panel-header {
+    height: 48px;
+    border-radius: 8px;
+  }
+
+  & ::ng-deep.mat-expansion-panel-body {
+    padding: 0 24px 16px;
+  }
 }
 
 ::ng-deep.actions {
@@ -50,6 +69,11 @@
 
 ::ng-deep.event-time {
   opacity: 0.5;
+}
+
+::ng-deep.undefined-description {
+  font-style: italic;
+  opacity: 0.75;
 }
 
 ::ng-deep.day-list {
