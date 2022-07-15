@@ -18,7 +18,7 @@
     <xsl:variable name="year" select="substring($iso-date, 1, 4)"/>
     <xsl:variable name="month" select="substring($iso-date, 6, 2)"/>
     <xsl:variable name="day" select="substring($iso-date, 9, 2)"/>
-    <xsl:value-of select="concat($month, ' ',$day, ', ', $year)"/>
+    <xsl:value-of select="concat($month, '.',$day, '.', $year)"/>
   </xsl:template>
   
   <!-- DateTime zu Zeit formatieren (HH:mm) -->
@@ -26,10 +26,8 @@
     <xsl:param name="iso-date"/>
     <xsl:variable name="hour" select="substring($iso-date, 12, 2)"/>
     <xsl:variable name="minute" select="substring($iso-date, 15, 2)"/>
-    
     <xsl:value-of select="concat($hour,':',$minute)"/>
   </xsl:template>
-  
   
   
   <xsl:template name="title">
@@ -114,7 +112,7 @@
         
         <div class="repeat-section">
           <xsl:if test="./repeat/repeating/@type='date'">
-            <p>Diese Gewohnheit wiederholt sich bis 
+            <p>Wiederholen bis: 
               <xsl:call-template name="format-iso-date">
                 <xsl:with-param name="iso-date" select="./repeat/repeating"/>
               </xsl:call-template> 
@@ -122,7 +120,7 @@
           </xsl:if>
           
           <xsl:if test="./repeat/repeating/@type='number'">
-            <p>Diese Gewohnheit wiederholt sich <xsl:value-of select="./repeat/repeating"/> mal</p>
+            <p>Wiederholungen: <xsl:value-of select="./repeat/repeating"/> Woche(n)</p>
           </xsl:if>
           
           <xsl:call-template name="show-day-list"/>
