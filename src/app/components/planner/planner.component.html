@@ -1,7 +1,4 @@
 <div class="container">
-  <app-create-habit
-    [events]="data._habits"
-    (addHabit)="data.addHabit($event)"
-  ></app-create-habit>
+  <app-form [event]="habit" [isEditMode]="false" [isHabit]="true" (savedEvent)="addHabit($event)" class="app-card"></app-form>
   <app-list-habit [habits]="data._habits"></app-list-habit>
 </div>

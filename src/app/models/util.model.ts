@@ -87,6 +87,14 @@ export namespace UtilDate {
     return Math.round(differenceMs / multiplier);
   }
 
+  export function setDayTime(dateToChange: Date, timeToSet: Date): Date {
+    const date = new Date(dateToChange);
+    date.setHours(timeToSet.getHours());
+    date.setMinutes(timeToSet.getMinutes());
+    date.setSeconds(timeToSet.getSeconds());
+    return date;
+  }
+
   /**
    * Check if two timespans overlap
    * @param date1Start Start date of first timespan
