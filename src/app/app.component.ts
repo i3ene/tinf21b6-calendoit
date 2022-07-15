@@ -24,7 +24,7 @@ export class AppComponent {
    * @param xml Path to XML
    * @param xsl Path to XSL
    */
-  static loadData(xsl: string, xml: string): void {
+  static loadData(xsl: string, xml: string | Document): void {
     var obj = new XsltService().transformJSON(xsl, xml);
     AppComponent.data = new Data(obj.root);
   }
@@ -36,5 +36,4 @@ export class AppComponent {
   get theme() {
     return Theme;
   }
-
 }

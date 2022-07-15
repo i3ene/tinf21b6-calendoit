@@ -79,11 +79,27 @@
     <xsl:for-each select="habits/*">
 
       <div class="app-card">
-        <h2><xsl:value-of select="./title"/></h2>
+        <h2><xsl:value-of select="./title"/></h2>            
+        <xsl:if test="./repeat/repeating/@type='date'">
+          <p>Diese Gewohnheit wiederholt sich bis 
+            <xsl:call-template name="format-iso-date">
+              <xsl:with-param name="iso-date" as="date" select="./repeat/repeating"/>
+            </xsl:call-template> 
+          </p>
+        </xsl:if>
+      
+        <xsl:if test="./repeat/repeating/@type='number'">
+          <p>Diese Gewohnheit wiederholt sich <xsl:value-of select="./repeat/repeating"/> mal</p>
+        </xsl:if>
+        <!-- ./repeat/repeating/@type='number' -->
 
-        <p><xsl:value-of select="./description"/></p>
+        <xsl:call-template name="show-day-list"/>
+      </div>
+    </xsl:for-each>
+  </xsl:template>
 
-        <div class="day-list">
+  <xsl:template name="show-day-list">
+    <div class="day-list">
           <span >
             <xsl:if test="repeat/days/*=1">
               <xsl:attribute name="class">active-day</xsl:attribute>
@@ -133,7 +149,6 @@
             So
           </span>
         </div>
-      </div>
-    </xsl:for-each>
   </xsl:template>
+
 </xsl:stylesheet>
