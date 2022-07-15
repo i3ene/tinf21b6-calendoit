@@ -77,7 +77,7 @@
           <!-- Date-Range -->
           <mat-form-field class="full-width" appearance="fill">
             <mat-label>Zeitraum</mat-label>
-            <mat-date-range-input [rangePicker]="rangePicker" disabled>
+            <mat-date-range-input [rangePicker]="rangePicker">
               <input
                 matStartDate
                 placeholder="Start Datum"
@@ -95,10 +95,7 @@
               matSuffix
               [for]="rangePicker"
             ></mat-datepicker-toggle>
-            <mat-date-range-picker
-              #rangePicker
-              disabled="false"
-            ></mat-date-range-picker>
+            <mat-date-range-picker #rangePicker></mat-date-range-picker>
           </mat-form-field>
         </td>
       </tr>
@@ -111,14 +108,13 @@
               matInput
               [matDatepicker]="startDatePicker"
               formControlName="startDate"
-              [disabled]="true"
               (ngModelChange)="refresh?.next()"
             />
             <mat-datepicker-toggle
               matSuffix
               [for]="startDatePicker"
             ></mat-datepicker-toggle>
-            <mat-datepicker #startDatePicker disabled="false"></mat-datepicker>
+            <mat-datepicker #startDatePicker></mat-datepicker>
           </mat-form-field>
         </td>
         <td>
