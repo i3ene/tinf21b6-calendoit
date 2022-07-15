@@ -8,7 +8,7 @@ import { Event } from '../models/event.model';
 })
 export class XsltService {
   xslStylesheet: any;
-  xsltProcessor = new XSLTProcessor();
+  xsltProcessor!: XSLTProcessor;
   xmlDoc: any;
   xmlDom: DOMParser = new DOMParser();
 
@@ -21,6 +21,7 @@ export class XsltService {
    * @returns generated DocumentFragment
    */
   async asyncTransform(xslPath: string, xmlPath?: string | Document, timeStamps?: boolean): Promise<any> {
+    this.xsltProcessor = new XSLTProcessor();
     this.xslStylesheet = await this.asyncGetFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
     this.xmlDoc = xmlPath ? (typeof xmlPath == 'string' ? this.asyncGetFile(xmlPath) : xmlPath) : this.saveXML(AppComponent.data.getSafeData(), timeStamps);
@@ -57,6 +58,7 @@ export class XsltService {
    * @deprecated Use {@link asyncTransform}
    */
   transform(xslPath: string, xmlPath?: string | Document, timeStamps?: boolean): any {
+    this.xsltProcessor = new XSLTProcessor();
     this.xslStylesheet = this.getFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
     this.xmlDoc = xmlPath ? (typeof xmlPath == 'string' ? this.getFile(xmlPath) : xmlPath) : this.saveXML(AppComponent.data.getSafeData(), timeStamps);
