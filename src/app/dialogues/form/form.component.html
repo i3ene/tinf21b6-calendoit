@@ -148,9 +148,9 @@
             <mat-label>Beginn</mat-label>
             <input
               matInput
+              #timeBeginn
               type="datetime"
               mwlFlatpickr
-              [altInput]="true"
               [convertModelValue]="true"
               dateFormat="H:i"
               altFormat="H:i"
@@ -161,7 +161,7 @@
               formControlName="startTime"
               (ngModelChange)="refresh?.next()"
             />
-            <button matSuffix mat-icon-button>
+            <button matSuffix mat-icon-button (click)="timeBeginn.focus()">
               <mat-icon>schedule</mat-icon>
             </button>
           </mat-form-field>
@@ -172,9 +172,9 @@
             <mat-label>Ende</mat-label>
             <input
               matInput
+              #timeEnd
               type="datetime"
               mwlFlatpickr
-              [altInput]="true"
               [convertModelValue]="true"
               dateFormat="H:i"
               altFormat="H:i"
@@ -186,7 +186,7 @@
               [minDate]="minTime()"
               (ngModelChange)="refresh?.next()"
             />
-            <button matSuffix mat-icon-button>
+            <button matSuffix mat-icon-button (click)="timeEnd.click()">
               <mat-icon>schedule</mat-icon>
             </button>
           </mat-form-field>
@@ -199,9 +199,10 @@
             <mat-label>Ideale Zeit</mat-label>
             <input
               matInput
+              #idealTime
+              id="idealTime"
               type="datetime"
               mwlFlatpickr
-              [altInput]="true"
               [convertModelValue]="true"
               dateFormat="H:i"
               altFormat="H:i"
@@ -214,7 +215,7 @@
               [maxDate]="maxTime()"
               (ngModelChange)="refresh?.next()"
             />
-            <button matSuffix mat-icon-button>
+            <button matSuffix mat-icon-button (click)="idealTime.click()">
               <mat-icon>schedule</mat-icon>
             </button>
           </mat-form-field>
