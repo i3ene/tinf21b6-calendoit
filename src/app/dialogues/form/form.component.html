@@ -28,7 +28,7 @@
         <td>
           <!-- Titel -->
           <mat-form-field>
-            <mat-label>Title</mat-label>
+            <mat-label>Titel</mat-label>
             <input
               matInput
               type="text"
@@ -58,13 +58,18 @@
           </mat-form-field>
         </td>
       </tr>
-      <tr *ngIf="false">
+      <tr>
         <td colspan="2" align="center">
-          <!-- Description -->
-          <mat-form-field appearance="fill">
-            <mat-label>Beschreibung</mat-label>
-            <textarea matInput formControlName="description"></textarea>
-          </mat-form-field>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Beschreibung</mat-panel-title>
+            </mat-expansion-panel-header>
+            <!-- Description -->
+            <mat-form-field appearance="fill">
+              <mat-label>Beschreibung</mat-label>
+              <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
+          </mat-expansion-panel>
         </td>
       </tr>
       <tr *ngIf="!isRepeating">
@@ -300,5 +305,5 @@
     [disabled]="!isFormValid()"
   >
     {{ isEditMode ? "Speichern" : "Hinzufügen" }}
-  </button>  
+  </button>
 </div>
