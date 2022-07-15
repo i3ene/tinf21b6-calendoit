@@ -16,7 +16,39 @@
 }
 
 ::ng-deep.app-card {
-  padding: 8px;
+  padding: 24px;
+
+  h2 {
+    display: inline;
+  }
+}
+
+::ng-deep.repeat-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+::ng-deep.actions {
+  text-align: right;
+}
+
+::ng-deep.color-label {
+  display: inline-block;
+  height: 16px;
+  width: 15px;
+  border-radius: 50%;
+  margin-right: 12px;
+
+  & ~ *:not(h2) {
+    margin-left: 28px !important;
+  }
+}
+
+::ng-deep.event-time {
+  opacity: 0.5;
 }
 
 ::ng-deep.day-list {
@@ -36,5 +68,6 @@
 
   & .active-day {
     background-color: $defaultPrimary;
+    color: white;
   }
 }

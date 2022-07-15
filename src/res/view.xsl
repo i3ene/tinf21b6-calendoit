@@ -27,9 +27,42 @@
     <xsl:variable name="hour" select="substring($iso-date, 12, 2)"/>
     <xsl:variable name="minute" select="substring($iso-date, 15, 2)"/>
     
-    <xsl:value-of select="concat($hour,':',$minute, ', ')"/>
+    <xsl:value-of select="concat($hour,':',$minute)"/>
   </xsl:template>
   
+  
+  
+  <xsl:template name="title">
+    <div class="color-label">
+      <xsl:attribute name="style">background-color:<xsl:value-of select="./color/primary"/></xsl:attribute>
+    </div>
+    <h2><xsl:value-of select="./title"/></h2>     
+  </xsl:template>
+  
+  <xsl:template name="timestamp">
+    <p class="event-time">
+      von:
+      <xsl:call-template name="format-time">
+        <xsl:with-param name="iso-date" select="./start"/>
+      </xsl:call-template>
+      
+      bis:
+      <xsl:call-template name="format-time">
+        <xsl:with-param name="iso-date" select="./end"/>
+      </xsl:call-template>
+    </p>  
+  </xsl:template>
+  
+  <xsl:template name="actions">
+    <xsl:param name="href"/>
+    <div class="actions">
+      <a class="mat-focus-indicator mat-stroked-button mat-button-base">
+        <xsl:attribute name="href">#/<xsl:value-of select="$href"/></xsl:attribute>
+        <span class="mat-button-wrapper">Anzeigen</span>
+        <span class="mat-button-focus-overlay"></span>
+      </a>
+    </div>  
+  </xsl:template>
   
   <xsl:template name="show-events">
     <h1>Anstehende Termine</h1>
@@ -50,21 +83,15 @@
       <!-- Check if event is today -->
       <xsl:if test="$yearNow=$yearEvent and $monthNow=$monthEvent and $dayNow=$dayEvent " >
         <div class="app-card">
-          <h2><xsl:value-of select="./title"/></h2>
+          <xsl:call-template name="title"/>
           
-          <p>
-            von:
-            <xsl:call-template name="format-time">
-              <xsl:with-param name="iso-date" select="./start"/>
-            </xsl:call-template>
-            
-            bis:
-            <xsl:call-template name="format-time">
-              <xsl:with-param name="iso-date" select="./end"/>
-            </xsl:call-template>
-          </p>
+          <xsl:call-template name="timestamp"/>
           
           <p><xsl:value-of select="./description"/></p>
+          
+          <xsl:call-template name="actions">
+            <xsl:with-param name="href" select="'calendar'"/>
+          </xsl:call-template>
         </div>
         
       </xsl:if>
@@ -79,20 +106,31 @@
     <xsl:for-each select="habits/*">
       
       <div class="app-card">
-        <h2><xsl:value-of select="./title"/></h2>            
-        <xsl:if test="./repeat/repeating/@type='date'">
-          <p>Diese Gewohnheit wiederholt sich bis 
-            <xsl:call-template name="format-iso-date">
-              <xsl:with-param name="iso-date" select="./repeat/repeating"/>
-            </xsl:call-template> 
-          </p>
-        </xsl:if>
+        <xsl:call-template name="title"/>
+
+        <xsl:call-template name="timestamp"/>
+
+        <p><xsl:value-of select="./description"/></p>
         
-        <xsl:if test="./repeat/repeating/@type='number'">
-          <p>Diese Gewohnheit wiederholt sich <xsl:value-of select="./repeat/repeating"/> mal</p>
-        </xsl:if>
+        <div class="repeat-section">
+          <xsl:if test="./repeat/repeating/@type='date'">
+            <p>Diese Gewohnheit wiederholt sich bis 
+              <xsl:call-template name="format-iso-date">
+                <xsl:with-param name="iso-date" select="./repeat/repeating"/>
+              </xsl:call-template> 
+            </p>
+          </xsl:if>
+          
+          <xsl:if test="./repeat/repeating/@type='number'">
+            <p>Diese Gewohnheit wiederholt sich <xsl:value-of select="./repeat/repeating"/> mal</p>
+          </xsl:if>
+          
+          <xsl:call-template name="show-day-list"/>
+        </div>
         
-        <xsl:call-template name="show-day-list"/>
+        <xsl:call-template name="actions">
+          <xsl:with-param name="href" select="'planner'"/>
+        </xsl:call-template>
       </div>
     </xsl:for-each>
   </xsl:template>
