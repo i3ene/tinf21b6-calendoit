@@ -1,4 +1,4 @@
-@import '../../../styles_variables.scss';
+@import "../../../styles/styles_variables.scss";
 
 .container {
   display: flex;
@@ -16,7 +16,64 @@
 }
 
 ::ng-deep.app-card {
-  padding: 8px;
+  padding: 24px;
+
+  h2 {
+    display: inline;
+  }
+}
+
+::ng-deep.repeat-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 16px;
+
+  & p {
+    font-style: italic;
+    opacity: 0.75;
+  }
+}
+
+::ng-deep.alternate-habit-list {
+  margin-bottom: 16px;
+  border-radius: 8px;
+
+  & ::ng-deep.mat-expansion-panel-header {
+    height: 48px;
+    border-radius: 8px;
+  }
+
+  & ::ng-deep.mat-expansion-panel-body {
+    padding: 0 24px 16px;
+  }
+}
+
+::ng-deep.actions {
+  text-align: right;
+}
+
+::ng-deep.color-label {
+  display: inline-block;
+  height: 16px;
+  width: 15px;
+  border-radius: 50%;
+  margin-right: 12px;
+
+  & ~ *:not(h2) {
+    margin-left: 28px !important;
+  }
+}
+
+::ng-deep.event-time {
+  opacity: 0.5;
+}
+
+::ng-deep.undefined-description {
+  font-style: italic;
+  opacity: 0.75;
 }
 
 ::ng-deep.day-list {
@@ -36,5 +93,6 @@
 
   & .active-day {
     background-color: $defaultPrimary;
+    color: white;
   }
 }

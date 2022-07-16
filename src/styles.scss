@@ -9,8 +9,9 @@
 @include mat.core();
 
 // Variables
-@import 'styles_variables.scss';
-@import 'styles_calendar.scss';
+@import './styles/styles_variables.scss';
+@import './styles/styles_calendar.scss';
+@import './styles/styles_flatpickr.scss';
 
 
 // Create the theme object. A theme consists of configurations for individual
@@ -88,6 +89,7 @@ body {
   @include app-theme($CalenDoIt-theme);
 
   @include calendar-theme($CalenDoIt-theme);
+  @include flatpickr-theme($CalenDoIt-theme);
 }
 
 .dark-theme {
@@ -95,6 +97,7 @@ body {
   @include mat.all-component-colors($CalenDoIt-dark-theme);
 
   @include calendar-theme($CalenDoIt-dark-theme);
+  @include flatpickr-theme($CalenDoIt-dark-theme);
 }
 
 ::-webkit-scrollbar {
@@ -122,16 +125,6 @@ body {
   border-radius: 8px !important;
 }
 
-.color-selector .mat-form-field-infix {
-  text-align: center;
-  padding: 10px !important;
-  border-top: 5px solid transparent;
-
-  & * {
-    width: 100%;
-  }
-}
-
 .none-selectable {
   user-select: none !important;
 }
@@ -140,5 +133,3 @@ body {
   flex: 1 1 auto;
 }
 
-
-@import '~flatpickr/dist/themes/light.css';
