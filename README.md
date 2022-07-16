@@ -1,6 +1,6 @@
 # Calendoit
 
-Check out or live [site](https://dhbw-ka-pm.github.io/tinf21b6-calendoit/)!
+Check out our live [site](https://dhbw-ka-pm.github.io/tinf21b6-calendoit/)!
 
 ## Technologies
 In the following we will describe different technologies we are using and why we chose them / which advantages they offer.
