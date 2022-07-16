@@ -103,8 +103,8 @@ export class Event implements CalendarEvent {
     this.draggable = obj.draggable ? obj.draggable : undefined;
     if (obj.resizable) {
       this.resizable = {
-        beforeStart: obj.beforeStart ? obj.beforeStart : undefined,
-        afterEnd: obj.afterEnd ? obj.afterEnd : undefined,
+        beforeStart: obj.resizable.beforeStart ? obj.resizable.beforeStart : undefined,
+        afterEnd: obj.resizable.afterEnd ? obj.resizable.afterEnd : undefined,
       };
     }
 
