@@ -59,8 +59,7 @@
       <span class="undefined-description">Keine Gewohnheiten angelegt</span>
     </xsl:if>
     
-    <xsl:for-each select="habits/*">
-      
+    <xsl:for-each select="habits/*">      
       <div class="app-card">
         <xsl:call-template name="title"/>
         
@@ -107,23 +106,105 @@
     </p>
   </xsl:template>
   
+  <!-- Timespan -->
+  <xsl:template name="timespan">
+    <xsl:variable name="startDate">
+      <xsl:call-template name="timezone">
+        <xsl:with-param name="dateTime" select="./start"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:variable name="endDate">
+      <xsl:call-template name="timezone">
+        <xsl:with-param name="dateTime" select="./end"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:variable name="idealTimeDate">
+      <xsl:call-template name="timezone">
+        <xsl:with-param name="dateTime" select="./idealTime"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:variable name="startHour" select="substring($startDate,12,2)"/>
+    <xsl:variable name="startMinute" select="substring($startDate,15,2)"/>
+    <xsl:variable name="start" select="$startHour * 60 + $startMinute"/>
+    
+    <xsl:variable name="endHour" select="substring($endDate,12,2)"/>
+    <xsl:variable name="endMinute" select="substring($endDate,15,2)"/>
+    <xsl:variable name="end" select="$endHour * 60 + $endMinute"/>
+    
+    <xsl:variable name="idealTimeHour" select="substring($idealTimeDate,12,2)"/>
+    <xsl:variable name="idealTimeMinute" select="substring($idealTimeDate,15,2)"/>
+    <xsl:variable name="idealTime" select="$idealTimeHour * 60 + $idealTimeMinute"/>
+    
+    <xsl:variable name="duration" select="./duration"/>
+    <xsl:variable name="idealTimeEnd" select="$idealTime + $duration"/>
+    
+    <xsl:variable name="day" select="24 * 60"/>    
+    
+    <div class="times-display">
+      <div class="timespan-bar">
+        <xsl:attribute name="style">
+          width:
+          <xsl:call-template name="percent">
+            <xsl:with-param name="numerator" select="$end - $start"/>
+            <xsl:with-param name="denominator" select="$day"/>
+          </xsl:call-template>%;
+          margin-left:
+          <xsl:call-template name="percent">
+            <xsl:with-param name="numerator" select="$start"/>
+            <xsl:with-param name="denominator" select="$day"/>
+          </xsl:call-template>%;
+        </xsl:attribute>
+        <div class="time-bar">
+          <xsl:attribute name="style">
+            width:
+            <xsl:call-template name="percent">
+              <xsl:with-param name="numerator" select="$idealTimeEnd - $idealTime"/>
+              <xsl:with-param name="denominator" select="$end - $start"/>
+            </xsl:call-template>%;
+            margin-left:
+            <xsl:call-template name="percent">
+              <xsl:with-param name="numerator" select="$idealTime - $start"/>
+              <xsl:with-param name="denominator" select="$end - $start"/>
+            </xsl:call-template>%;
+          </xsl:attribute>
+          <div class="timestart-bar">
+            <div class="timestart-text">
+              <xsl:value-of select="$idealTimeHour"/>:<xsl:value-of select="$idealTimeMinute"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </xsl:template>
+  
   <!-- Repeat -->
   <xsl:template name="repeat">
     <div class="repeat-section">
+      <xsl:call-template name="timespan"/>
+      <div class="repeat-display">
+        <xsl:call-template name="day-list"/>
+        <xsl:call-template name="repeat-description"/>
+      </div>
+    </div>   
+  </xsl:template>
+  
+  <!-- Repeat-Description -->
+  <xsl:template name="repeat-description">
+    <p>
       <xsl:if test="./repeat/repeating/@type='date'">
-        <p>Wiederholen bis: 
-          <xsl:call-template name="format-iso-date">
-            <xsl:with-param name="iso-date" select="./repeat/repeating"/>
-          </xsl:call-template> 
-        </p>
+        Wiederholen bis: 
+        <xsl:call-template name="format-iso-date">
+          <xsl:with-param name="iso-date" select="./repeat/repeating"/>
+        </xsl:call-template>
       </xsl:if>
       
       <xsl:if test="./repeat/repeating/@type='number'">
-        <p>Wiederholungen: <xsl:value-of select="./repeat/repeating"/> Woche(n)</p>
+        Wiederholungen: <xsl:value-of select="./repeat/repeating"/> Woche(n)
       </xsl:if>
-      
-      <xsl:call-template name="day-list"/>
-    </div>   
+    </p>
   </xsl:template>
   
   <!-- Day-List -->
@@ -235,23 +316,116 @@
   </xsl:template>
   
   
-  
+  <!-- *Functions* -->
+
+  <!-- Percentage -->
+  <xsl:template name="percent">
+    <xsl:param name="numerator"/>
+    <xsl:param name="denominator"/>
+    <xsl:value-of select="$numerator div $denominator * 100"/> 
+  </xsl:template>
   
   <!-- DateTime zu Date Formatieren (MM dd yyyy)-->
   <xsl:template name="format-iso-date">
     <xsl:param name="iso-date"/>
-    <xsl:variable name="year" select="substring($iso-date, 1, 4)"/>
-    <xsl:variable name="month" select="substring($iso-date, 6, 2)"/>
-    <xsl:variable name="day" select="substring($iso-date, 9, 2)"/>
+    
+    <xsl:variable name="date">
+      <xsl:call-template name="timezone">
+        <xsl:with-param name="dateTime" select="$iso-date"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:variable name="year" select="substring($date, 1, 4)"/>
+    <xsl:variable name="month" select="substring($date, 6, 2)"/>
+    <xsl:variable name="day" select="substring($date, 9, 2)"/>
     <xsl:value-of select="concat($month, '.',$day, '.', $year)"/>
   </xsl:template>
   
   <!-- DateTime zu Zeit formatieren (HH:mm) -->
   <xsl:template name="format-time">
     <xsl:param name="iso-date"/>
-    <xsl:variable name="hour" select="substring($iso-date, 12, 2)"/>
-    <xsl:variable name="minute" select="substring($iso-date, 15, 2)"/>
+    
+    <xsl:variable name="date">
+      <xsl:call-template name="timezone">
+        <xsl:with-param name="dateTime" select="$iso-date"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:variable name="hour" select="substring($date, 12, 2)"/>
+    <xsl:variable name="minute" select="substring($date, 15, 2)"/>
     <xsl:value-of select="concat($hour,':',$minute)"/>
   </xsl:template>
+  
+  <!-- Timezone offset -->
+  <xsl:template name="timezone">
+    <xsl:param name="dateTime"/>
+    <xsl:param name="hours" select="2"/>
+    
+    <xsl:variable name="dateTime-in-seconds">
+      <xsl:call-template name="dateTime-to-seconds">
+        <xsl:with-param name="dateTime" select="$dateTime"/>
+      </xsl:call-template>
+    </xsl:variable> 
+    
+    <xsl:variable name="total-seconds" select="$dateTime-in-seconds + 3600 * $hours" />
+    
+    <!-- new date -->
+    <xsl:variable name="new-date">
+      <xsl:call-template name="JDN-to-Gregorian">
+        <xsl:with-param name="JDN" select="floor($total-seconds div 86400)"/>
+      </xsl:call-template>
+    </xsl:variable> 
+    <!-- new time -->
+    <xsl:variable name="t" select="$total-seconds mod 86400" />
+    <xsl:variable name="h" select="floor($t div 3600)" />
+    <xsl:variable name="r" select="$t mod 3600"/>
+    <xsl:variable name="m" select="floor($r div 60)"/>
+    <xsl:variable name="s" select="$r mod 60"/>
+    <!-- output -->
+    <xsl:value-of select="$new-date" />
+    <xsl:text>T</xsl:text>
+    <xsl:value-of select="format-number($h, '00')"/>
+    <xsl:value-of select="format-number($m, ':00')"/>
+    <xsl:value-of select="format-number($s, ':00.###')"/>
+    <xsl:text>Z</xsl:text>
+  </xsl:template>
+  
+  <xsl:template name="dateTime-to-seconds">
+    <xsl:param name="dateTime"/>
+    
+    <xsl:variable name="date" select="substring-before($dateTime, 'T')" />
+    <xsl:variable name="time" select="substring-after($dateTime, 'T')" />
+    
+    <xsl:variable name="year" select="substring($date, 1, 4)" />
+    <xsl:variable name="month" select="substring($date, 6, 2)" />
+    <xsl:variable name="day" select="substring($date, 9, 2)" />
+    
+    <xsl:variable name="hour" select="substring($time, 1, 2)" />
+    <xsl:variable name="minute" select="substring($time, 4, 2)" />
+    <xsl:variable name="second" select="substring($time, 7, 6)" />
+    
+    <xsl:variable name="a" select="floor((14 - $month) div 12)"/>
+    <xsl:variable name="y" select="$year + 4800 - $a"/>
+    <xsl:variable name="m" select="$month + 12*$a - 3"/>    
+    <xsl:variable name="jd" select="$day + floor((153*$m + 2) div 5) + 365*$y + floor($y div 4) - floor($y div 100) + floor($y div 400) - 32045" />
+    
+    <xsl:value-of select="86400*$jd + 3600*$hour + 60*$minute + $second" />
+  </xsl:template> 
+  
+  <xsl:template name="JDN-to-Gregorian">
+    <xsl:param name="JDN"/>
+    <xsl:variable name="f" select="$JDN + 1401 + floor((floor((4 * $JDN + 274277) div 146097) * 3) div 4) - 38"/>
+    <xsl:variable name="e" select="4*$f + 3"/>
+    <xsl:variable name="g" select="floor(($e mod 1461) div 4)"/>
+    <xsl:variable name="h" select="5*$g + 2"/>
+    <xsl:variable name="D" select="floor(($h mod 153) div 5 ) + 1"/>
+    <xsl:variable name="M" select="(floor($h div 153) + 2) mod 12 + 1"/>
+    <xsl:variable name="Y" select="floor($e div 1461) - 4716 + floor((14 - $M) div 12)"/>
+    
+    <xsl:value-of select="$Y" />    
+    <xsl:value-of select="format-number($M, '-00')"/>
+    <xsl:value-of select="format-number($D, '-00')"/>
+  </xsl:template>     
+  
   
 </xsl:stylesheet>

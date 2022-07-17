@@ -143,7 +143,38 @@ body {
   flex: 1 1 auto;
 }
 
+/* Timespan */
+.times-display {
+  width: 100%;
+  margin-bottom: 16px;
+  border-top: 5px dotted $progressBarInactive;
+}
 
+.timespan-bar {
+  margin-top: -5px;
+  border-top: 5px solid $progressBar;
+}
+
+.time-bar {
+  margin-top: -5px;
+  border-top: 5px solid $progressBarActive;
+}
+
+.timestart-bar {
+  position: relative;
+  left: 0px;
+  top: -8px;
+  height: 11px;
+  border-left: 3px solid $progressBarActiveStart;
+}
+
+.timestart-text {
+  position: relative;
+  top: -20px;
+  left: -2px;
+}
+
+/* Day-List */
 .day-list {
   display: inline-flex;
   flex-direction: row;

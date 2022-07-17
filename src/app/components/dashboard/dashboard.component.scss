@@ -1,4 +1,4 @@
-@import "../../../styles/styles_variables.scss";
+@use "../../../styles/styles_variables.scss" as sv;
 
 .container {
   display: flex;
@@ -28,8 +28,13 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 16px;
+}
+
+::ng-deep.repeat-display {
+  text-align: right;
 
   & p {
     font-style: italic;
