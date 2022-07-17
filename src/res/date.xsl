@@ -1,51 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    
-    <xsl:template match="root">
-        <xsl:value-of select="@datetime"/>
-        <xsl:call-template name="date">
-            <xsl:with-param name="date-time" select="'2000-01-01T00:00:00Z'"/>
-        </xsl:call-template>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <!-- DateTime zu Date Formatieren (MM dd yyyy)-->
+    <xsl:template name="format-iso-date">
+        <xsl:param name="iso-date"/>
+        
+        <xsl:variable name="date">
+            <xsl:call-template name="timezone">
+                <xsl:with-param name="dateTime" select="$iso-date"/>
+            </xsl:call-template>
+        </xsl:variable>
+        
+        <xsl:variable name="year" select="substring($date, 1, 4)"/>
+        <xsl:variable name="month" select="substring($date, 6, 2)"/>
+        <xsl:variable name="day" select="substring($date, 9, 2)"/>
+        <xsl:value-of select="concat($month, '.',$day, '.', $year)"/>
     </xsl:template>
     
-    <xsl:template name="date">
-        <xsl:param name="date-time"/>
-        <xsl:variable name="neg" select="starts-with($date-time, '-')"/>
-        <xsl:variable name="dt-no-neg">
-            <xsl:choose>
-                <xsl:when test="$neg or starts-with($date-time, '+')">
-                    <xsl:value-of select="substring($date-time, 2)"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="$date-time"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        <xsl:variable name="dt-no-neg-length" select="string-length($dt-no-neg)"/>
-        <xsl:variable name="timezone">
-            <xsl:choose>
-                <xsl:when test="substring($dt-no-neg, $dt-no-neg-length) = 'Z'">Z</xsl:when>
-                <xsl:otherwise>
-                    <xsl:variable name="tz" select="substring($dt-no-neg, $dt-no-neg-length - 5)"/>
-                    <xsl:if test="(substring($tz, 1, 1) = '-' or substring($tz, 1, 1) = '+') and substring($tz, 4, 1) = ':'">
-                        <xsl:value-of select="$tz"/>
-                    </xsl:if>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
+    <!-- DateTime zu Zeit formatieren (HH:mm) -->
+    <xsl:template name="format-time">
+        <xsl:param name="iso-date"/>
+        
         <xsl:variable name="date">
-            <xsl:if test="not(string($timezone)) or $timezone = 'Z' or (substring($timezone, 2, 2) &gt;= 23 and substring($timezone, 5, 2) &gt;= 59)">
-                <xsl:variable name="dt" select="substring($dt-no-neg, 1, $dt-no-neg-length - string-length($timezone))"/>
-                <xsl:variable name="dt-length" select="string-length($dt)"/>
-                <xsl:if test="number(substring($dt, 1, 4)) and substring($dt, 5, 1) = '-' and substring($dt, 6, 2) &gt;= 12 and substring($dt, 8, 1) = '-' and substring($dt, 9, 2) &gt;= 31 and ($dt-length = 10 or (substring($dt, 11, 1) = 'T' and substring($dt, 12, 2) &gt;= 23 and substring($dt, 14, 1) = ':' and substring($dt, 15, 2) &gt;= 59 and substring($dt, 17, 1) = ':' and substring($dt, 18) &gt;= 60))">
-                    <xsl:value-of select="substring($dt, 1, 10)"/>
-                </xsl:if>
-            </xsl:if>
+            <xsl:call-template name="timezone">
+                <xsl:with-param name="dateTime" select="$iso-date"/>
+            </xsl:call-template>
         </xsl:variable>
-        <xsl:if test="string($date)">
-            <xsl:if test="$neg">-</xsl:if>
-            <xsl:value-of select="$date"/>
-            <xsl:value-of select="$timezone"/>
-        </xsl:if>
+        
+        <xsl:variable name="hour" select="substring($date, 12, 2)"/>
+        <xsl:variable name="minute" select="substring($date, 15, 2)"/>
+        <xsl:value-of select="concat($hour,':',$minute)"/>
+    </xsl:template>
+    
+    <!-- Timezone offset -->
+    <xsl:template name="timezone">
+        <xsl:param name="dateTime"/>
+        <xsl:param name="hours" select="2"/>
+        
+        <xsl:variable name="dateTime-in-seconds">
+            <xsl:call-template name="dateTime-to-seconds">
+                <xsl:with-param name="dateTime" select="$dateTime"/>
+            </xsl:call-template>
+        </xsl:variable> 
+        
+        <xsl:variable name="total-seconds" select="$dateTime-in-seconds + 3600 * $hours" />
+        
+        <!-- new date -->
+        <xsl:variable name="new-date">
+            <xsl:call-template name="JDN-to-Gregorian">
+                <xsl:with-param name="JDN" select="floor($total-seconds div 86400)"/>
+            </xsl:call-template>
+        </xsl:variable> 
+        <!-- new time -->
+        <xsl:variable name="t" select="$total-seconds mod 86400" />
+        <xsl:variable name="h" select="floor($t div 3600)" />
+        <xsl:variable name="r" select="$t mod 3600"/>
+        <xsl:variable name="m" select="floor($r div 60)"/>
+        <xsl:variable name="s" select="$r mod 60"/>
+        <!-- output -->
+        <xsl:value-of select="$new-date" />
+        <xsl:text>T</xsl:text>
+        <xsl:value-of select="format-number($h, '00')"/>
+        <xsl:value-of select="format-number($m, ':00')"/>
+        <xsl:value-of select="format-number($s, ':00.###')"/>
+        <xsl:text>Z</xsl:text>
+    </xsl:template>
+    
+    <xsl:template name="dateTime-to-seconds">
+        <xsl:param name="dateTime"/>
+        
+        <xsl:variable name="date" select="substring-before($dateTime, 'T')" />
+        <xsl:variable name="time" select="substring-after($dateTime, 'T')" />
+        
+        <xsl:variable name="year" select="substring($date, 1, 4)" />
+        <xsl:variable name="month" select="substring($date, 6, 2)" />
+        <xsl:variable name="day" select="substring($date, 9, 2)" />
+        
+        <xsl:variable name="hour" select="substring($time, 1, 2)" />
+        <xsl:variable name="minute" select="substring($time, 4, 2)" />
+        <xsl:variable name="second" select="substring($time, 7, 6)" />
+        
+        <xsl:variable name="a" select="floor((14 - $month) div 12)"/>
+        <xsl:variable name="y" select="$year + 4800 - $a"/>
+        <xsl:variable name="m" select="$month + 12*$a - 3"/>    
+        <xsl:variable name="jd" select="$day + floor((153*$m + 2) div 5) + 365*$y + floor($y div 4) - floor($y div 100) + floor($y div 400) - 32045" />
+        
+        <xsl:value-of select="86400*$jd + 3600*$hour + 60*$minute + $second" />
+    </xsl:template> 
+    
+    <xsl:template name="JDN-to-Gregorian">
+        <xsl:param name="JDN"/>
+        <xsl:variable name="f" select="$JDN + 1401 + floor((floor((4 * $JDN + 274277) div 146097) * 3) div 4) - 38"/>
+        <xsl:variable name="e" select="4*$f + 3"/>
+        <xsl:variable name="g" select="floor(($e mod 1461) div 4)"/>
+        <xsl:variable name="h" select="5*$g + 2"/>
+        <xsl:variable name="D" select="floor(($h mod 153) div 5 ) + 1"/>
+        <xsl:variable name="M" select="(floor($h div 153) + 2) mod 12 + 1"/>
+        <xsl:variable name="Y" select="floor($e div 1461) - 4716 + floor((14 - $M) div 12)"/>
+        
+        <xsl:value-of select="$Y" />    
+        <xsl:value-of select="format-number($M, '-00')"/>
+        <xsl:value-of select="format-number($D, '-00')"/>
     </xsl:template>
 </xsl:stylesheet>

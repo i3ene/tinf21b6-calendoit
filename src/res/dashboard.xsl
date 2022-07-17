@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:include href="res/date.xsl"/>
+  <xsl:include href="res/functions.xsl"/>
+
   <xsl:template match="root">
     <div class="widget-list">
       <xsl:call-template name="list-events">
@@ -59,8 +62,7 @@
       <span class="undefined-description">Keine Gewohnheiten angelegt</span>
     </xsl:if>
     
-    <xsl:for-each select="habits/*">
-      
+    <xsl:for-each select="habits/*">      
       <div class="app-card">
         <xsl:call-template name="title"/>
         
@@ -107,23 +109,105 @@
     </p>
   </xsl:template>
   
+  <!-- Timespan -->
+  <xsl:template name="timespan">
+    <xsl:variable name="startDate">
+      <xsl:call-template name="timezone">
+        <xsl:with-param name="dateTime" select="./start"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:variable name="endDate">
+      <xsl:call-template name="timezone">
+        <xsl:with-param name="dateTime" select="./end"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:variable name="idealTimeDate">
+      <xsl:call-template name="timezone">
+        <xsl:with-param name="dateTime" select="./idealTime"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:variable name="startHour" select="substring($startDate,12,2)"/>
+    <xsl:variable name="startMinute" select="substring($startDate,15,2)"/>
+    <xsl:variable name="start" select="$startHour * 60 + $startMinute"/>
+    
+    <xsl:variable name="endHour" select="substring($endDate,12,2)"/>
+    <xsl:variable name="endMinute" select="substring($endDate,15,2)"/>
+    <xsl:variable name="end" select="$endHour * 60 + $endMinute"/>
+    
+    <xsl:variable name="idealTimeHour" select="substring($idealTimeDate,12,2)"/>
+    <xsl:variable name="idealTimeMinute" select="substring($idealTimeDate,15,2)"/>
+    <xsl:variable name="idealTime" select="$idealTimeHour * 60 + $idealTimeMinute"/>
+    
+    <xsl:variable name="duration" select="./duration"/>
+    <xsl:variable name="idealTimeEnd" select="$idealTime + $duration"/>
+    
+    <xsl:variable name="day" select="24 * 60"/>    
+    
+    <div class="times-display">
+      <div class="timespan-bar">
+        <xsl:attribute name="style">
+          width:
+          <xsl:call-template name="percent">
+            <xsl:with-param name="numerator" select="$end - $start"/>
+            <xsl:with-param name="denominator" select="$day"/>
+          </xsl:call-template>%;
+          margin-left:
+          <xsl:call-template name="percent">
+            <xsl:with-param name="numerator" select="$start"/>
+            <xsl:with-param name="denominator" select="$day"/>
+          </xsl:call-template>%;
+        </xsl:attribute>
+        <div class="time-bar">
+          <xsl:attribute name="style">
+            width:
+            <xsl:call-template name="percent">
+              <xsl:with-param name="numerator" select="$idealTimeEnd - $idealTime"/>
+              <xsl:with-param name="denominator" select="$end - $start"/>
+            </xsl:call-template>%;
+            margin-left:
+            <xsl:call-template name="percent">
+              <xsl:with-param name="numerator" select="$idealTime - $start"/>
+              <xsl:with-param name="denominator" select="$end - $start"/>
+            </xsl:call-template>%;
+          </xsl:attribute>
+          <div class="timestart-bar">
+            <div class="timestart-text">
+              <xsl:value-of select="$idealTimeHour"/>:<xsl:value-of select="$idealTimeMinute"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </xsl:template>
+  
   <!-- Repeat -->
   <xsl:template name="repeat">
     <div class="repeat-section">
+      <xsl:call-template name="timespan"/>
+      <div class="repeat-display">
+        <xsl:call-template name="day-list"/>
+        <xsl:call-template name="repeat-description"/>
+      </div>
+    </div>   
+  </xsl:template>
+  
+  <!-- Repeat-Description -->
+  <xsl:template name="repeat-description">
+    <p>
       <xsl:if test="./repeat/repeating/@type='date'">
-        <p>Wiederholen bis: 
-          <xsl:call-template name="format-iso-date">
-            <xsl:with-param name="iso-date" select="./repeat/repeating"/>
-          </xsl:call-template> 
-        </p>
+        Wiederholen bis: 
+        <xsl:call-template name="format-iso-date">
+          <xsl:with-param name="iso-date" select="./repeat/repeating"/>
+        </xsl:call-template>
       </xsl:if>
       
       <xsl:if test="./repeat/repeating/@type='number'">
-        <p>Wiederholungen: <xsl:value-of select="./repeat/repeating"/> Woche(n)</p>
+        Wiederholungen: <xsl:value-of select="./repeat/repeating"/> Woche(n)
       </xsl:if>
-      
-      <xsl:call-template name="day-list"/>
-    </div>   
+    </p>
   </xsl:template>
   
   <!-- Day-List -->
@@ -183,8 +267,8 @@
   <!-- Alternate-Habits -->
   <xsl:template name="alternate-list">
     <div class="mat-expansion-panel alternate-habit-list">
-      <div class="mat-expansion-panel-header mat-focus-indicator">
-        <button onclick="window.dispatchEvent(new Event('toggle-expand-habits'));" class="mat-focus-indicator mat-icon-button mat-button-base">
+      <div class="mat-expansion-panel-header mat-focus-indicator" onclick="window.dispatchEvent(new Event('toggle-expand-habits'));">
+        <button class="mat-focus-indicator mat-icon-button mat-button-base">
           <span class="mat-button-wrapper">
             <mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">
               navigate_before
@@ -193,7 +277,7 @@
           <span class="mat-button-focus-overlay"></span>
         </button>
       </div>
-      <div class="mat-expansion-panel-body">
+      <div class="mat-expansion-panel-body minimized">
         LIST_ALTERNATE_HABIT_EVENTS
       </div>
     </div>
@@ -232,26 +316,6 @@
         <span class="mat-button-focus-overlay"></span>
       </a>
     </div>  
-  </xsl:template>
-  
-  
-  
-  
-  <!-- DateTime zu Date Formatieren (MM dd yyyy)-->
-  <xsl:template name="format-iso-date">
-    <xsl:param name="iso-date"/>
-    <xsl:variable name="year" select="substring($iso-date, 1, 4)"/>
-    <xsl:variable name="month" select="substring($iso-date, 6, 2)"/>
-    <xsl:variable name="day" select="substring($iso-date, 9, 2)"/>
-    <xsl:value-of select="concat($month, '.',$day, '.', $year)"/>
-  </xsl:template>
-  
-  <!-- DateTime zu Zeit formatieren (HH:mm) -->
-  <xsl:template name="format-time">
-    <xsl:param name="iso-date"/>
-    <xsl:variable name="hour" select="substring($iso-date, 12, 2)"/>
-    <xsl:variable name="minute" select="substring($iso-date, 15, 2)"/>
-    <xsl:value-of select="concat($hour,':',$minute)"/>
-  </xsl:template>
+  </xsl:template> 
   
 </xsl:stylesheet>

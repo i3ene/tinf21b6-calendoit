@@ -118,7 +118,7 @@ export class FormComponent implements AfterViewInit {
     this.isRepeating = event.repeat != undefined;
 
     this.setValue('title', event.title);
-    this.setValue('description', event.description);
+    this.setValue('description', event.description ? event.description : '');
 
     this.setValue('colorPrimary', event.color.primary);
     this.setValue('colorSecondary', event.color.secondary);

@@ -4,6 +4,7 @@ import { FormComponent } from 'src/app/dialogues/form/form.component';
 import { Data } from 'src/app/models/data.model';
 import { Event } from 'src/app/models/event.model';
 import { Habit } from 'src/app/models/habit.model';
+import { ListHabitComponent } from './list-habit/list-habit.component';
 
 @Component({
   selector: 'app-planner',
@@ -13,11 +14,19 @@ import { Habit } from 'src/app/models/habit.model';
 export class PlannerComponent implements OnInit {
 
   habit: Habit = new Habit({});
+
   form!: FormComponent;
   @ViewChild(FormComponent)
-  set comp(v: FormComponent) {
+  set formComp(v: FormComponent) {
     v.initializeControls();
     this.form = v;
+  }
+
+  list!: ListHabitComponent;
+  @ViewChild(ListHabitComponent)
+  set listComp(v: ListHabitComponent) {
+    v.updateList();
+    this.list = v;
   }
 
   constructor(private detector: ChangeDetectorRef) {}
@@ -34,6 +43,7 @@ export class PlannerComponent implements OnInit {
     this.data.addHabit(new Habit(habit));
     this.habit = new Habit({});
     this.form.initializeControls(this.habit);
+    this.list.updateList();
   }
 
 }

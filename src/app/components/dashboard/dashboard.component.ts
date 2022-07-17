@@ -11,7 +11,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.xsltService
-      .asyncTransform('res/view.xsl', undefined, true)
+      .asyncTransform('res/dashboard.xsl', undefined, true)
       .then((frag) => {
         document.getElementById('container')?.appendChild(frag);
       });
@@ -23,6 +23,42 @@ export class DashboardComponent implements OnInit {
    */
   @HostListener('window:toggle-expand-habits', ['$event'])
   toggleExpandHabits(event: any) {
-    console.log(event);
+    var node = event.explicitOriginalTarget;
+    const expanded = this.toggleExpandBody(node);
+    this.changeIcon(node, expanded);
+  }
+
+  /**
+   * Toggle expanding of body node
+   * @param node Starting node
+   * @returns `true` if expanded
+   */
+  toggleExpandBody(node: any): boolean {
+    while (!Array.from(node.classList).includes('mat-expansion-panel')) {
+      node = node.parentNode;
+    }
+    node = node.childNodes[1];
+    var classes = node.classList;
+    var index = Array.from(classes).indexOf('minimized');
+    if (index == -1) {
+      classes.add('minimized');
+      return false;
+    } else {
+      classes.remove('minimized');
+      return true;
+    }
+  }
+
+  /**
+   * Change navigation icon
+   * @param node Starting node
+   * @param isExpanded If is expanding icon
+   */
+  changeIcon(node: any, isExpanded: boolean): void {
+    while (!Array.from(node.classList).includes('mat-icon')) {
+      node = node.childNodes[0];
+    }
+    if (isExpanded) node.innerHTML = 'expand_more';
+    else node.innerHTML = 'navigate_before';
   }
 }

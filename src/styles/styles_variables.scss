@@ -17,16 +17,11 @@ $CalenDoIt-warn: mat.define-palette(mat.$red-palette);
 $CalenDoIt-success: mat.define-palette(mat.$green-palette);
 $CalenDoIt-information: mat.define-palette(mat.$orange-palette);
 
-
+$progressBar: mat.get-color-from-palette($CalenDoIt-primary, 500);
+$progressBarActive: mat.get-color-from-palette($CalenDoIt-accent, darker);
+$progressBarActiveStart: mat.get-color-from-palette($CalenDoIt-accent, 600);
+$progressBarInactive: mat.get-color-from-palette($CalenDoIt-primary, 800, 0.75);
 
 $isActiveColor: mat.get-color-from-palette($CalenDoIt-accent, darker);
-$defaultAccent: mat.get-color-from-palette($CalenDoIt-accent, default);
-$defaultAccentTranslucent: mat.get-color-from-palette($CalenDoIt-accent, default, 0.6);
-$defaultSuccess: mat.get-color-from-palette($CalenDoIt-success, default);
-$defaultSuccessTranslucent: mat.get-color-from-palette($CalenDoIt-success, default, 0.87);
-$defaultInformation: mat.get-color-from-palette($CalenDoIt-information, default);
-$defaultInformationTranslucent: mat.get-color-from-palette($CalenDoIt-information, default, 0.87);
 $defaultPrimary: mat.get-color-from-palette($CalenDoIt-primary, default);
-$defaultPrimaryTranslucent: mat.get-color-from-palette($CalenDoIt-primary, default, 0.87);
-$defaultWarn: mat.get-color-from-palette($CalenDoIt-warn, default);
-$defaultWarnTranslucent: mat.get-color-from-palette($CalenDoIt-warn, default, 0.87);
+

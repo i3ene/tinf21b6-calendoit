@@ -1,4 +1,4 @@
-@import "../../../styles/styles_variables.scss";
+@use "../../../styles/styles_variables.scss" as sv;
 
 .container {
   display: flex;
@@ -28,8 +28,13 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 16px;
+}
+
+::ng-deep.repeat-display {
+  text-align: right;
 
   & p {
     font-style: italic;
@@ -38,16 +43,27 @@
 }
 
 ::ng-deep.alternate-habit-list {
-  margin-bottom: 16px;
+  margin-bottom: 16px !important;
   border-radius: 8px;
 
   & ::ng-deep.mat-expansion-panel-header {
     height: 48px;
     border-radius: 8px;
+    cursor: pointer;
   }
 
   & ::ng-deep.mat-expansion-panel-body {
     padding: 0 24px 16px;
+    visibility: visible;
+    transition-duration: 0.2s;
+    overflow: hidden;
+  }
+
+  & ::ng-deep.minimized {
+    padding: 0 24px;
+    height: 0px;
+    visibility: hidden;
+    transition-duration: 0.2s;
   }
 }
 
@@ -74,25 +90,4 @@
 ::ng-deep.undefined-description {
   font-style: italic;
   opacity: 0.75;
-}
-
-::ng-deep.day-list {
-  display: inline-flex;
-  flex-direction: row;
-  gap: 8px;
-  padding: 8px;
-  border: 1px solid;
-  border-radius: 32px;
-
-  & span {
-    text-align: center;
-    border-radius: 50%;
-    padding: 8px;
-    width: 20px;
-  }
-
-  & .active-day {
-    background-color: $defaultPrimary;
-    color: white;
-  }
 }
