@@ -38,7 +38,7 @@
 }
 
 ::ng-deep.alternate-habit-list {
-  margin-bottom: 16px;
+  margin-bottom: 16px !important;
   border-radius: 8px;
 
   & ::ng-deep.mat-expansion-panel-header {
@@ -74,25 +74,4 @@
 ::ng-deep.undefined-description {
   font-style: italic;
   opacity: 0.75;
-}
-
-::ng-deep.day-list {
-  display: inline-flex;
-  flex-direction: row;
-  gap: 8px;
-  padding: 8px;
-  border: 1px solid;
-  border-radius: 32px;
-
-  & span {
-    text-align: center;
-    border-radius: 50%;
-    padding: 8px;
-    width: 20px;
-  }
-
-  & .active-day {
-    background-color: $defaultPrimary;
-    color: white;
-  }
 }

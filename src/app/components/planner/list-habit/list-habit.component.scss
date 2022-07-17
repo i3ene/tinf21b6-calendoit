@@ -13,6 +13,16 @@ table {
     padding: 0px 8px;
 }
 
+.mat-column-repeat {
+    padding: 8px;
+}
+
+.color-circle {
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+}
+
 .times-display {
     margin-top: 16px;
     border-top: 5px dotted sv.$progressBarInactive;
@@ -41,4 +51,14 @@ table {
     position: relative;
     top: -20px;
     left: -2px
+}
+
+.day-list {
+    & .active-day:hover {
+        background-color: sv.$isActiveColor !important;
+    }
+
+    & span:not(.app-disabled) {
+        cursor: pointer;
+    }
 }
