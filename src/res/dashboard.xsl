@@ -267,8 +267,8 @@
   <!-- Alternate-Habits -->
   <xsl:template name="alternate-list">
     <div class="mat-expansion-panel alternate-habit-list">
-      <div class="mat-expansion-panel-header mat-focus-indicator">
-        <button onclick="window.dispatchEvent(new Event('toggle-expand-habits'));" class="mat-focus-indicator mat-icon-button mat-button-base">
+      <div class="mat-expansion-panel-header mat-focus-indicator" onclick="window.dispatchEvent(new Event('toggle-expand-habits'));">
+        <button class="mat-focus-indicator mat-icon-button mat-button-base">
           <span class="mat-button-wrapper">
             <mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">
               navigate_before
@@ -277,7 +277,7 @@
           <span class="mat-button-focus-overlay"></span>
         </button>
       </div>
-      <div class="mat-expansion-panel-body">
+      <div class="mat-expansion-panel-body minimized">
         LIST_ALTERNATE_HABIT_EVENTS
       </div>
     </div>
