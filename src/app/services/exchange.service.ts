@@ -23,7 +23,6 @@ export class ExchangeService {
 
     // Save data
     saveAs(blob, 'data.xml');
-    AppComponent.data.changed = false;
   }
 
   /**
