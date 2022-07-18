@@ -14,6 +14,8 @@ import { ListHabitComponent } from './list-habit/list-habit.component';
 export class PlannerComponent implements OnInit {
 
   habit: Habit = new Habit({});
+  habitCopy?: Habit;
+  selectedHabit?: Habit;
 
   form!: FormComponent;
   @ViewChild(FormComponent)
@@ -46,4 +48,20 @@ export class PlannerComponent implements OnInit {
     this.list.updateList();
   }
 
+  saveHabit(habit: Habit | Event): void {
+    this.selectedHabit = undefined;
+  }
+
+  cancelHabit(): void {
+    Object.assign(this.selectedHabit!, this.habitCopy);
+    this.selectedHabit = undefined;
+  }
+
+  habitSelected(habit: Habit): void {
+    this.selectedHabit = undefined;
+    this.detector.detectChanges();
+
+    this.habitCopy = new Habit(habit);
+    this.selectedHabit = habit;
+  }
 }

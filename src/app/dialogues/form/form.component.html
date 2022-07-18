@@ -286,6 +286,9 @@
   <button mat-button mat-dialog-close="Cancel" *ngIf="isDialog">
     Abbrechen
   </button>
+  <button mat-button (click)="cancelClicked()" *ngIf="!isDialog && isEditMode">
+    Abbrechen
+  </button>
   <span class="spacer"></span>
   <button
     *ngIf="!isDialog"
