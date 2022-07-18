@@ -26,6 +26,8 @@ export class FormComponent implements AfterViewInit {
     Event | Habit
   >();
 
+  @Output() cancelEvent: EventEmitter<any> = new EventEmitter<any>();
+
   /**
    * Event or Habit reference
    */
@@ -311,6 +313,10 @@ export class FormComponent implements AfterViewInit {
    */
   saveClicked(): void {
     this.savedEvent.emit(this.event);
+  }
+
+  cancelClicked(): void {
+    this.cancelEvent.emit();
   }
 
   //** Handler **//
