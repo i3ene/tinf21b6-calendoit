@@ -15,12 +15,12 @@ export class AppComponent {
   version = packageJson.version;
 
   /**
-   * Catch close event and show confirmation message
+   * Catch close event and show confirmation message if data changed
    * @param event Event
    */
   @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event: any) {
-    return false;
+    return !AppComponent.data.changed;
   }
 
   /**
