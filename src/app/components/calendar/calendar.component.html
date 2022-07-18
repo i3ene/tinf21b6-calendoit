@@ -42,14 +42,15 @@
       <!-- View-Navigation -->
       <mat-button-toggle-group [value]="view" (valueChange)="setView($event)">
         <mat-button-toggle [value]="CalendarView.Month"
-          >Monat</mat-button-toggle
+        >Monat
+        </mat-button-toggle
         >
         <mat-button-toggle [value]="CalendarView.Week">Woche</mat-button-toggle>
         <mat-button-toggle [value]="CalendarView.Day">Tag</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
 
-    <br />
+    <br/>
 
     <!-- Calendar -->
     <div [ngSwitch]="view">

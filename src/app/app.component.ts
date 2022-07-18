@@ -1,9 +1,9 @@
-import { Component, HostListener } from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import packageJson from '../../package.json';
-import { Data } from './models/data.model';
-import { Theme } from './models/theme.model';
-import { ThemeService } from './services/theme.service';
-import { XsltService } from './services/xslt.service';
+import {Data} from './models/data.model';
+import {Theme} from './models/theme.model';
+import {ThemeService} from './services/theme.service';
+import {XsltService} from './services/xslt.service';
 
 @Component({
   selector: 'app-root',

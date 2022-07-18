@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { Habit } from 'src/app/models/habit.model';
-import { UtilDate } from 'src/app/models/util.model';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+import {Habit} from 'src/app/models/habit.model';
+import {UtilDate} from 'src/app/models/util.model';
 
 @Component({
   selector: 'app-list-habit',
@@ -12,7 +12,7 @@ import { UtilDate } from 'src/app/models/util.model';
 export class ListHabitComponent implements OnInit {
   @Input() habits: Habit[] = [];
 
-  @Output() selectedHabit: EventEmitter< Habit> = new EventEmitter<Habit>();
+  @Output() selectedHabit: EventEmitter<Habit> = new EventEmitter<Habit>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -35,7 +35,7 @@ export class ListHabitComponent implements OnInit {
   ngOnInit(): void {
     this.updateList();
   }
-  
+
   /**
    * Update table list and paginator
    */

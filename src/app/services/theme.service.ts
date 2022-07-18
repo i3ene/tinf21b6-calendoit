@@ -1,7 +1,7 @@
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
-import { LocalConfig } from '../models/config.model';
-import { Theme } from '../models/theme.model';
+import {DOCUMENT} from '@angular/common';
+import {Inject, Injectable} from '@angular/core';
+import {LocalConfig} from '../models/config.model';
+import {Theme} from '../models/theme.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,7 @@ export class ThemeService {
     activeTheme =
       Theme.currentTheme == undefined ? Theme.defaultTheme : Theme.currentTheme;
 
-    // Check chache theme
+    // Check cache theme
     if (localStorage[LocalConfig.theme])
       this.selectTheme(localStorage[LocalConfig.theme] as Theme.Mode);
     else this.selectTheme(Theme.getTheme(activeTheme));

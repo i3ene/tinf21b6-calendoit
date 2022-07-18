@@ -1,8 +1,8 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Event } from 'src/app/models/event.model';
-import { Habit } from 'src/app/models/habit.model';
-import { FormComponent } from '../form/form.component';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Event} from 'src/app/models/event.model';
+import {Habit} from 'src/app/models/habit.model';
+import {FormComponent} from '../form/form.component';
 
 @Component({
   selector: 'app-form-dialog',
@@ -25,9 +25,10 @@ export class FormDialogComponent implements OnInit {
       event: Event | Habit;
       refresh?: any;
     }
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
   }
-  
+
 }

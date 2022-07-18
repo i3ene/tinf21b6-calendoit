@@ -1,23 +1,23 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {LOCALE_ID, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { MaterialModule } from './modules/material.module';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { PlannerComponent } from './components/planner/planner.component';
-import { CalendarComponent } from './components/calendar/calendar.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {MaterialModule} from './modules/material.module';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {PlannerComponent} from './components/planner/planner.component';
+import {CalendarComponent} from './components/calendar/calendar.component';
 
-import { SettingsComponent } from './components/settings/settings.component';
-import { SafeHtmlPipe } from './pipes/safe-html.pipe';
-import { ListHabitComponent } from './components/planner/list-habit/list-habit.component';
-import { CalendarBundleModule } from './modules/calendar.module';
+import {SettingsComponent} from './components/settings/settings.component';
+import {SafeHtmlPipe} from './pipes/safe-html.pipe';
+import {ListHabitComponent} from './components/planner/list-habit/list-habit.component';
+import {CalendarBundleModule} from './modules/calendar.module';
 
-import { registerLocaleData } from '@angular/common';
+import {registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
-import { HabitHelpComponent } from './dialogues/habit-help/habit-help.component';
-import { FormComponent } from './dialogues/form/form.component';
-import { FormDialogComponent } from './dialogues/form-dialog/form-dialog.component';
+import {HabitHelpComponent} from './dialogues/habit-help/habit-help.component';
+import {FormComponent} from './dialogues/form/form.component';
+import {FormDialogComponent} from './dialogues/form-dialog/form-dialog.component';
 
 /**
  * Registering Language Localization
@@ -44,8 +44,9 @@ registerLocaleData(localeDe);
     CalendarBundleModule,
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'de' }
+    {provide: LOCALE_ID, useValue: 'de'}
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}

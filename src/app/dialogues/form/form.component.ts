@@ -1,20 +1,10 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { Event } from 'src/app/models/event.model';
-import { Habit } from 'src/app/models/habit.model';
-import { UtilDate } from 'src/app/models/util.model';
-import { HabitHelpComponent } from '../habit-help/habit-help.component';
+import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output,} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
+import {Event} from 'src/app/models/event.model';
+import {Habit} from 'src/app/models/habit.model';
+import {UtilDate} from 'src/app/models/util.model';
+import {HabitHelpComponent} from '../habit-help/habit-help.component';
 
 @Component({
   selector: 'app-form',
@@ -22,9 +12,7 @@ import { HabitHelpComponent } from '../habit-help/habit-help.component';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements AfterViewInit {
-  @Output() savedEvent: EventEmitter<Event | Habit> = new EventEmitter<
-    Event | Habit
-  >();
+  @Output() savedEvent: EventEmitter<Event | Habit> = new EventEmitter<Event | Habit>();
 
   @Output() cancelEvent: EventEmitter<any> = new EventEmitter<any>();
 
@@ -331,12 +319,12 @@ export class FormComponent implements AfterViewInit {
 
   colorPrimaryChanged(value: string): void {
     if (this.event.color != undefined) this.event.color.primary = value;
-    else this.event.color = { primary: value, secondary: '#ffffff' };
+    else this.event.color = {primary: value, secondary: '#ffffff'};
   }
 
   colorSecondaryChanged(value: string): void {
     if (this.event.color != undefined) this.event.color.secondary = value;
-    else this.event.color = { primary: '#ffffff', secondary: value };
+    else this.event.color = {primary: '#ffffff', secondary: value};
   }
 
   startDateChanged(value: Date): void {

@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { saveAs } from 'file-saver';
-import { AppComponent } from '../app.component';
-import { XsltService } from './xslt.service';
+import {Injectable} from '@angular/core';
+import {saveAs} from 'file-saver';
+import {AppComponent} from '../app.component';
+import {XsltService} from './xslt.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExchangeService {
-  constructor(private xsltService: XsltService) {}
+  constructor(private xsltService: XsltService) {
+  }
 
   /**
    * Function to download data
@@ -19,7 +20,7 @@ export class ExchangeService {
     );
 
     // String to `Blob`
-    var blob = new Blob([text], { type: 'text/xml' });
+    var blob = new Blob([text], {type: 'text/xml'});
 
     // Save data
     saveAs(blob, 'data.xml');

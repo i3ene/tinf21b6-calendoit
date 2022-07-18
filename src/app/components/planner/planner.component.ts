@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { AppComponent } from 'src/app/app.component';
-import { FormComponent } from 'src/app/dialogues/form/form.component';
-import { Data } from 'src/app/models/data.model';
-import { Event } from 'src/app/models/event.model';
-import { Habit } from 'src/app/models/habit.model';
-import { ListHabitComponent } from './list-habit/list-habit.component';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {AppComponent} from 'src/app/app.component';
+import {FormComponent} from 'src/app/dialogues/form/form.component';
+import {Data} from 'src/app/models/data.model';
+import {Event} from 'src/app/models/event.model';
+import {Habit} from 'src/app/models/habit.model';
+import {ListHabitComponent} from './list-habit/list-habit.component';
 
 @Component({
   selector: 'app-planner',
@@ -18,20 +18,23 @@ export class PlannerComponent implements OnInit {
   selectedHabit?: Habit;
 
   form!: FormComponent;
+
   @ViewChild(FormComponent)
-  set formComp(v: FormComponent) {
-    v.initializeControls();
-    this.form = v;
+  set formComp(formComponent: FormComponent) {
+    formComponent.initializeControls();
+    this.form = formComponent;
   }
 
   list!: ListHabitComponent;
+
   @ViewChild(ListHabitComponent)
-  set listComp(v: ListHabitComponent) {
-    v.updateList();
-    this.list = v;
+  set listComp(listHabitComponent: ListHabitComponent) {
+    listHabitComponent.updateList();
+    this.list = listHabitComponent;
   }
 
-  constructor(private detector: ChangeDetectorRef) {}
+  constructor(private detector: ChangeDetectorRef) {
+  }
 
   ngOnInit(): void {
     this.detector.detectChanges();
@@ -76,7 +79,7 @@ export class PlannerComponent implements OnInit {
 
   /**
    * Set selected habit
-   * @param habit Selected habit 
+   * @param habit Selected habit
    */
   habitSelected(habit: Habit): void {
     // Revert unsaved changes

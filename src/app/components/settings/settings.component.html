@@ -4,15 +4,15 @@
     <div class="list-action-item">
       <h3>Aktuelle Daten herunterladen:</h3>
       <button mat-flat-button (click)="exchangeService.download()">
-        <mat-icon> download </mat-icon>
+        <mat-icon> download</mat-icon>
         Download
       </button>
     </div>
     <!-- Upload -->
     <div class="list-action-item">
-      <h3>Gespeicherte Daten hochladen:</h3>
+      <h3>Neue Daten hochladen:</h3>
       <button mat-flat-button (click)="upload.click()">
-        <mat-icon> upload </mat-icon>
+        <mat-icon> upload</mat-icon>
         Upload
       </button>
       <input
@@ -26,7 +26,7 @@
 
   <!-- Misc -->
   <mat-expansion-panel>
-    <mat-expansion-panel-header> Debug </mat-expansion-panel-header>
+    <mat-expansion-panel-header> Debug</mat-expansion-panel-header>
     <pre>{{ obj | json }}</pre>
   </mat-expansion-panel>
 </div>

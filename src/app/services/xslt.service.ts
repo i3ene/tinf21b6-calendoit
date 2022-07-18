@@ -1,7 +1,6 @@
-import { DatePipe } from '@angular/common';
-import { Injectable, Pipe } from '@angular/core';
-import { AppComponent } from '../app.component';
-import { Event } from '../models/event.model';
+import {DatePipe} from '@angular/common';
+import {Injectable} from '@angular/core';
+import {AppComponent} from '../app.component';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +11,8 @@ export class XsltService {
   xmlDoc: any;
   xmlDom: DOMParser = new DOMParser();
 
-  constructor() {}
+  constructor() {
+  }
 
   /**
    * Transform XML and XSL to XSLT
