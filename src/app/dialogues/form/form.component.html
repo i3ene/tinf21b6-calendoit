@@ -31,12 +31,13 @@
             <mat-label>Titel</mat-label>
             <input
               matInput
+              #title
               type="text"
               formControlName="title"
               required
               (keyup)="refresh?.next()"
             />
-            <button matSuffix mat-icon-button>
+            <button matSuffix mat-icon-button (click)="title.value = ''">
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
