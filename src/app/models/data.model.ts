@@ -14,11 +14,6 @@ export class Data {
    */
   _habits: Habit[];
 
-  /**
-   * If data changed
-   */
-  changed: boolean = false;
-
   constructor(obj: any) {
     this._events = UtilObject.parseArray(Event, obj.events);
     this._habits = UtilObject.parseArray(Habit, obj.habits);
@@ -36,7 +31,6 @@ export class Data {
   addEvent(event: Event): void {
     this._events.push(event);
     this.recalculate();
-    this.changed = true;
   }
 
   /**
@@ -47,7 +41,6 @@ export class Data {
   addHabit(habit: Habit): void {
     this._habits.push(habit);
     this.recalculate();
-    this.changed = true;
   }
 
   /**
@@ -63,7 +56,6 @@ export class Data {
       (item) => !UtilObject.equals(item, event)
     );
     this.recalculate();
-    this.changed = true;
   }
 
   /**
@@ -79,7 +71,6 @@ export class Data {
       (item) => !UtilObject.equals(item, habit)
     );
     this.recalculate();
-    this.changed = true;
   }
 
   /**

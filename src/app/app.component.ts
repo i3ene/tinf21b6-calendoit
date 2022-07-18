@@ -20,7 +20,7 @@ export class AppComponent {
    */
   @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event: any) {
-    return !AppComponent.data.changed;
+    //return false;
   }
 
   /**
