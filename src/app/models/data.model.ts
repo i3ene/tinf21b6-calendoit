@@ -68,7 +68,11 @@ export class Data {
     else habit = element as Habit;
 
     this._habits = this._habits.filter(
-      (item) => !UtilObject.equals(item, habit)
+      (item) =>
+        !UtilObject.equals(
+          item,
+          Object.assign(habit, { alternateEvents: [], reference: undefined })
+        )
     );
     this.recalculate();
   }
@@ -225,8 +229,8 @@ export class Data {
         if (event.repeat == undefined) event.draggable = true;
         event.resizable = {
           beforeStart: true,
-          afterEnd: true
-        }
+          afterEnd: true,
+        };
       }
       for (const molecular of event.getEvents()) list.push(molecular);
     }

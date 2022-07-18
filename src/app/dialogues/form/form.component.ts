@@ -14,6 +14,10 @@ import {HabitHelpComponent} from '../habit-help/habit-help.component';
 export class FormComponent implements AfterViewInit {
   @Output() savedEvent: EventEmitter<Event | Habit> = new EventEmitter<Event | Habit>();
 
+  @Output() deleteEvent: EventEmitter<Event | Habit> = new EventEmitter<
+    Event | Habit
+  >();
+
   @Output() cancelEvent: EventEmitter<any> = new EventEmitter<any>();
 
   /**
@@ -303,8 +307,18 @@ export class FormComponent implements AfterViewInit {
     this.savedEvent.emit(this.event);
   }
 
+  /**
+   * On cancel emit
+   */
   cancelClicked(): void {
-    this.cancelEvent.emit();
+    this.cancelEvent.emit(this.event);
+  }
+
+  /**
+   * On delete emit element
+   */
+  deleteClicked(): void {
+    this.deleteEvent.emit();
   }
 
   //** Handler **//

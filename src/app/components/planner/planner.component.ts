@@ -78,6 +78,23 @@ export class PlannerComponent implements OnInit {
   }
 
   /**
+   * Delete currently selected habit
+   * @param habit Selected habit
+   */
+  deleteHabit(habit: Habit | Event): void {
+    // Delete from list
+    AppComponent.data.deleteHabit(this.selectedHabit!);
+
+    // Refresh UI
+    this.selectedHabit = undefined;
+    this.habitCopy = undefined;
+    this.detector.detectChanges();
+
+    // Update list
+    this.list.updateList();
+  }
+
+  /**
    * Set selected habit
    * @param habit Selected habit
    */
