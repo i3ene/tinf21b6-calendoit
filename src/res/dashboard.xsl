@@ -295,7 +295,7 @@
   <xsl:template name="description">
     <p>
       <xsl:choose>
-        <xsl:when test="./description='undefined'">
+        <xsl:when test="not(./description)">
           <xsl:attribute name="class">undefined-description</xsl:attribute>
           - Keine Beschreibung -
         </xsl:when>

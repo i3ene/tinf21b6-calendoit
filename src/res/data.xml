@@ -9,7 +9,6 @@
             <description>An Event with a set count of repeating Days</description>
             <color type="object">
                 <primary>#83d332</primary>
-                <secondary>#FFFFFFc0</secondary>
             </color>
             <repeat type="object">
                 <days type="array">
@@ -26,7 +25,6 @@
             <description>An Event with only a single occurence</description>
             <color type="object">
                 <primary>#59b5e6</primary>
-                <secondary>#ffffff</secondary>
             </color>
         </value1>
         <value2 type="object">
@@ -36,7 +34,6 @@
             <description>An Event with a set Deadline</description>
             <color type="object">
                 <primary>#f46f35</primary>
-                <secondary>#ffffff</secondary>
             </color>
             <repeat type="object">
                 <days type="array">
@@ -54,7 +51,6 @@
             <description>A Habit with a set count of repeating Days</description>
             <color type="object">
                 <primary>#cb49da</primary>
-                <secondary>#ffffff</secondary>
             </color>
             <idealTime type="date">2022-07-06T08:00:00.000Z</idealTime>
             <duration type="number">30</duration>
@@ -74,7 +70,6 @@
             <description>A Habit with a set Deadline</description>
             <color type="object">
                 <primary>#e4dc36</primary>
-                <secondary>#ffffff</secondary>
             </color>
             <idealTime type="date">2022-07-07T11:31:00.000Z</idealTime>
             <duration type="number">45</duration>

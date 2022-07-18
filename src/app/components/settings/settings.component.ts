@@ -18,6 +18,7 @@ export class SettingsComponent implements OnInit {
   }
 
   private getData(): void {
+    AppComponent.data.recalculate();
     this.obj = AppComponent.data.getSafeData();
   }
 }

@@ -151,7 +151,7 @@ export class XsltService {
     // Iterate through properties
     for (const [key, value] of Object.entries(obj)) {
       var label: string = Array.isArray(obj) ? 'value' + key : key.toString();
-      node.appendChild(this.createObjectNode(value, label));
+      if (value != undefined) node.appendChild(this.createObjectNode(value, label));
     }
 
     return node;
