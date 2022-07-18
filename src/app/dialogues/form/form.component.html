@@ -13,7 +13,15 @@
     mat-flat-button
     color="warn"
     mat-dialog-close="Delete"
-    *ngIf="isEditMode"
+    *ngIf="isEditMode && isDialog"
+  >
+    Löschen
+  </button>
+  <button
+    mat-flat-button
+    color="warn"
+    (click)="deleteClicked()"
+    *ngIf="isEditMode && !isDialog"
   >
     Löschen
   </button>
