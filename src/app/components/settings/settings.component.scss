@@ -1,0 +1,18 @@
+.container {
+    padding: 8px;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 16px;
+}
+
+.action-item {
+    width: 50%;
+}
+
+pre {
+    background-color: gray;
+    color: white;
+}
