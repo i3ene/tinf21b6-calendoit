@@ -255,9 +255,7 @@ export class Data {
     };
 
     for (const habit of data.habits) {
-      for (const alternate of habit.alternateEvents) {
-        alternate.reference = undefined;
-      }
+      habit.alternateEvents = [];
     }
 
     return data;

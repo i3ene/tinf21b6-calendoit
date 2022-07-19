@@ -20,11 +20,11 @@ export class XsltService {
    * @param xslPath Path to XSL
    * @returns generated DocumentFragment
    */
-  async asyncTransform(xslPath: string, xmlPath?: string | Document, timeStamps?: boolean): Promise<any> {
+  async asyncTransform(xslPath: string, xmlPath?: string | Document): Promise<any> {
     this.xsltProcessor = new XSLTProcessor();
     this.xslStylesheet = await this.asyncGetFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
-    this.xmlDoc = xmlPath ? (typeof xmlPath == 'string' ? this.asyncGetFile(xmlPath) : xmlPath) : this.saveXML(AppComponent.data.getSafeData(), timeStamps);
+    this.xmlDoc = xmlPath ? (typeof xmlPath == 'string' ? this.asyncGetFile(xmlPath) : xmlPath) : this.saveXML(AppComponent.data.getSafeData());
 
     return this.xsltProcessor.transformToFragment(this.xmlDoc, document);
   }
@@ -35,8 +35,8 @@ export class XsltService {
    * @param xslPath Path to XSL
    * @returns generated JSON
    */
-  async asyncTransformJSON(xslPath: string, xmlPath?: string | Document, timeStamps?: boolean): Promise<any> {
-    var fragment = await this.asyncTransform(xslPath, xmlPath, timeStamps);
+  async asyncTransformJSON(xslPath: string, xmlPath?: string | Document): Promise<any> {
+    var fragment = await this.asyncTransform(xslPath, xmlPath);
     var text = fragment.firstChild?.nodeValue;
     var obj = JSON.parse(text!);
 
@@ -57,11 +57,11 @@ export class XsltService {
   /**
    * @deprecated Use {@link asyncTransform}
    */
-  transform(xslPath: string, xmlPath?: string | Document, timeStamps?: boolean): any {
+  transform(xslPath: string, xmlPath?: string | Document): any {
     this.xsltProcessor = new XSLTProcessor();
     this.xslStylesheet = this.getFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
-    this.xmlDoc = xmlPath ? (typeof xmlPath == 'string' ? this.getFile(xmlPath) : xmlPath) : this.saveXML(AppComponent.data.getSafeData(), timeStamps);
+    this.xmlDoc = xmlPath ? (typeof xmlPath == 'string' ? this.getFile(xmlPath) : xmlPath) : this.saveXML(AppComponent.data.getSafeData());
 
     return this.xsltProcessor.transformToFragment(this.xmlDoc, document);
   }
@@ -69,8 +69,8 @@ export class XsltService {
   /**
    * @deprecated Use {@link asyncTransformJSON}
    */
-  transformJSON(xslPath: string, xmlPath?: string | Document, timeStamps?: boolean): any {
-    var fragment = this.transform(xslPath, xmlPath, timeStamps);
+  transformJSON(xslPath: string, xmlPath?: string | Document): any {
+    var fragment = this.transform(xslPath, xmlPath);
     var text = fragment.firstChild?.nodeValue;
     var obj = JSON.parse(text!);
 

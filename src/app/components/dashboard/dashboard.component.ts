@@ -1,4 +1,5 @@
 import {Component, HostListener, OnInit} from '@angular/core';
+import { AppComponent } from 'src/app/app.component';
 
 import {XsltService} from 'src/app/services/xslt.service';
 
@@ -13,10 +14,33 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.xsltService
-      .asyncTransform('res/dashboard.xsl', undefined, true)
+      .asyncTransform('res/dashboard.xsl', this.getDashboardXML())
       .then((frag) => {
         document.getElementById('container')?.appendChild(frag);
       });
+  }
+
+  getDashboardXML(): any {
+    return this.xsltService.saveXML(this.getDashboardData(), true);
+  }
+
+  getDashboardData(): any {
+    const data = {
+      events: AppComponent.data.events,
+      habits: AppComponent.data._habits,
+    };
+
+    for (const habit of data.habits) {
+      for (const alternate of habit.alternateEvents) {
+        alternate.reference = undefined;
+      }
+    }
+
+    for (const event of data.events) {
+      event.reference = undefined;
+    }
+
+    return data
   }
 
   /**
