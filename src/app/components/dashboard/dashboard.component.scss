@@ -67,7 +67,12 @@
   }
 }
 
-::ng-deep.actions {
+::ng-deep.alternate-item {
+  padding: 4px;
+  margin-top: 4px;
+}
+
+::ng-deep.widget-actions {
   text-align: right;
 }
 

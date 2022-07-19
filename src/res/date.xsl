@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <!-- DateTime zu Date Formatieren (MM dd yyyy)-->
-    <xsl:template name="format-iso-date">
-        <xsl:param name="iso-date"/>
+    <xsl:template name="format-to-date">
+        <xsl:param name="iso-datetime"/>
         
         <xsl:variable name="date">
-            <xsl:call-template name="timezone">
-                <xsl:with-param name="dateTime" select="$iso-date"/>
+            <xsl:call-template name="adjust-to-timezone">
+                <xsl:with-param name="datetime" select="$iso-datetime"/>
             </xsl:call-template>
         </xsl:variable>
         
@@ -17,12 +17,12 @@
     </xsl:template>
     
     <!-- DateTime zu Zeit formatieren (HH:mm) -->
-    <xsl:template name="format-time">
-        <xsl:param name="iso-date"/>
+    <xsl:template name="format-to-time">
+        <xsl:param name="iso-datetime"/>
         
         <xsl:variable name="date">
-            <xsl:call-template name="timezone">
-                <xsl:with-param name="dateTime" select="$iso-date"/>
+            <xsl:call-template name="adjust-to-timezone">
+                <xsl:with-param name="datetime" select="$iso-datetime"/>
             </xsl:call-template>
         </xsl:variable>
         
@@ -32,22 +32,22 @@
     </xsl:template>
     
     <!-- Timezone offset -->
-    <xsl:template name="timezone">
-        <xsl:param name="dateTime"/>
+    <xsl:template name="adjust-to-timezone">
+        <xsl:param name="datetime"/>
         <xsl:param name="hours" select="2"/>
         
-        <xsl:variable name="dateTime-in-seconds">
+        <xsl:variable name="datetime-to-seconds">
             <xsl:call-template name="dateTime-to-seconds">
-                <xsl:with-param name="dateTime" select="$dateTime"/>
+                <xsl:with-param name="dateTime" select="$datetime"/>
             </xsl:call-template>
         </xsl:variable> 
         
-        <xsl:variable name="total-seconds" select="$dateTime-in-seconds + 3600 * $hours" />
+        <xsl:variable name="total-seconds" select="$datetime-to-seconds + 3600 * $hours" />
         
         <!-- new date -->
         <xsl:variable name="new-date">
-            <xsl:call-template name="JDN-to-Gregorian">
-                <xsl:with-param name="JDN" select="floor($total-seconds div 86400)"/>
+            <xsl:call-template name="datetime-to-gregorian">
+                <xsl:with-param name="datetime" select="floor($total-seconds div 86400)"/>
             </xsl:call-template>
         </xsl:variable> 
         <!-- new time -->
@@ -87,9 +87,9 @@
         <xsl:value-of select="86400*$jd + 3600*$hour + 60*$minute + $second" />
     </xsl:template> 
     
-    <xsl:template name="JDN-to-Gregorian">
-        <xsl:param name="JDN"/>
-        <xsl:variable name="f" select="$JDN + 1401 + floor((floor((4 * $JDN + 274277) div 146097) * 3) div 4) - 38"/>
+    <xsl:template name="datetime-to-gregorian">
+        <xsl:param name="datetime"/>
+        <xsl:variable name="f" select="$datetime + 1401 + floor((floor((4 * $datetime + 274277) div 146097) * 3) div 4) - 38"/>
         <xsl:variable name="e" select="4*$f + 3"/>
         <xsl:variable name="g" select="floor(($e mod 1461) div 4)"/>
         <xsl:variable name="h" select="5*$g + 2"/>
