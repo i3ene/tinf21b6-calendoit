@@ -63,8 +63,8 @@ export class Habit extends Event {
             item.start,
             this.duration * UtilDate.TIME.ONE_MINUTE
           );
+          if (alternate.problem) item.color.secondary = '#FFBB66';
         }
-        if (alternate.problem) item.color.secondary = '#FFBB66';
       }
     }
 
