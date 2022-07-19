@@ -104,6 +104,7 @@ export class Data {
             habit.alternateEvents.push(
               this.calculateAlternateEvent(mHabit, events)
             );
+            return;
           }
         }
       }
