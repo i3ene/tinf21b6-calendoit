@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:include href="res/date.xsl"/>
   <xsl:include href="res/functions.xsl"/>
-
+  
   <xsl:template match="root">
     <div class="widget-list">
       <xsl:call-template name="list-events">
@@ -32,7 +32,7 @@
         
         <xsl:call-template name="description"/>
         
-        <xsl:call-template name="actions">
+        <xsl:call-template name="widget-actions">
           <xsl:with-param name="href" select="'calendar'"/>
         </xsl:call-template>
       </div>
@@ -43,13 +43,13 @@
   <xsl:template name="event-timestamp">
     <p class="event-time">
       von:
-      <xsl:call-template name="format-time">
-        <xsl:with-param name="iso-date" select="./start"/>
+      <xsl:call-template name="format-to-time">
+        <xsl:with-param name="iso-datetime" select="./start"/>
       </xsl:call-template>
       
       bis:
-      <xsl:call-template name="format-time">
-        <xsl:with-param name="iso-date" select="./end"/>
+      <xsl:call-template name="format-to-time">
+        <xsl:with-param name="iso-datetime" select="./end"/>
       </xsl:call-template>
     </p>  
   </xsl:template>  
@@ -74,7 +74,7 @@
         
         <xsl:call-template name="alternate-list"/>
         
-        <xsl:call-template name="actions">
+        <xsl:call-template name="widget-actions">
           <xsl:with-param name="href" select="'planner'"/>
         </xsl:call-template>
       </div>
@@ -85,47 +85,48 @@
   <xsl:template name="habit-timestamp">
     <p class="event-time">
       zwischen:
-      <xsl:call-template name="format-time">
-        <xsl:with-param name="iso-date" select="./start"/>
+      <xsl:call-template name="format-to-time">
+        <xsl:with-param name="iso-datetime" select="./start"/>
       </xsl:call-template>
       
       und:
-      <xsl:call-template name="format-time">
-        <xsl:with-param name="iso-date" select="./end"/>
+      <xsl:call-template name="format-to-time">
+        <xsl:with-param name="iso-datetime" select="./end"/>
       </xsl:call-template>
       
       |
       
-      Ideale Zeit:
-      <xsl:call-template name="format-time">
-        <xsl:with-param name="iso-date" select="./idealTime"/>
-      </xsl:call-template>
-      
-      <br/>
-      
       Dauer:
       <xsl:value-of select="./duration"/>
       Minuten
+      
+      <br/>
+      
+      Start:
+      <xsl:call-template name="format-to-date">
+        <xsl:with-param name="iso-datetime" select="./start"/>
+      </xsl:call-template>
+      
     </p>
   </xsl:template>
   
   <!-- Timespan -->
   <xsl:template name="timespan">
     <xsl:variable name="startDate">
-      <xsl:call-template name="timezone">
-        <xsl:with-param name="dateTime" select="./start"/>
+      <xsl:call-template name="adjust-to-timezone">
+        <xsl:with-param name="datetime" select="./start"/>
       </xsl:call-template>
     </xsl:variable>
     
     <xsl:variable name="endDate">
-      <xsl:call-template name="timezone">
-        <xsl:with-param name="dateTime" select="./end"/>
+      <xsl:call-template name="adjust-to-timezone">
+        <xsl:with-param name="datetime" select="./end"/>
       </xsl:call-template>
     </xsl:variable>
     
     <xsl:variable name="idealTimeDate">
-      <xsl:call-template name="timezone">
-        <xsl:with-param name="dateTime" select="./idealTime"/>
+      <xsl:call-template name="adjust-to-timezone">
+        <xsl:with-param name="datetime" select="./idealTime"/>
       </xsl:call-template>
     </xsl:variable>
     
@@ -199,8 +200,8 @@
     <p>
       <xsl:if test="./repeat/repeating/@type='date'">
         Wiederholen bis: 
-        <xsl:call-template name="format-iso-date">
-          <xsl:with-param name="iso-date" select="./repeat/repeating"/>
+        <xsl:call-template name="format-to-date">
+          <xsl:with-param name="iso-datetime" select="./repeat/repeating"/>
         </xsl:call-template>
       </xsl:if>
       
@@ -278,9 +279,31 @@
         </button>
       </div>
       <div class="mat-expansion-panel-body minimized">
-        LIST_ALTERNATE_HABIT_EVENTS
+        <xsl:call-template name="alternate-items"/>
       </div>
     </div>
+  </xsl:template>
+  
+  <!-- Alternate-Habit -->
+  <xsl:template name="alternate-items">
+    <xsl:if test="count(./alternateEvents/*) = 0">
+      <span class="undefined-description">Keine alternativen Zeiten vorhanden</span>
+    </xsl:if>
+    <xsl:for-each select="./alternateEvents/*">
+      <div class="alternate-item">
+        <span>
+          <xsl:call-template name="format-to-date">
+            <xsl:with-param name="iso-datetime" select="./start"/>
+          </xsl:call-template>
+          
+          -
+          
+          <xsl:call-template name="format-to-time">
+            <xsl:with-param name="iso-datetime" select="./start"/>
+          </xsl:call-template>
+        </span>
+      </div>
+    </xsl:for-each>
   </xsl:template>
   
   <!-- Title -->
@@ -307,9 +330,9 @@
   </xsl:template>
   
   <!-- Actions -->
-  <xsl:template name="actions">
+  <xsl:template name="widget-actions">
     <xsl:param name="href"/>
-    <div class="actions">
+    <div class="widget-actions">
       <a class="mat-focus-indicator mat-stroked-button mat-button-base">
         <xsl:attribute name="href">#/<xsl:value-of select="$href"/></xsl:attribute>
         <span class="mat-button-wrapper">Anzeigen</span>
