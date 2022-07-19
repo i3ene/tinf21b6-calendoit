@@ -1,7 +1,7 @@
-import {Event} from './event.model';
-import {HabitEvent} from './habit-event.model';
-import {Habit} from './habit.model';
-import {UtilDate, UtilObject} from './util.model';
+import { Event } from './event.model';
+import { HabitEvent } from './habit-event.model';
+import { Habit } from './habit.model';
+import { UtilDate, UtilObject } from './util.model';
 
 export class Data {
   /**
@@ -175,7 +175,7 @@ export class Data {
       difference: number;
       isStart: boolean;
       slot: { start: Date; end: Date; duration: number } | undefined;
-    } = {difference: Number.MAX_VALUE, isStart: false, slot: undefined};
+    } = { difference: Number.MAX_VALUE, isStart: false, slot: undefined };
     for (const slot of timeSlots) {
       // Calculate differences from start ad beginning of timespan
       let diffStart = Math.abs(idealTime.getTime() - slot.start.getTime());
@@ -203,6 +203,7 @@ export class Data {
 
     // Calculate best start for alternate event
     if (nearestSlot.slot == undefined) {
+      // No available time problem
       alternate.problem = true;
       alternate.start = idealTime;
     } else if (nearestSlot.isStart) {

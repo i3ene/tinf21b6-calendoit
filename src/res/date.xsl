@@ -13,7 +13,7 @@
         <xsl:variable name="year" select="substring($date, 1, 4)"/>
         <xsl:variable name="month" select="substring($date, 6, 2)"/>
         <xsl:variable name="day" select="substring($date, 9, 2)"/>
-        <xsl:value-of select="concat($month, '.',$day, '.', $year)"/>
+        <xsl:value-of select="concat($day, '.',$month, '.', $year)"/>
     </xsl:template>
     
     <!-- DateTime zu Zeit formatieren (HH:mm) -->

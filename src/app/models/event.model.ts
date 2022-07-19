@@ -85,7 +85,7 @@ export class Event implements CalendarEvent {
     this.color = {
       primary: obj.color && obj.color.primary ? obj.color.primary : '#009688',
       secondary:
-        obj.color && obj.color.secondary ? obj.color.secondary : '#ffffffc0',
+        obj.color && obj.color.secondary ? obj.color.secondary : '#ffffff',
     };
 
     if (obj.repeat) {
@@ -103,7 +103,9 @@ export class Event implements CalendarEvent {
     this.draggable = obj.draggable ? obj.draggable : undefined;
     if (obj.resizable) {
       this.resizable = {
-        beforeStart: obj.resizable.beforeStart ? obj.resizable.beforeStart : undefined,
+        beforeStart: obj.resizable.beforeStart
+          ? obj.resizable.beforeStart
+          : undefined,
         afterEnd: obj.resizable.afterEnd ? obj.resizable.afterEnd : undefined,
       };
     }
@@ -131,7 +133,11 @@ export class Event implements CalendarEvent {
 
     // Iterate through the amount of days to repeat
     const arr: Event[] = [];
-    const days = UtilDate.diffTime(this.start, repeating, UtilDate.TIME.ONE_DAY);
+    const days = UtilDate.diffTime(
+      this.start,
+      repeating,
+      UtilDate.TIME.ONE_DAY
+    );
     for (let i = 0; i <= days; i++) {
       // Check if Day is in repeating defined
       const current = UtilDate.addDays(this.start, i);

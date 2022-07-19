@@ -301,6 +301,10 @@
           <xsl:call-template name="format-to-time">
             <xsl:with-param name="iso-datetime" select="./start"/>
           </xsl:call-template>
+
+          <xsl:if test="./problem">
+            (Keine alternative Zeit möglich!)
+          </xsl:if>
         </span>
       </div>
     </xsl:for-each>
