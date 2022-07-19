@@ -20,10 +20,18 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  /**
+   * Generate XML for dashboard
+   * @returns Generated XML
+   */
   getDashboardXML(): any {
     return this.xsltService.saveXML(this.getDashboardData(), true);
   }
 
+  /**
+   * Get data to display for dashboard
+   * @returns Sanitized copy of data
+   */
   getDashboardData(): any {
     const data = {
       events: AppComponent.data.events,
