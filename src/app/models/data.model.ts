@@ -92,21 +92,31 @@ export class Data {
     for (const habit of this._habits) {
       habit.alternateEvents = [];
       for (const mHabit of habit.getHabits()) {
-        for (const event of events) {
-          if (
-            UtilDate.isOverlapping(
-              mHabit.start,
-              mHabit.end,
-              event.start,
-              event.end
-            )
-          ) {
-            habit.alternateEvents.push(
-              this.calculateAlternateEvent(mHabit, events)
-            );
-            return;
-          }
-        }
+        this.recalculateHabits(habit, mHabit as Habit, events);
+      }
+    }
+  }
+
+  /**
+   * Recalculate for a single habit
+   * @param habit The habit to recalculate for
+   * @param mHabit The single event of habit
+   * @param events All events
+   */
+  recalculateHabits(habit: Habit, mHabit: Habit, events: Event[]): void {
+    for (const event of events) {
+      if (
+        UtilDate.isOverlapping(
+          mHabit.start,
+          mHabit.end,
+          event.start,
+          event.end
+        )
+      ) {
+        habit.alternateEvents.push(
+          this.calculateAlternateEvent(mHabit, events)
+        );
+        return;
       }
     }
   }
