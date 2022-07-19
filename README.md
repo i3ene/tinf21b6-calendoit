@@ -1,6 +1,38 @@
 # Calendoit
 
-Check out our live [site](https://dhbw-ka-pm.github.io/tinf21b6-calendoit/)!
+As a group of computer science students at the "DHBW Karlsruhe" it is our goal to make a calendar, which is able to plan your whole day.
+We also want to make it as easily accessible as possible, that's why you don't need to download anything or register anywhere, you can just clickon this link to check out our [live site](https://dhbw-ka-pm.github.io/tinf21b6-calendoit/)!
+
+### Product Idea
+Since we as dual students (half time studying, half time working) know how hard it is to have a lot of appointments while simultaneously trying to keep up with the good habits, we decided to create something simple enought to be available in seconds, yet powerful enough to handle your everyday schedule with ease.
+In this application, there are 2 different kinds of objects:
+
+**Events** are mandatory meetings or appointments that may be either unique or repeating weekly on specific days of the week.
+Events have a title, a start time and end time as well as a description.
+If you set them to repeat themselves, you can choose on which days of the week they are meant to repeat and when they should stop repeating.
+
+**Habits** are dynamic reaccuring events, which will completely get planned by our sophisticated algorithm to perfectly fit into your day.
+They also have a title and a description, but the start end end time declare the time frame, in which this habit is supposed to take place.
+You also set an ideal time and a duration so we can plan your perfect day.
+Additionally, you are able to declare on when you want to stop that habit of yours.
+
+
+The key idea is it, that our algorithm plans all your habits around the static events like meetings and appointments, even if you plan new events spontaniously or move another event. With a click onto the dashboard, you can see everything that is relevant for you for the current day such as the static events for today as well as the planned execution of habits.
+
+
+### Product Vision
+As Calendoit, we want to help bussy and stressed people by providing a simple yet powerful tool which which they can schedule their meetings for work and simultaneously keep track of their habits. 
+
+We beliefe that this adds a significant value to peoples lifes, especially to those, who have problems getting things done.
+In those cases we provide the someone or something which tells you exactly when to do what.
+
+We want people to not break their habits because they "were to bussy latley" or because "they just didn't have any time".
+Things like that don't exist. There is enough time in a day, you're just wasting most of it.
+
+We are here to give you someting what's already yours, something extremely valuable:
+
+**Your time**
+
 
 ## Technologies
 In the following we will describe different technologies we are using and why we chose them / which advantages they offer.
