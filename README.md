@@ -63,14 +63,24 @@ The Material Framework is an interactive UI framework with predefined styles for
 - Das Color-Theme kann mit einem Klick auf der rechten Seite der Oberen Leiste zwische Dark- und Lightmode getoggelt werden
 - In der Navigationsleiste kann zwischen den verschiedenen Elementen der Seite durch klicken gewechselt werden
 
-###Dashboard
+### Dashboard
 - Das Dashboard zeigt die Anstehenden Termine und Gewohnheiten des aktuellen Tages mit Uhrzeit und Beschreibung, so wie die aktiven Gewohnheiten mit ihrer Idealzeit, Zeiträumen und Wiederholungsrate als Übersicht an.
--- Zwischen Repeating und Deadline Event wird hierbei mit XSLT dynamisch unteschieden
+    - Zwischen Repeating und Deadline Gewohnheit und Termin wird hierbei mit XSLT dynamisch unteschieden
 - Über den Button "Anzeigen" bei den aktuellen Terminen wird man auf das Kalender Element am aktuellen Tag verwiesen
 - Über den Button "Anzeigen" bei den aktiven Gewohnheiten wird man auf das Planner Element verwiesen
 
-###Kalender
-
+### Kalender
+- Termine können über den "+" Button angelegt werden
+- Durch Klicken auf einen Tag öffnet sich im Kalender eine Übersicht über die Termine
+- Durch Klicken auf einen Termin kann man diesen bearbeiten und auch löschen 
+- Es können 3 Arten von Terminen angelegt werden
+    -  Einmalige Termine
+    -  Termine die sich bis zu einer Deadline an bestimmten Tagen wiederholen
+    -  Termine die sich x-mal an bestimmten Tagen wiederholen
+-  Die Hintergrundfarbe des Termins kann ausgewählt werden
+-  Terminen kann ein Titel, eine Beschreibung und Zeiten gegeben werden
+- Es kann zwischen Tages, Monats und Wochen Ansicht über das entsprechende Menü gewechselt werden
+- Man kann über das Menü zu den vorherigen und nachfolgenden Zeitpunkten im Kalender navigieren
   
 
 ## Information
