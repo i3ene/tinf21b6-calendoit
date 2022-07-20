@@ -1,5 +1,6 @@
 import {Component, HostListener} from '@angular/core';
 import packageJson from '../../package.json';
+import { LocalConfig } from './models/config.model';
 import {Data} from './models/data.model';
 import {Theme} from './models/theme.model';
 import {ThemeService} from './services/theme.service';
@@ -20,7 +21,7 @@ export class AppComponent {
    */
   @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event: any) {
-    //return false;
+    localStorage[LocalConfig.data] = JSON.stringify(AppComponent.data.getSafeData());
   }
 
   /**
@@ -29,18 +30,29 @@ export class AppComponent {
   public static data: Data;
 
   /**
-   * Load Data with XSLT Service
+   * Load data with XSLT Service
    * @param xml Path to XML
    * @param xsl Path to XSL
    */
   static loadData(xsl: string, xml: string | Document): void {
     var obj = new XsltService().transformJSON(xsl, xml);
-    AppComponent.data = new Data(obj.root);
+    AppComponent.setData(obj.root);
+  }
+
+  /**
+   * Set global data
+   * @param data Data to load
+   */
+  static setData(data: any): void {
+    AppComponent.data = new Data(data);
     AppComponent.data.recalculate();
   }
 
   constructor(public themeService: ThemeService) {
-    AppComponent.loadData('res/json.xsl', 'res/data.xml');
+    // If localstorage has data, load it
+    if (localStorage[LocalConfig.data]) AppComponent.setData(JSON.parse(localStorage[LocalConfig.data]));
+    // Else load default data
+    else AppComponent.loadData('res/json.xsl', 'res/data.xml');
   }
 
   get theme() {
