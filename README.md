@@ -75,8 +75,11 @@ The Material Framework is an interactive UI framework with predefined styles for
 - Durch Klicken auf einen Termin kann man diesen bearbeiten und auch löschen 
 - Es können 3 Arten von Terminen angelegt werden
     -  Einmalige Termine
+        - Kann per Drag&Drop in Größe angepasst werden und verschoben werden 
     -  Termine die sich bis zu einer Deadline an bestimmten Tagen wiederholen
+          - Kann per Drag&Drop in größe Angepasst werden
     -  Termine die sich x-mal an bestimmten Tagen wiederholen
+          - Kann per Drag&Drop in größe Angepasst werden
 -  Die Hintergrundfarbe des Termins kann ausgewählt werden
 -  Terminen kann ein Titel, eine Beschreibung und Zeiten gegeben werden
 - Es kann zwischen Tages, Monats und Wochen Ansicht über das entsprechende Menü gewechselt werden
