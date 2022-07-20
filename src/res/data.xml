@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<root type="object" dateTime="2022-07-13" day="2"> 
+<root type="object" dateTime="2022-07-13" day="2">
     <events type="array">
         <value0 type="object">
             <start type="date">2022-07-10T07:58:01.533Z</start>
@@ -19,8 +19,8 @@
             </repeat>
         </value0>
         <value1 type="object">
-            <start type="date">2022-07-06T07:58:01.533Z</start>
-            <end type="date">2022-07-06T07:58:01.533Z</end>
+            <start type="date">2022-07-06T05:58:01.533Z</start>
+            <end type="date">2022-07-06T08:58:01.533Z</end>
             <title>Single Event</title>
             <description>An Event with only a single occurence</description>
             <color type="object">

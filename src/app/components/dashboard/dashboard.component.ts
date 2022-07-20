@@ -1,7 +1,7 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { AppComponent } from 'src/app/app.component';
 
-import {XsltService} from 'src/app/services/xslt.service';
+import { XsltService } from 'src/app/services/xslt.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,8 +9,7 @@ import {XsltService} from 'src/app/services/xslt.service';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  constructor(private xsltService: XsltService) {
-  }
+  constructor(private xsltService: XsltService) {}
 
   ngOnInit(): void {
     this.xsltService
@@ -48,7 +47,7 @@ export class DashboardComponent implements OnInit {
       event.reference = undefined;
     }
 
-    return data
+    return data;
   }
 
   /**
@@ -57,7 +56,7 @@ export class DashboardComponent implements OnInit {
    */
   @HostListener('window:toggle-expand-habits', ['$event'])
   toggleExpandHabits(event: any) {
-    var node = event.explicitOriginalTarget;
+    var node = event.detail;
     const expanded = this.toggleExpandBody(node);
     this.changeIcon(node, expanded);
   }
@@ -68,11 +67,26 @@ export class DashboardComponent implements OnInit {
    * @returns `true` if expanded
    */
   toggleExpandBody(node: any): boolean {
-    while (!Array.from(node.classList).includes('mat-expansion-panel')) {
+    // Find expansion panel parent
+    while (
+      Array.from(node.classList).find((x) => x == 'mat-expansion-panel') ==
+      undefined
+    ) {
       node = node.parentNode;
     }
-    node = node.childNodes[1];
+    // Find childs
+    var childs = Array.from(node.childNodes as NodeList).filter(
+      (x) => x.nodeName != '#text'
+    );
+    // Get dody element
+    node = childs.find(
+      (x) =>
+        Array.from((x as HTMLElement).classList).find(
+          (x) => x == 'mat-expansion-panel-body'
+        ) != undefined
+    );
     var classes = node.classList;
+    // Check minimized state
     var index = Array.from(classes).indexOf('minimized');
     if (index == -1) {
       classes.add('minimized');
@@ -89,9 +103,9 @@ export class DashboardComponent implements OnInit {
    * @param isExpanded If is expanding icon
    */
   changeIcon(node: any, isExpanded: boolean): void {
-    while (!Array.from(node.classList).includes('mat-icon')) {
-      node = node.childNodes[0];
-    }
+    // Find icon element
+    node = (node as HTMLElement).getElementsByClassName('mat-icon')[0];
+    // Set state
     if (isExpanded) node.innerHTML = 'expand_more';
     else node.innerHTML = 'navigate_before';
   }

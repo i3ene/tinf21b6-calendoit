@@ -36,7 +36,10 @@ export class Habit extends Event {
       item.start.setMinutes(this.idealTime.getMinutes());
 
       // Calculate end Date
-      item.end = UtilDate.addTime(item.start, this.duration * UtilDate.TIME.ONE_MINUTE);
+      item.end = UtilDate.addTime(
+        item.start,
+        this.duration * UtilDate.TIME.ONE_MINUTE
+      );
     }
 
     return list;
@@ -56,14 +59,17 @@ export class Habit extends Event {
         if (UtilDate.isSameDay(item.start, alternate.start)) {
           item.start = alternate.start;
           // Calculate end Date
-          item.end = UtilDate.addTime(item.start, this.duration * UtilDate.TIME.ONE_MINUTE);
+          item.end = UtilDate.addTime(
+            item.start,
+            this.duration * UtilDate.TIME.ONE_MINUTE
+          );
+          if (alternate.problem) item.color.secondary = '#FFBB66';
         }
       }
     }
 
     return list;
   }
-
 }
 
 export namespace Habit {

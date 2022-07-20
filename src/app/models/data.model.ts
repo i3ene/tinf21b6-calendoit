@@ -1,7 +1,7 @@
-import {Event} from './event.model';
-import {HabitEvent} from './habit-event.model';
-import {Habit} from './habit.model';
-import {UtilDate, UtilObject} from './util.model';
+import { Event } from './event.model';
+import { HabitEvent } from './habit-event.model';
+import { Habit } from './habit.model';
+import { UtilDate, UtilObject } from './util.model';
 
 export class Data {
   /**
@@ -92,20 +92,31 @@ export class Data {
     for (const habit of this._habits) {
       habit.alternateEvents = [];
       for (const mHabit of habit.getHabits()) {
-        for (const event of events) {
-          if (
-            UtilDate.isOverlapping(
-              mHabit.start,
-              mHabit.end,
-              event.start,
-              event.end
-            )
-          ) {
-            habit.alternateEvents.push(
-              this.calculateAlternateEvent(mHabit, events)
-            );
-          }
-        }
+        this.recalculateHabits(habit, mHabit as Habit, events);
+      }
+    }
+  }
+
+  /**
+   * Recalculate for a single habit
+   * @param habit The habit to recalculate for
+   * @param mHabit The single event of habit
+   * @param events All events
+   */
+  recalculateHabits(habit: Habit, mHabit: Habit, events: Event[]): void {
+    for (const event of events) {
+      if (
+        UtilDate.isOverlapping(
+          mHabit.start,
+          mHabit.end,
+          event.start,
+          event.end
+        )
+      ) {
+        habit.alternateEvents.push(
+          this.calculateAlternateEvent(mHabit, events)
+        );
+        return;
       }
     }
   }
@@ -175,7 +186,7 @@ export class Data {
       difference: number;
       isStart: boolean;
       slot: { start: Date; end: Date; duration: number } | undefined;
-    } = {difference: Number.MAX_VALUE, isStart: false, slot: undefined};
+    } = { difference: Number.MAX_VALUE, isStart: false, slot: undefined };
     for (const slot of timeSlots) {
       // Calculate differences from start ad beginning of timespan
       let diffStart = Math.abs(idealTime.getTime() - slot.start.getTime());
@@ -203,6 +214,7 @@ export class Data {
 
     // Calculate best start for alternate event
     if (nearestSlot.slot == undefined) {
+      // No available time problem
       alternate.problem = true;
       alternate.start = idealTime;
     } else if (nearestSlot.isStart) {

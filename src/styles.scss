@@ -54,6 +54,10 @@ $CalenDoIt-dark-theme: mat.define-dark-theme((
   $app-foreground-color: mat.get-color-from-palette($_foreground, text);
   $border-color: mat.get-color-from-palette($_foreground, divider);
 
+  @include calendar-theme($theme);
+  @include flatpickr-theme($theme);
+  @include mat.all-component-colors($theme);
+
   .app-background {
     background: mat.get-color-from-palette($_background, card);
   }
@@ -97,17 +101,10 @@ body {
 
 .light-theme {
   @include app-theme($CalenDoIt-theme);
-
-  @include calendar-theme($CalenDoIt-theme);
-  @include flatpickr-theme($CalenDoIt-theme);
 }
 
 .dark-theme {
   @include app-theme($CalenDoIt-dark-theme);
-  @include mat.all-component-colors($CalenDoIt-dark-theme);
-
-  @include calendar-theme($CalenDoIt-dark-theme);
-  @include flatpickr-theme($CalenDoIt-dark-theme);
 }
 
 ::-webkit-scrollbar {
