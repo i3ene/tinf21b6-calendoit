@@ -57,6 +57,22 @@ JSON is the representation of an JavaScript object. Despite being able to have d
 ### Material Framework
 The Material Framework is an interactive UI framework with predefined styles for different elements and many different useful functionalities like drag and drop, functions for tables etc.
 
+## Feautures
+###Allgemein
+- Die Naviagationsleiste kann mit einem Klick auf der linken Seite der Oberen Leiste eingeklappt werden
+- Das Color-Theme kann mit einem Klick auf der rechten Seite der Oberen Leiste zwische Dark- und Lightmode getoggelt werden
+- In der Navigationsleiste kann zwischen den verschiedenen Elementen der Seite durch klicken gewechselt werden
+
+###Dashboard
+- Das Dashboard zeigt die Anstehenden Termine und Gewohnheiten des aktuellen Tages mit Uhrzeit und Beschreibung, so wie die aktiven Gewohnheiten mit ihrer Idealzeit, Zeiträumen und Wiederholungsrate als Übersicht an.
+-- Zwischen Repeating und Deadline Event wird hierbei mit XSLT dynamisch unteschieden
+- Über den Button "Anzeigen" bei den aktuellen Terminen wird man auf das Kalender Element am aktuellen Tag verwiesen
+- Über den Button "Anzeigen" bei den aktiven Gewohnheiten wird man auf das Planner Element verwiesen
+
+###Kalender
+
+  
+
 ## Information
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.1.
