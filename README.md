@@ -90,9 +90,15 @@ The Material Framework is an interactive UI framework with predefined styles for
 - Hierbei kann man zwischen Wiederholenden und Deladline Events wählen
     - Deadlinegewohnheiten wiederholen sich bis zur Deadline an den ausgewählten Tagen
     - Wiederholungsgewohnheiten werden so viele Wochen wie im Feld angegeben wird wiederholt
-- Die Gewohnheiten werden unter der Formular zum erstellen der Gewohnheiten in einer Tabelle angezeigt
+- Die Gewohnheiten werden unter dem Formular zum erstellen der Gewohnheiten in einer Tabelle angezeigt
      - Die Tage können auch in der Tabelle bearbeitet werden
      - Für weitere Bearbeitung kann man auf den Stift klicken und dann die entsprechende Gewohnheit im Formular bearbeiten
+- Die Tabelle hat einen einstellbaren Paginator 
+
+### Einstellungen
+- Über den Button "Download" können die aktuell eingetragenen Termine und Gewohnheiten in einer XML-Datei heruntergeladen werden
+- Über den Button "Upload" kann eine zu früherem Zeitpunkt heruntergeladene Datei hochgeladen werden, um die Termine nach dem erneuten öffnen der Seite wieder auf den stand zu bringen.
+- Im Debug reiter findet man die Daten nochmal in JSON form um zu sehen wie die Daten aktuell aussehen und ggf. fehler oder Probleme erkennen zu können
 ## Information
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.1.
