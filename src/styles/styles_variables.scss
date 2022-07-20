@@ -25,3 +25,5 @@ $progressBarInactive: mat.get-color-from-palette($CalenDoIt-primary, 800, 0.75);
 $isActiveColor: mat.get-color-from-palette($CalenDoIt-accent, darker);
 $defaultPrimary: mat.get-color-from-palette($CalenDoIt-primary, default);
 
+$defaultInformation: mat.get-color-from-palette($CalenDoIt-information, default);
+

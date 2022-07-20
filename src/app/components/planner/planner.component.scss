@@ -17,3 +17,7 @@
 app-list-habit {
   width: 95%;
 }
+
+app-form ::ng-deep.mat-dialog-content {
+  max-height: none !important;
+}

@@ -89,6 +89,10 @@
   border-top: 1px solid;
 }
 
+::ng-deep.warn-text {
+  color: sv.$defaultInformation;
+}
+
 ::ng-deep.widget-actions {
   text-align: right;
 }

@@ -298,6 +298,14 @@
     <xsl:for-each select="./alternateEvents/*">
       <div class="alternate-item app-border">
         <span>
+          <xsl:variable name="isProblem" select="./problem"/>
+
+          <xsl:attribute name="class">
+            <xsl:if test="$isProblem">
+              warn-text
+            </xsl:if>
+          </xsl:attribute>
+
           <xsl:call-template name="format-to-date">
             <xsl:with-param name="iso-datetime" select="./start"/>
           </xsl:call-template>
@@ -308,7 +316,7 @@
             <xsl:with-param name="iso-datetime" select="./start"/>
           </xsl:call-template>
 
-          <xsl:if test="./problem">
+          <xsl:if test="$isProblem">
             (Keine alternative Zeit möglich!)
           </xsl:if>
         </span>
