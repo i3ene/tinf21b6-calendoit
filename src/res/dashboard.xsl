@@ -272,6 +272,9 @@
         <xsl:attribute name="onclick">
           window.dispatchEvent(new CustomEvent('toggle-expand-habits', {'detail': this}));
         </xsl:attribute>
+        <span class="mat-content">
+          Alternative Zeiten
+        </span>
         <button class="mat-focus-indicator mat-icon-button mat-button-base">
           <span class="mat-button-wrapper">
             <mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">
@@ -293,7 +296,7 @@
       <span class="undefined-description">Keine alternativen Zeiten vorhanden</span>
     </xsl:if>
     <xsl:for-each select="./alternateEvents/*">
-      <div class="alternate-item">
+      <div class="alternate-item app-border">
         <span>
           <xsl:call-template name="format-to-date">
             <xsl:with-param name="iso-datetime" select="./start"/>
