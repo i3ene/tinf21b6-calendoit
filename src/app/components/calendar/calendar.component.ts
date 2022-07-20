@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, Component, Inject, LOCALE_ID, OnInit, ViewEncapsulation,} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  LOCALE_ID,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   CalendarDateFormatter,
   CalendarEvent,
@@ -7,17 +14,17 @@ import {
   CalendarUtils as CalendarUtilsClass,
   CalendarView,
 } from 'angular-calendar';
-import {isSameDay, isSameMonth,} from 'date-fns';
-import {Subject} from 'rxjs';
-import {Event} from 'src/app/models/event.model';
-import {AppComponent} from 'src/app/app.component';
-import {MatDialog} from '@angular/material/dialog';
-import {EventTitleFormatter} from 'src/app/providers/event-title-formatter.provider';
-import {CalendarUtils} from 'src/app/providers/calendar-utils.provider';
-import {DateFormatter} from 'src/app/providers/date-formatter.provider';
-import {Habit} from 'src/app/models/habit.model';
-import {UtilDate} from 'src/app/models/util.model';
-import {FormDialogComponent} from 'src/app/dialogues/form-dialog/form-dialog.component';
+import { isSameDay, isSameMonth } from 'date-fns';
+import { Subject } from 'rxjs';
+import { Event } from 'src/app/models/event.model';
+import { AppComponent } from 'src/app/app.component';
+import { MatDialog } from '@angular/material/dialog';
+import { EventTitleFormatter } from 'src/app/providers/event-title-formatter.provider';
+import { CalendarUtils } from 'src/app/providers/calendar-utils.provider';
+import { DateFormatter } from 'src/app/providers/date-formatter.provider';
+import { Habit } from 'src/app/models/habit.model';
+import { UtilDate } from 'src/app/models/util.model';
+import { FormDialogComponent } from 'src/app/dialogues/form-dialog/form-dialog.component';
 
 @Component({
   selector: 'app-calendar',
@@ -91,7 +98,7 @@ export class CalendarComponent implements OnInit {
     this.activeDayIsOpen = false;
   }
 
-  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -106,10 +113,10 @@ export class CalendarComponent implements OnInit {
   }
 
   eventTimesChanged({
-                      event,
-                      newStart,
-                      newEnd,
-                    }: CalendarEventTimesChangedEvent): void {
+    event,
+    newStart,
+    newEnd,
+  }: CalendarEventTimesChangedEvent): void {
     this.handleEvent('DroppedOrResized', event as Event, {
       start: newStart,
       end: newEnd,
@@ -129,7 +136,7 @@ export class CalendarComponent implements OnInit {
         this.changeEventTimes(event as Event, options);
         break;
       default:
-        console.log({event, action});
+        console.log({ event, action });
     }
   }
 
@@ -180,6 +187,13 @@ export class CalendarComponent implements OnInit {
    */
   openAdd(): void {
     let event: Event = new Event({});
+    // Set to currently selected Date
+    event.start.setFullYear(this.viewDate.getFullYear());
+    event.start.setMonth(this.viewDate.getMonth());
+    event.start.setDate(this.viewDate.getDate());
+    event.end.setFullYear(this.viewDate.getFullYear());
+    event.end.setMonth(this.viewDate.getMonth());
+    event.end.setDate(this.viewDate.getDate());
 
     const ref = this.dialog.open(FormDialogComponent, {
       data: {
