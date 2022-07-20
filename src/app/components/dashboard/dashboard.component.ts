@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit {
    */
   @HostListener('window:toggle-expand-habits', ['$event'])
   toggleExpandHabits(event: any) {
-    var node = event.explicitOriginalTarget;
+    var node = event.detail;
     const expanded = this.toggleExpandBody(node);
     this.changeIcon(node, expanded);
   }
@@ -68,10 +68,11 @@ export class DashboardComponent implements OnInit {
    * @returns `true` if expanded
    */
   toggleExpandBody(node: any): boolean {
-    while (!Array.from(node.classList).includes('mat-expansion-panel')) {
+    while (Array.from(node.classList).find(x => x == 'mat-expansion-panel') == undefined) {
       node = node.parentNode;
     }
-    node = node.childNodes[1];
+    var childs = Array.from(node.childNodes as NodeList).filter(x => x.nodeName != '#text');
+    node = childs.find(x => Array.from((x as HTMLElement).classList).find(x => x == 'mat-expansion-panel-body') != undefined);
     var classes = node.classList;
     var index = Array.from(classes).indexOf('minimized');
     if (index == -1) {
