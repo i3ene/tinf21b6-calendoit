@@ -44,7 +44,6 @@ export class AppComponent {
    * @param data Data to load
    */
   static setData(data: any): void {
-    console.log(data);
     AppComponent.data = new Data(data);
     AppComponent.data.recalculate();
   }
