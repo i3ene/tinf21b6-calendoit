@@ -90,14 +90,25 @@ export class CalendarComponent implements OnInit {
     this.refresh.next();
   }
 
+  /**
+   * Set current view
+   * @param view View mode
+   */
   setView(view: CalendarView) {
     this.view = view;
   }
 
+  /**
+   * Close view
+   */
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
 
+  /**
+   * On click of calendar day
+   * @param param0 Click event
+   */
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -112,6 +123,10 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  /**
+   * On change of date times
+   * @param param0 Event parameter
+   */
   eventTimesChanged({
     event,
     newStart,
@@ -123,6 +138,12 @@ export class CalendarComponent implements OnInit {
     });
   }
 
+  /**
+   * Handle an action
+   * @param action Calendar action
+   * @param event Calendar event
+   * @param options Additional options
+   */
   handleEvent(
     action: string,
     event: CalendarEvent<any> | Event,
@@ -187,7 +208,7 @@ export class CalendarComponent implements OnInit {
    */
   openAdd(): void {
     let event: Event = new Event({});
-    // Set to currently selected Date
+    // Set to currently selected Datey
     event.start.setFullYear(this.viewDate.getFullYear());
     event.start.setMonth(this.viewDate.getMonth());
     event.start.setDate(this.viewDate.getDate());
@@ -195,6 +216,7 @@ export class CalendarComponent implements OnInit {
     event.end.setMonth(this.viewDate.getMonth());
     event.end.setDate(this.viewDate.getDate());
 
+    // Open dialog
     const ref = this.dialog.open(FormDialogComponent, {
       data: {
         event: event,
@@ -203,6 +225,7 @@ export class CalendarComponent implements OnInit {
       disableClose: true,
     });
 
+    // Fetch action
     ref.afterClosed().subscribe((result) => {
       if (result != 'Add') return;
       this.addEvent(event);
@@ -216,10 +239,12 @@ export class CalendarComponent implements OnInit {
   openEdit(event: Event | Habit): void {
     const isHabit = (event.reference as Habit).idealTime != undefined;
 
+    // Make copy
     let copy: Event | Habit = isHabit
       ? new Habit(event.reference)
       : new Event(event.reference);
 
+    // Open dialog
     const ref = this.dialog.open(FormDialogComponent, {
       data: {
         event: event.reference,
@@ -230,6 +255,7 @@ export class CalendarComponent implements OnInit {
       disableClose: true,
     });
 
+    // Fetch action
     ref.afterClosed().subscribe((result) => {
       switch (result) {
         case 'Save':
@@ -253,6 +279,11 @@ export class CalendarComponent implements OnInit {
     this.events = AppComponent.data.getEvents();
   }
 
+  /**
+   * On change of date navigation
+   * @param event Selection event
+   * @param element Selection element
+   */
   onNavigationChange(event: any, element: any): void {
     if (event != undefined) element.value = undefined;
   }
