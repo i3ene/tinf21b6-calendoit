@@ -18,6 +18,7 @@ import localeDe from '@angular/common/locales/de';
 import {HabitHelpComponent} from './dialogues/habit-help/habit-help.component';
 import {FormComponent} from './dialogues/form/form.component';
 import {FormDialogComponent} from './dialogues/form-dialog/form-dialog.component';
+import { MapComponent } from './components/map/map.component';
 
 /**
  * Registering Language Localization
@@ -36,6 +37,7 @@ registerLocaleData(localeDe);
     HabitHelpComponent,
     FormComponent,
     FormDialogComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,
