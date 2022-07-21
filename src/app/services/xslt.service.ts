@@ -103,7 +103,7 @@ export class XsltService {
     // Timestamps
     if (timeStamps) {
       const date = new Date();
-      xmlDoc.documentElement.setAttribute("datetime", new DatePipe('de-DE').transform(date, 'yyyy-MM-dd')!);
+      xmlDoc.documentElement.setAttribute("datetime", date.toISOString());
       xmlDoc.documentElement.setAttribute("day", date.getDay().toString());
     }
 

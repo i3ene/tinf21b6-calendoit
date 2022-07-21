@@ -21,6 +21,10 @@
   h2 {
     display: inline;
   }
+
+  & + span {
+    visibility: hidden;
+  }
 }
 
 ::ng-deep.repeat-section {

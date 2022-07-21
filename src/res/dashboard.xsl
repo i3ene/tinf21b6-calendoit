@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:include href="res/date.xsl"/>
   <xsl:include href="res/functions.xsl"/>
-
+  
   <xsl:template match="root">
     <div class="widget-list">
       <xsl:call-template name="list-events">
@@ -13,74 +13,144 @@
       </xsl:call-template>
     </div>
   </xsl:template>
-
+  
   <!-- Events -->
   <xsl:template name="list-events">
-    <xsl:variable name="date" select="@datetime"/>
-
+    <xsl:variable name="todayDatetime">
+      <xsl:call-template name="datetime-to-seconds">
+        <xsl:with-param name="datetime" select="@datetime"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:variable name="todayDatetimeAdjusted">
+      <xsl:call-template name="adjust-to-timezone">
+        <xsl:with-param name="datetime" select="@datetime"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:variable name="todayDate">
+      <xsl:value-of select="concat(substring($todayDatetimeAdjusted, 1, 4), '-',substring($todayDatetimeAdjusted, 6, 2), '-', substring($todayDatetimeAdjusted, 9, 2))"/>
+    </xsl:variable>
+    
     <h1>Anstehende Termine</h1>
-
-    <xsl:if test="count(events/*[contains(start, $date)]) = 0">
-      <span class="undefined-description">Keine Termine für heute</span>
-    </xsl:if>
-
-    <xsl:for-each select="events/*[contains(start, $date)]">
-      <div class="app-card">
-        <xsl:call-template name="title"/>
-
-        <xsl:call-template name="event-timestamp"/>
-
-        <xsl:call-template name="description"/>
-
-        <xsl:call-template name="widget-actions">
-          <xsl:with-param name="href" select="'calendar'"/>
+    
+    <xsl:for-each select="events/*">
+      <xsl:variable name="startSeconds">
+        <xsl:call-template name="datetime-to-seconds">
+          <xsl:with-param name="datetime" select="./start"/>
         </xsl:call-template>
-      </div>
+      </xsl:variable>
+      
+      <xsl:variable name="startDatetime">
+        <xsl:call-template name="adjust-to-timezone">
+          <xsl:with-param name="datetime" select="./start"/>
+        </xsl:call-template>
+      </xsl:variable>
+      
+      <xsl:variable name="startDate">
+        <xsl:call-template name="format-to-date">
+          <xsl:with-param name="iso-datetime" select="$startDatetime"/>
+        </xsl:call-template>
+      </xsl:variable>
+      
+      <xsl:variable name="endSeconds">
+        <xsl:call-template name="datetime-to-seconds">
+          <xsl:with-param name="datetime" select="./end"/>
+        </xsl:call-template>
+      </xsl:variable>
+      
+      <xsl:variable name="endDatetime">
+        <xsl:call-template name="adjust-to-timezone">
+          <xsl:with-param name="datetime" select="./end"/>
+        </xsl:call-template>
+      </xsl:variable>
+      
+      <xsl:variable name="endDate">
+        <xsl:call-template name="format-to-date">
+          <xsl:with-param name="iso-datetime" select="$endDatetime"/>
+        </xsl:call-template>
+      </xsl:variable>
+      
+      <xsl:if test="($todayDatetime &gt;= $startSeconds and $endSeconds &gt;= $todayDatetime) or contains($startDatetime, $todayDate) or contains($endDatetime, $todayDate)">
+        <div class="app-card">
+          <xsl:call-template name="title"/>
+          
+          <xsl:call-template name="event-timestamp">
+            <xsl:with-param name="date-stamp" select="not($startDate = $endDate)"/>
+          </xsl:call-template>
+          
+          <xsl:call-template name="description"/>
+          
+          <xsl:call-template name="widget-actions">
+            <xsl:with-param name="href" select="'calendar'"/>
+          </xsl:call-template>
+        </div>
+      </xsl:if>
     </xsl:for-each>
+    
+    <span class="undefined-description">Keine Termine für heute</span>
+    
   </xsl:template>
-
+  
   <!-- Event-Time-Stamp -->
   <xsl:template name="event-timestamp">
+    <xsl:param name="date-stamp" select="false"/>
+    
     <p class="event-time">
+      <xsl:if test="$date-stamp">        
+        Start:
+        <xsl:call-template name="format-to-date">
+          <xsl:with-param name="iso-datetime" select="./start"/>
+        </xsl:call-template>
+        
+        |
+        
+        Ende:
+        <xsl:call-template name="format-to-date">
+          <xsl:with-param name="iso-datetime" select="./end"/>
+        </xsl:call-template>
+        
+        <br/>
+      </xsl:if>
       von:
       <xsl:call-template name="format-to-time">
         <xsl:with-param name="iso-datetime" select="./start"/>
       </xsl:call-template>
-
+      
       bis:
       <xsl:call-template name="format-to-time">
         <xsl:with-param name="iso-datetime" select="./end"/>
       </xsl:call-template>
     </p>
   </xsl:template>
-
+  
   <!-- Habits -->
   <xsl:template name="list-habits">
     <h1>Aktive Gewohnheiten</h1>
-
+    
     <xsl:if test="count(habits/*) = 0">
       <span class="undefined-description">Keine Gewohnheiten angelegt</span>
     </xsl:if>
-
+    
     <xsl:for-each select="habits/*">
       <div class="app-card">
         <xsl:call-template name="title"/>
-
+        
         <xsl:call-template name="habit-timestamp"/>
-
+        
         <xsl:call-template name="description"/>
-
+        
         <xsl:call-template name="repeat"/>
-
+        
         <xsl:call-template name="alternate-list"/>
-
+        
         <xsl:call-template name="widget-actions">
           <xsl:with-param name="href" select="'planner'"/>
         </xsl:call-template>
       </div>
     </xsl:for-each>
   </xsl:template>
-
+  
   <!-- Habit-Time-Stamp -->
   <xsl:template name="habit-timestamp">
     <p class="event-time">
@@ -88,28 +158,28 @@
       <xsl:call-template name="format-to-time">
         <xsl:with-param name="iso-datetime" select="./start"/>
       </xsl:call-template>
-
+      
       und:
       <xsl:call-template name="format-to-time">
         <xsl:with-param name="iso-datetime" select="./end"/>
       </xsl:call-template>
-
+      
       |
-
+      
       Dauer:
       <xsl:value-of select="./duration"/>
       Minuten
-
+      
       <br/>
-
+      
       Start:
       <xsl:call-template name="format-to-date">
         <xsl:with-param name="iso-datetime" select="./start"/>
       </xsl:call-template>
-
+      
     </p>
   </xsl:template>
-
+  
   <!-- Timespan -->
   <xsl:template name="timespan">
     <xsl:variable name="startDate">
@@ -117,36 +187,36 @@
         <xsl:with-param name="datetime" select="./start"/>
       </xsl:call-template>
     </xsl:variable>
-
+    
     <xsl:variable name="endDate">
       <xsl:call-template name="adjust-to-timezone">
         <xsl:with-param name="datetime" select="./end"/>
       </xsl:call-template>
     </xsl:variable>
-
+    
     <xsl:variable name="idealTimeDate">
       <xsl:call-template name="adjust-to-timezone">
         <xsl:with-param name="datetime" select="./idealTime"/>
       </xsl:call-template>
     </xsl:variable>
-
+    
     <xsl:variable name="startHour" select="substring($startDate,12,2)"/>
     <xsl:variable name="startMinute" select="substring($startDate,15,2)"/>
     <xsl:variable name="start" select="$startHour * 60 + $startMinute"/>
-
+    
     <xsl:variable name="endHour" select="substring($endDate,12,2)"/>
     <xsl:variable name="endMinute" select="substring($endDate,15,2)"/>
     <xsl:variable name="end" select="$endHour * 60 + $endMinute"/>
-
+    
     <xsl:variable name="idealTimeHour" select="substring($idealTimeDate,12,2)"/>
     <xsl:variable name="idealTimeMinute" select="substring($idealTimeDate,15,2)"/>
     <xsl:variable name="idealTime" select="$idealTimeHour * 60 + $idealTimeMinute"/>
-
+    
     <xsl:variable name="duration" select="./duration"/>
     <xsl:variable name="idealTimeEnd" select="$idealTime + $duration"/>
-
+    
     <xsl:variable name="day" select="24 * 60"/>
-
+    
     <div class="times-display">
       <div class="timespan-bar">
         <xsl:attribute name="style">
@@ -183,7 +253,7 @@
       </div>
     </div>
   </xsl:template>
-
+  
   <!-- Repeat -->
   <xsl:template name="repeat">
     <div class="repeat-section">
@@ -194,7 +264,7 @@
       </div>
     </div>
   </xsl:template>
-
+  
   <!-- Repeat-Description -->
   <xsl:template name="repeat-description">
     <p>
@@ -204,13 +274,13 @@
           <xsl:with-param name="iso-datetime" select="./repeat/repeating"/>
         </xsl:call-template>
       </xsl:if>
-
+      
       <xsl:if test="./repeat/repeating/@type='number'">
         Wiederholungen: <xsl:value-of select="./repeat/repeating"/> Woche(n)
       </xsl:if>
     </p>
   </xsl:template>
-
+  
   <!-- Day-List -->
   <xsl:template name="day-list">
     <div class="day-list app-border">
@@ -220,42 +290,42 @@
         </xsl:if>
         Mo
       </span>
-
+      
       <span>
         <xsl:if test="repeat/days/*=2">
           <xsl:attribute name="class">active-day</xsl:attribute>
         </xsl:if>
         Di
       </span>
-
+      
       <span>
         <xsl:if test="repeat/days/*=3">
           <xsl:attribute name="class">active-day</xsl:attribute>
         </xsl:if>
         Mi
       </span>
-
+      
       <span>
         <xsl:if test="repeat/days/*=4">
           <xsl:attribute name="class">active-day</xsl:attribute>
         </xsl:if>
         Do
       </span>
-
+      
       <span>
         <xsl:if test="repeat/days/*=5">
           <xsl:attribute name="class">active-day</xsl:attribute>
         </xsl:if>
         Fr
       </span>
-
+      
       <span>
         <xsl:if test="repeat/days/*=6">
           <xsl:attribute name="class">active-day</xsl:attribute>
         </xsl:if>
         Sa
       </span>
-
+      
       <span>
         <xsl:if test="repeat/days/*=0">
           <xsl:attribute name="class">active-day</xsl:attribute>
@@ -264,7 +334,7 @@
       </span>
     </div>
   </xsl:template>
-
+  
   <!-- Alternate-Habits -->
   <xsl:template name="alternate-list">
     <div class="mat-expansion-panel alternate-habit-list">
@@ -289,7 +359,7 @@
       </div>
     </div>
   </xsl:template>
-
+  
   <!-- Alternate-Habit -->
   <xsl:template name="alternate-items">
     <xsl:if test="count(./alternateEvents/*) = 0">
@@ -299,23 +369,23 @@
       <div class="alternate-item app-border">
         <span>
           <xsl:variable name="isProblem" select="./problem"/>
-
+          
           <xsl:attribute name="class">
             <xsl:if test="$isProblem">
               warn-text
             </xsl:if>
           </xsl:attribute>
-
+          
           <xsl:call-template name="format-to-date">
             <xsl:with-param name="iso-datetime" select="./start"/>
           </xsl:call-template>
-
+          
           -
-
+          
           <xsl:call-template name="format-to-time">
             <xsl:with-param name="iso-datetime" select="./start"/>
           </xsl:call-template>
-
+          
           <xsl:if test="$isProblem">
             (Keine alternative Zeit möglich!)
           </xsl:if>
@@ -323,7 +393,7 @@
       </div>
     </xsl:for-each>
   </xsl:template>
-
+  
   <!-- Title -->
   <xsl:template name="title">
     <div class="color-label">
@@ -331,7 +401,7 @@
     </div>
     <h2><xsl:value-of select="./title"/></h2>
   </xsl:template>
-
+  
   <!-- Description -->
   <xsl:template name="description">
     <p>
@@ -346,7 +416,7 @@
       </xsl:choose>
     </p>
   </xsl:template>
-
+  
   <!-- Actions -->
   <xsl:template name="widget-actions">
     <xsl:param name="href"/>
@@ -358,5 +428,5 @@
       </a>
     </div>
   </xsl:template>
-
+  
 </xsl:stylesheet>

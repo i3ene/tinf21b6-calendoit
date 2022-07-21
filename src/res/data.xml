@@ -5,8 +5,8 @@
         <value0 type="object">
             <start type="date">2022-07-10T07:58:01.533Z</start>
             <end type="date">2022-07-10T07:58:01.533Z</end>
-            <title>Repeating Event</title>
-            <description>An Event with a set count of repeating Days</description>
+            <title>Wiederholender Termin</title>
+            <description>Ein Termin mit einer festgelegten Anzahl an Wiederholenden Wochen</description>
             <color type="object">
                 <primary>#83d332</primary>
             </color>
@@ -21,17 +21,17 @@
         <value1 type="object">
             <start type="date">2022-07-06T05:58:01.533Z</start>
             <end type="date">2022-07-06T08:58:01.533Z</end>
-            <title>Single Event</title>
-            <description>An Event with only a single occurence</description>
+            <title>Einzelner Termin</title>
+            <description>Ein einmaliger Termin</description>
             <color type="object">
-                <primary>#59b5e6</primary>
+                <primary>#f01800</primary>
             </color>
         </value1>
         <value2 type="object">
             <start type="date">2022-07-01T11:44:00.000Z</start>
             <end type="date">2022-07-01T12:44:00.000Z</end>
-            <title>Event Deadline</title>
-            <description>An Event with a set Deadline</description>
+            <title>Termin mit Deadline</title>
+            <description>Ein Termin mit einer gesetzten Deadline</description>
             <color type="object">
                 <primary>#f46f35</primary>
             </color>
@@ -42,13 +42,24 @@
                 <repeating type="date">2022-07-21T22:00:00.000Z</repeating>
             </repeat>
         </value2>
+        <value3 type="object">
+            <start type="date">2022-07-21T07:20:11.354Z</start>
+            <end type="date">2022-07-26T07:20:11.354Z</end>
+            <title>Mehrtägiger Termin</title>
+            <description>Ein Termin der über mehrere Tagen verläuft</description>
+            <color type="object">
+                <primary>#06b1ea</primary>
+                <secondary>#ffffff</secondary>
+            </color>
+            <allDay>true</allDay>
+        </value3>
     </events>
     <habits type="array">
         <value0 type="object">
             <start type="date">2022-07-06T06:18:04.377Z</start>
             <end type="date">2022-07-06T09:18:04.377Z</end>
-            <title>Repeating Habit</title>
-            <description>A Habit with a set count of repeating Days</description>
+            <title>Wiederholende Gewohnheit</title>
+            <description>Eine Gewohnheit mit einer festgelegten Anzahl an Wiederholenden Wochen</description>
             <color type="object">
                 <primary>#cb49da</primary>
             </color>
@@ -66,8 +77,8 @@
         <value1 type="object">
             <start type="date">2022-07-07T00:08:04.377Z</start>
             <end type="date">2022-07-07T15:00:04.377Z</end>
-            <title>Deadline Habit</title>
-            <description>A Habit with a set Deadline</description>
+            <title>Gewohnheit mit Deadline</title>
+            <description>Eine Gewohnheit mit einer gesetzten Deadline</description>
             <color type="object">
                 <primary>#e4dc36</primary>
             </color>
