@@ -2,6 +2,7 @@ import { LOCALE_ID, Inject, Injectable } from '@angular/core';
 import { CalendarEventTitleFormatter, CalendarEvent } from 'angular-calendar';
 import { formatDate } from '@angular/common';
 import { Habit } from '../models/habit.model';
+import { UtilDate } from '../models/util.model';
 
 @Injectable()
 export class EventTitleFormatter extends CalendarEventTitleFormatter {
@@ -10,8 +11,9 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
   }
 
   override month(event: CalendarEvent): string {
+    let text: string = "";
     // Time
-    let text: string = `<b>${formatDate(event.start, 'H:mm', this.locale)}</b>`;
+    if (UtilDate.isSameDay(event.start, event.end!)) text += `<b>${formatDate(event.start, 'H:mm', this.locale)}</b>`;
     // Title
     text += `<span class="${Habit.isHabit(event) ? 'cal-habit-title' : ''}">${
       event.title
@@ -20,8 +22,9 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
   }
 
   override week(event: CalendarEvent): string {
+    let text: string = "";
     // Time
-    let text: string = `<b>${formatDate(event.start, 'H:mm', this.locale)}</b>`;
+    if (UtilDate.isSameDay(event.start, event.end!)) text += `<b>${formatDate(event.start, 'H:mm', this.locale)}</b>`;
     // Title
     text += `<span class="${Habit.isHabit(event) ? 'cal-habit-title' : ''}">${
       event.title
@@ -34,8 +37,9 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
   }
 
   override day(event: CalendarEvent): string {
+    let text: string = "";
     // Time
-    let text: string = `<b>${formatDate(event.start, 'H:mm', this.locale)}</b>`;
+    if (UtilDate.isSameDay(event.start, event.end!)) text += `<b>${formatDate(event.start, 'H:mm', this.locale)}</b>`;
     // Title
     text += `<span class="${Habit.isHabit(event) ? 'cal-habit-title' : ''}">${
       event.title
