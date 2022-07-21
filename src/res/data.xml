@@ -77,7 +77,7 @@
         <value1 type="object">
             <start type="date">2022-07-07T00:08:04.377Z</start>
             <end type="date">2022-07-07T15:00:04.377Z</end>
-            <title>Gewohnheit mit Deadlinet</title>
+            <title>Gewohnheit mit Deadline</title>
             <description>Eine Gewohnheit mit einer gesetzten Deadline</description>
             <color type="object">
                 <primary>#e4dc36</primary>
