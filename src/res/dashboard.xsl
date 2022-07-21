@@ -126,29 +126,104 @@
   
   <!-- Habits -->
   <xsl:template name="list-habits">
+    <xsl:variable name="todayDatetime">
+      <xsl:call-template name="datetime-to-seconds">
+        <xsl:with-param name="datetime" select="@datetime"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:variable name="todayDatetimeAdjusted">
+      <xsl:call-template name="adjust-to-timezone">
+        <xsl:with-param name="datetime" select="@datetime"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:variable name="todayDate">
+      <xsl:value-of select="concat(substring($todayDatetimeAdjusted, 1, 4), '-',substring($todayDatetimeAdjusted, 6, 2), '-', substring($todayDatetimeAdjusted, 9, 2))"/>
+    </xsl:variable>
+    
     <h1>Aktive Gewohnheiten</h1>
     
-    <xsl:if test="count(habits/*) = 0">
-      <span class="undefined-description">Keine Gewohnheiten angelegt</span>
-    </xsl:if>
-    
     <xsl:for-each select="habits/*">
-      <div class="app-card">
-        <xsl:call-template name="title"/>
-        
-        <xsl:call-template name="habit-timestamp"/>
-        
-        <xsl:call-template name="description"/>
-        
-        <xsl:call-template name="repeat"/>
-        
-        <xsl:call-template name="alternate-list"/>
-        
-        <xsl:call-template name="widget-actions">
-          <xsl:with-param name="href" select="'planner'"/>
+      <xsl:variable name="startSeconds">
+        <xsl:call-template name="datetime-to-seconds">
+          <xsl:with-param name="datetime" select="./start"/>
         </xsl:call-template>
-      </div>
+      </xsl:variable>
+      
+      <xsl:variable name="startDatetime">
+        <xsl:call-template name="adjust-to-timezone">
+          <xsl:with-param name="datetime" select="./start"/>
+        </xsl:call-template>
+      </xsl:variable>
+      
+      <xsl:variable name="startDate">
+        <xsl:call-template name="format-to-date">
+          <xsl:with-param name="iso-datetime" select="$startDatetime"/>
+        </xsl:call-template>
+      </xsl:variable>
+      
+      <xsl:variable name="endTime">
+        <xsl:choose>
+          <!-- Date -->
+          <xsl:when test="./repeat/repeating[@type='date']">
+            <xsl:call-template name="adjust-to-timezone">
+              <xsl:with-param name="datetime" select="./repeat/repeating"/>
+            </xsl:call-template>
+          </xsl:when>
+          <!-- Weeks -->
+          <xsl:otherwise>
+            <xsl:variable name="tempEndDatetime">
+              <xsl:call-template name="adjust-to-timezone">
+                <xsl:with-param name="datetime" select="./end"/>
+              </xsl:call-template>
+            </xsl:variable>
+            <xsl:call-template name="datetime-add-weeks">
+              <xsl:with-param name="datetime" select="$tempEndDatetime"/>
+              <xsl:with-param name="weeks" select="./repeat/repeating"/>
+            </xsl:call-template>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      
+      <xsl:variable name="endSeconds">
+        <xsl:call-template name="datetime-to-seconds">
+          <xsl:with-param name="datetime" select="$endTime"/>
+        </xsl:call-template>
+      </xsl:variable>
+      
+      <xsl:variable name="endDatetime">
+        <xsl:call-template name="adjust-to-timezone">
+          <xsl:with-param name="datetime" select="$endTime"/>
+        </xsl:call-template>
+      </xsl:variable>
+      
+      <xsl:variable name="endDate">
+        <xsl:call-template name="format-to-date">
+          <xsl:with-param name="iso-datetime" select="$endDatetime"/>
+        </xsl:call-template>
+      </xsl:variable>
+      
+      <xsl:if test="($todayDatetime &gt;= $startSeconds and $endSeconds &gt;= $todayDatetime) or contains($startDatetime, $todayDate) or contains($endDatetime, $todayDate)">
+        <div class="app-card">
+          <xsl:call-template name="title"/>
+          
+          <xsl:call-template name="habit-timestamp"/>
+          
+          <xsl:call-template name="description"/>
+          
+          <xsl:call-template name="repeat"/>
+          
+          <xsl:call-template name="alternate-list"/>
+          
+          <xsl:call-template name="widget-actions">
+            <xsl:with-param name="href" select="'planner'"/>
+          </xsl:call-template>
+        </div>
+      </xsl:if>
     </xsl:for-each>
+    
+    <span class="undefined-description">Keine Gewohnheiten angelegt</span>
   </xsl:template>
   
   <!-- Habit-Time-Stamp -->

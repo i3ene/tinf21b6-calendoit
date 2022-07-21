@@ -31,6 +31,22 @@
         <xsl:value-of select="concat($hour,':',$minute)"/>
     </xsl:template>
     
+    <!-- Add weeks to datetime -->
+    <xsl:template name="datetime-add-weeks">
+        <xsl:param name="datetime"/>
+        <xsl:param name="weeks"/>
+
+        <xsl:variable name="seconds">
+            <xsl:call-template name="datetime-to-seconds">
+                <xsl:with-param name="datetime" select="$datetime"/>
+            </xsl:call-template>
+        </xsl:variable>
+
+        <xsl:call-template name="seconds-to-datetime">
+            <xsl:with-param name="total-seconds" select="$seconds + $weeks * 604800"/>
+        </xsl:call-template>
+    </xsl:template>
+    
     <!-- Timezone offset -->
     <xsl:template name="adjust-to-timezone">
         <xsl:param name="datetime"/>
@@ -43,6 +59,15 @@
         </xsl:variable> 
         
         <xsl:variable name="total-seconds" select="$datetime-to-seconds + 3600 * $hours" />
+        
+        <xsl:call-template name="seconds-to-datetime">
+            <xsl:with-param name="total-seconds" select="$total-seconds"/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <!-- Seconds to Datetime -->
+    <xsl:template name="seconds-to-datetime">
+        <xsl:param name="total-seconds"/>
         
         <!-- new date -->
         <xsl:variable name="new-date">
@@ -61,10 +86,11 @@
         <xsl:text>T</xsl:text>
         <xsl:value-of select="format-number($h, '00')"/>
         <xsl:value-of select="format-number($m, ':00')"/>
-        <xsl:value-of select="format-number($s, ':00.###')"/>
+        <xsl:value-of select="format-number($s, ':00.000')"/>
         <xsl:text>Z</xsl:text>
     </xsl:template>
     
+    <!-- Datetime to seconds -->
     <xsl:template name="datetime-to-seconds">
         <xsl:param name="datetime"/>
         
@@ -87,6 +113,7 @@
         <xsl:value-of select="86400*$jd + 3600*$hour + 60*$minute + $second" />
     </xsl:template> 
     
+    <!-- Datetime to Gregorian -->
     <xsl:template name="datetime-to-gregorian">
         <xsl:param name="datetime"/>
         <xsl:variable name="f" select="$datetime + 1401 + floor((floor((4 * $datetime + 274277) div 146097) * 3) div 4) - 38"/>
