@@ -10,7 +10,6 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'map', component: MapComponent },
   { path: 'planner', component: PlannerComponent},
-  { path: 'dashboard', component: DashboardComponent },
   { path: 'calendar', component: CalendarComponent },
   { path: 'settings', component: SettingsComponent },
   { path: '**', redirectTo: 'dashboard' },
