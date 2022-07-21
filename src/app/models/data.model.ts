@@ -243,6 +243,8 @@ export class Data {
           beforeStart: true,
           afterEnd: true,
         };
+      } else {
+        event.allDay = true;
       }
       for (const molecular of event.getEvents()) list.push(molecular);
     }
