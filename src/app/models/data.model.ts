@@ -239,13 +239,13 @@ export class Data {
     for (const event of this._events) {
       if (UtilDate.isSameDay(event.start, event.end)) {
         if (event.repeat == undefined) event.draggable = true;
-        event.resizable = {
-          beforeStart: true,
-          afterEnd: true,
-        };
       } else {
         event.allDay = true;
       }
+      event.resizable = {
+        beforeStart: true,
+        afterEnd: true,
+      };
       for (const molecular of event.getEvents()) list.push(molecular);
     }
 
