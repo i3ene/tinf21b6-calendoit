@@ -42,6 +42,17 @@
                 <repeating type="date">2022-07-21T22:00:00.000Z</repeating>
             </repeat>
         </value2>
+        <value3 type="object">
+            <start type="date">2022-07-12T07:20:11.354Z</start>
+            <end type="date">2022-07-21T07:20:11.354Z</end>
+            <title>Mehrtägiger Termin</title>
+            <description>Ein Termin der über mehrere Tagen verläuft</description>
+            <color type="object">
+                <primary>#06b1ea</primary>
+                <secondary>#ffffff</secondary>
+            </color>
+            <allDay>true</allDay>
+        </value3>
     </events>
     <habits type="array">
         <value0 type="object">
