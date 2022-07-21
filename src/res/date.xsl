@@ -37,8 +37,8 @@
         <xsl:param name="hours" select="2"/>
         
         <xsl:variable name="datetime-to-seconds">
-            <xsl:call-template name="dateTime-to-seconds">
-                <xsl:with-param name="dateTime" select="$datetime"/>
+            <xsl:call-template name="datetime-to-seconds">
+                <xsl:with-param name="datetime" select="$datetime"/>
             </xsl:call-template>
         </xsl:variable> 
         
@@ -65,11 +65,11 @@
         <xsl:text>Z</xsl:text>
     </xsl:template>
     
-    <xsl:template name="dateTime-to-seconds">
-        <xsl:param name="dateTime"/>
+    <xsl:template name="datetime-to-seconds">
+        <xsl:param name="datetime"/>
         
-        <xsl:variable name="date" select="substring-before($dateTime, 'T')" />
-        <xsl:variable name="time" select="substring-after($dateTime, 'T')" />
+        <xsl:variable name="date" select="substring-before($datetime, 'T')" />
+        <xsl:variable name="time" select="substring-after($datetime, 'T')" />
         
         <xsl:variable name="year" select="substring($date, 1, 4)" />
         <xsl:variable name="month" select="substring($date, 6, 2)" />
