@@ -6,13 +6,15 @@
   
   <!-- Root -->
   <xsl:template match="root">
-    <div class="widget-list">
-      <xsl:call-template name="list-events">
-      </xsl:call-template>
-    </div>
-    <div class="widget-list">
-      <xsl:call-template name="list-habits">
-      </xsl:call-template>
+    <div class="widget-container">
+      <div class="widget-list">
+        <xsl:call-template name="list-events">
+        </xsl:call-template>
+      </div>
+      <div class="widget-list">
+        <xsl:call-template name="list-habits">
+        </xsl:call-template>
+      </div>
     </div>
   </xsl:template>
   

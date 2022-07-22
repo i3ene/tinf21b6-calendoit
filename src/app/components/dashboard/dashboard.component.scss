@@ -1,18 +1,18 @@
 @use "../../../styles/styles_variables.scss" as sv;
 
-.container {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  padding: 10px;
-  align-items: stretch;
-
-  @media only screen and (max-width: 900px) {
-    flex-wrap: wrap;
-  }
-}
-
 ::ng-deep * {
+  .widget-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px;
+    align-items: stretch;
+  
+    @media only screen and (max-width: 900px) {
+      flex-wrap: wrap;
+    }
+  }
+
   .widget-list {
     flex-grow: 2;
     display: flex;
