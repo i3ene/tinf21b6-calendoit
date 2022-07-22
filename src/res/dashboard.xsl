@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <!-- Imports -->
   <xsl:include href="res/date.xsl"/>
   <xsl:include href="res/functions.xsl"/>
   
+  <!-- Root -->
   <xsl:template match="root">
     <div class="widget-list">
       <xsl:call-template name="list-events">
@@ -72,6 +74,7 @@
       </xsl:variable>
       
       <xsl:if test="($todayDatetime &gt;= $startSeconds and $endSeconds &gt;= $todayDatetime) or contains($startDatetime, $todayDate) or contains($endDatetime, $todayDate)">
+        <!-- Widget -->
         <div class="app-card">
           <xsl:call-template name="title"/>
           
@@ -205,6 +208,7 @@
       </xsl:variable>
       
       <xsl:if test="($todayDatetime &gt;= $startSeconds and $endSeconds &gt;= $todayDatetime) or contains($startDatetime, $todayDate) or contains($endDatetime, $todayDate)">
+        <!-- Widget -->
         <div class="app-card">
           <xsl:call-template name="title"/>
           
@@ -296,12 +300,12 @@
       <div class="timespan-bar">
         <xsl:attribute name="style">
           width:
-          <xsl:call-template name="percent">
+          <xsl:call-template name="to-percent">
             <xsl:with-param name="numerator" select="$end - $start"/>
             <xsl:with-param name="denominator" select="$day"/>
           </xsl:call-template>%;
           margin-left:
-          <xsl:call-template name="percent">
+          <xsl:call-template name="to-percent">
             <xsl:with-param name="numerator" select="$start"/>
             <xsl:with-param name="denominator" select="$day"/>
           </xsl:call-template>%;
@@ -309,12 +313,12 @@
         <div class="time-bar">
           <xsl:attribute name="style">
             width:
-            <xsl:call-template name="percent">
+            <xsl:call-template name="to-percent">
               <xsl:with-param name="numerator" select="$idealTimeEnd - $idealTime"/>
               <xsl:with-param name="denominator" select="$end - $start"/>
             </xsl:call-template>%;
             margin-left:
-            <xsl:call-template name="percent">
+            <xsl:call-template name="to-percent">
               <xsl:with-param name="numerator" select="$idealTime - $start"/>
               <xsl:with-param name="denominator" select="$end - $start"/>
             </xsl:call-template>%;
@@ -413,6 +417,7 @@
   <!-- Alternate-Habits -->
   <xsl:template name="alternate-list">
     <div class="mat-expansion-panel alternate-habit-list">
+      <!-- Header -->
       <div class="mat-expansion-panel-header mat-focus-indicator">
         <xsl:attribute name="onclick">
           window.dispatchEvent(new CustomEvent('toggle-expand-habits', {'detail': this}));
@@ -429,6 +434,7 @@
           <span class="mat-button-focus-overlay"></span>
         </button>
       </div>
+      <!-- Content -->
       <div class="mat-expansion-panel-body minimized">
         <xsl:call-template name="alternate-items"/>
       </div>

@@ -50,6 +50,7 @@
     <!-- Timezone offset -->
     <xsl:template name="adjust-to-timezone">
         <xsl:param name="datetime"/>
+        <!-- Standard time adjustment -->
         <xsl:param name="hours" select="2"/>
         
         <xsl:variable name="datetime-to-seconds">
