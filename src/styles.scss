@@ -8,7 +8,7 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
-// Variables
+/* Mixins and Variables */
 @import "./styles/styles_variables.scss";
 @import "./styles/styles_calendar.scss";
 @import "./styles/styles_flatpickr.scss";
@@ -40,17 +40,6 @@ $CalenDoIt-dark-theme: mat.define-dark-theme(
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($CalenDoIt-theme);
-
-@include calendar-theme($CalenDoIt-theme);
-
-.app-background {
-  background: mat.get-color-from-palette(
-    mat.get-color-from-palette($CalenDoIt-theme, background),
-    card
-  );
-}
-
 @mixin app-theme($theme) {
   $_background: mat.get-color-from-palette($theme, background);
   $app-background-color: mat.get-color-from-palette($_background, background);
@@ -58,10 +47,12 @@ $CalenDoIt-dark-theme: mat.define-dark-theme(
   $app-foreground-color: mat.get-color-from-palette($_foreground, text);
   $border-color: mat.get-color-from-palette($_foreground, divider);
 
+  /* Mixins */
   @include calendar-theme($theme);
   @include flatpickr-theme($theme);
   @include mat.all-component-colors($theme);
 
+  /* App styling */
   .app-background {
     background: mat.get-color-from-palette($_background, card);
   }
@@ -88,14 +79,53 @@ $CalenDoIt-dark-theme: mat.define-dark-theme(
     color: mat.get-color-from-palette($_foreground, disabled-button);
   }
 
+  .app-card {
+    @extend .mat-elevation-z8;
+    @extend .app-background;
+    border-radius: 8px !important;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    @extend .app-background;
+    width: 4px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: mat.get-color-from-palette($CalenDoIt-primary, default);
+    border-radius: 12px;
+
+    &:hover {
+      background: mat.get-color-from-palette($CalenDoIt-accent, default);
+    }
+  }
+
+  ::-webkit-scrollbar-corner {
+    @extend .app-background;
+  }
+
   & * {
-    scrollbar-color: mat.get-color-from-palette($CalenDoIt-primary, default) mat.get-color-from-palette($_background, card) !important;
+    scrollbar-color: mat.get-color-from-palette($CalenDoIt-primary, default)
+      mat.get-color-from-palette($_background, card) !important;
     scrollbar-width: thin !important;
   }
 }
 
-/* You can add global styles to this file, and also import other style files */
+/* Themes */
+.light-theme {
+  @include app-theme($CalenDoIt-theme);
+}
 
+.dark-theme {
+  @include app-theme($CalenDoIt-dark-theme);
+}
+
+/* Default theme */
+@include mat.all-component-themes($CalenDoIt-theme);
+@include calendar-theme($CalenDoIt-theme);
+
+/* Global styling */
 html,
 body {
   height: 100%;
@@ -106,39 +136,7 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.light-theme {
-  @include app-theme($CalenDoIt-theme);
-}
-
-.dark-theme {
-  @include app-theme($CalenDoIt-dark-theme);
-}
-
-::-webkit-scrollbar {
-  @extend .app-background;
-  width: 4px;
-  height: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: mat.get-color-from-palette($CalenDoIt-primary, default);
-  border-radius: 12px;
-
-  &:hover {
-    background: mat.get-color-from-palette($CalenDoIt-accent, default);
-  }
-}
-
-::-webkit-scrollbar-corner {
-  @extend .app-background;
-}
-
-.app-card {
-  @extend .mat-elevation-z8;
-  @extend .app-background;
-  border-radius: 8px !important;
-}
-
+/* General */
 .none-selectable {
   user-select: none !important;
 }
