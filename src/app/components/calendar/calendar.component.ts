@@ -237,7 +237,7 @@ export class CalendarComponent implements OnInit {
    * @param event The Event to edit
    */
   openEdit(event: Event | Habit): void {
-    const isHabit = Habit.isHabit(event.reference);
+    const isHabit = (event.reference as Habit).idealTime != undefined;
 
     // Make copy
     let copy: Event | Habit = isHabit
