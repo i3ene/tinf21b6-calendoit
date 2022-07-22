@@ -15,7 +15,10 @@ export class DashboardComponent implements OnInit {
     this.xsltService
       .asyncTransform('res/dashboard.xsl', this.getDashboardXML())
       .then((frag) => {
-        document.getElementById('container')?.appendChild(frag);
+        var element = document.createElement("div");
+        element.classList.add(((frag as Node).firstChild as Element).classList[0]);
+        element.innerHTML = ((frag as Node).firstChild as Element).innerHTML;
+        document.getElementById('container')?.appendChild(element);
       });
   }
 
