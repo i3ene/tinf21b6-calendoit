@@ -2,8 +2,12 @@ const fs = require("fs");
 const path = "./dist/calendoit/index.xhtml";
 const format = "utf-8";
 
+// Tags to close
 const tags = ["link", "meta", "base"];
 
+/**
+ * Read and edit file
+ */
 function readWriteSync() {
   const data = fs.readFileSync(path, format);
 
@@ -14,6 +18,11 @@ function readWriteSync() {
   fs.writeFileSync(path, edit, format);
 }
 
+/**
+ * Close tags
+ * @param {*} str File string
+ * @returns Edited string
+ */
 function unifyTags(str) {
   var pattern = "<(?!/)";
   pattern += "(" + tags[0];
@@ -25,6 +34,11 @@ function unifyTags(str) {
   return str.replace(reg, "<$1 $2/>");
 }
 
+/**
+ * Change script types
+ * @param {*} str File string
+ * @returns Edited string
+ */
 function unifyScripts(str) {
     var pattern = "<(script([^>]*))(type=\"([^\"]*)\")([^>]*)>";
     const reg = new RegExp(pattern, "g");
