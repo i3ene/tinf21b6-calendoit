@@ -1,8 +1,15 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-import {Habit} from 'src/app/models/habit.model';
-import {UtilDate} from 'src/app/models/util.model';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { Habit } from 'src/app/models/habit.model';
+import { UtilDate } from 'src/app/models/util.model';
 
 @Component({
   selector: 'app-list-habit',

@@ -106,12 +106,7 @@ export class Data {
   recalculateHabits(habit: Habit, mHabit: Habit, events: Event[]): void {
     for (const event of events) {
       if (
-        UtilDate.isOverlapping(
-          mHabit.start,
-          mHabit.end,
-          event.start,
-          event.end
-        )
+        UtilDate.isOverlapping(mHabit.start, mHabit.end, event.start, event.end)
       ) {
         habit.alternateEvents.push(
           this.calculateAlternateEvent(mHabit, events)

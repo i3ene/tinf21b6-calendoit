@@ -24,7 +24,7 @@ export namespace UtilObject {
    */
   export function equals(obj1: any, obj2: any): boolean {
     if (obj1 == undefined || obj2 == undefined) return obj1 == obj2;
-    for(const key of Object.keys(obj1)) {
+    for (const key of Object.keys(obj1)) {
       if (typeof obj1[key] === 'object') {
         if (!equals(obj1[key], obj2[key])) return false;
       }
@@ -153,12 +153,15 @@ export namespace UtilDate {
    * @param date2 Second date
    * @returns A time slot element with duration
    */
-  export function calculateTimeSlot(date1: Date, date2: Date): { start: Date; end: Date; duration: number } {
+  export function calculateTimeSlot(
+    date1: Date,
+    date2: Date
+  ): { start: Date; end: Date; duration: number } {
     const slot = {
       start: date1.getTime() > date2.getTime() ? date2 : date1,
       end: date1.getTime() < date2.getTime() ? date2 : date1,
-      duration: UtilDate.diffTime(date1, date2)
-    }
+      duration: UtilDate.diffTime(date1, date2),
+    };
     return slot;
   }
 

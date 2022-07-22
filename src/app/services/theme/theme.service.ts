@@ -1,7 +1,7 @@
-import {DOCUMENT} from '@angular/common';
-import {Inject, Injectable} from '@angular/core';
-import {LocalConfig} from '../models/config.model';
-import {Theme} from '../models/theme.model';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
+import { LocalConfig } from 'src/app/models/config.model';
+import { Theme } from 'src/app/models/theme.model';
 
 @Injectable({
   providedIn: 'root',

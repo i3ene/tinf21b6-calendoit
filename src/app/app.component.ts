@@ -1,10 +1,10 @@
-import {Component, HostListener} from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import packageJson from '../../package.json';
 import { LocalConfig } from './models/config.model';
-import {Data} from './models/data.model';
-import {Theme} from './models/theme.model';
-import {ThemeService} from './services/theme.service';
-import {XsltService} from './services/xslt.service';
+import { Data } from './models/data.model';
+import { Theme } from './models/theme.model';
+import { ThemeService } from './services/theme/theme.service';
+import { XsltService } from './services/xslt/xslt.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +21,9 @@ export class AppComponent {
    */
   @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event: any) {
-    localStorage[LocalConfig.data] = JSON.stringify(AppComponent.data.getSafeData());
+    localStorage[LocalConfig.data] = JSON.stringify(
+      AppComponent.data.getSafeData()
+    );
   }
 
   /**
@@ -50,7 +52,8 @@ export class AppComponent {
 
   constructor(public themeService: ThemeService) {
     // If localstorage has data, load it
-    if (localStorage[LocalConfig.data]) AppComponent.setData(JSON.parse(localStorage[LocalConfig.data]));
+    if (localStorage[LocalConfig.data])
+      AppComponent.setData(JSON.parse(localStorage[LocalConfig.data]));
     // Else load default data
     else AppComponent.loadData('res/json.xsl', 'res/data.xml');
   }

@@ -73,6 +73,11 @@ export class Habit extends Event {
 }
 
 export namespace Habit {
+  /**
+   * Check if an event is a habit
+   * @param event Event to check
+   * @returns `true` if it is a habit
+   */
   export function isHabit(event: any): boolean {
     return ((event as Event).reference as Habit).idealTime != undefined;
   }

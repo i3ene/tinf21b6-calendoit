@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {saveAs} from 'file-saver';
-import {AppComponent} from '../app.component';
-import {XsltService} from './xslt.service';
+import { AppComponent } from 'src/app/app.component';
+import { XsltService } from '../xslt/xslt.service';
 
 @Injectable({
   providedIn: 'root',

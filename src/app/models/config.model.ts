@@ -1,5 +1,4 @@
 export enum LocalConfig {
   theme = 'global_theme',
-  data = 'global_data'
+  data = 'global_data',
 }
-

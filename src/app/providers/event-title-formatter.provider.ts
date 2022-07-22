@@ -11,9 +11,10 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
   }
 
   override month(event: CalendarEvent): string {
-    let text: string = "";
+    let text: string = '';
     // Time
-    if (UtilDate.isSameDay(event.start, event.end!)) text += `<b>${formatDate(event.start, 'H:mm', this.locale)}</b>`;
+    if (UtilDate.isSameDay(event.start, event.end!))
+      text += `<b>${formatDate(event.start, 'H:mm', this.locale)}</b>`;
     // Title
     text += `<span class="${Habit.isHabit(event) ? 'cal-habit-title' : ''}">${
       event.title
@@ -22,9 +23,10 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
   }
 
   override week(event: CalendarEvent): string {
-    let text: string = "";
+    let text: string = '';
     // Time
-    if (UtilDate.isSameDay(event.start, event.end!)) text += `<b>${formatDate(event.start, 'H:mm', this.locale)}</b>`;
+    if (UtilDate.isSameDay(event.start, event.end!))
+      text += `<b>${formatDate(event.start, 'H:mm', this.locale)}</b>`;
     // Title
     text += `<span class="${Habit.isHabit(event) ? 'cal-habit-title' : ''}">${
       event.title
@@ -37,9 +39,10 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
   }
 
   override day(event: CalendarEvent): string {
-    let text: string = "";
+    let text: string = '';
     // Time
-    if (UtilDate.isSameDay(event.start, event.end!)) text += `<b>${formatDate(event.start, 'H:mm', this.locale)}</b>`;
+    if (UtilDate.isSameDay(event.start, event.end!))
+      text += `<b>${formatDate(event.start, 'H:mm', this.locale)}</b>`;
     // Title
     text += `<span class="${Habit.isHabit(event) ? 'cal-habit-title' : ''}">${
       event.title

@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {AppComponent} from 'src/app/app.component';
-import {ExchangeService} from 'src/app/services/exchange.service';
+import { Component, OnInit } from '@angular/core';
+import { AppComponent } from 'src/app/app.component';
+import { ExchangeService } from 'src/app/services/exchange/exchange.service';
 
 @Component({
   selector: 'app-settings',
@@ -9,16 +9,16 @@ import {ExchangeService} from 'src/app/services/exchange.service';
 })
 export class SettingsComponent implements OnInit {
   obj: any;
-  file: any;
 
-  constructor(public exchangeService: ExchangeService) {
-  }
+  constructor(public exchangeService: ExchangeService) {}
 
   ngOnInit(): void {
     this.getData();
   }
 
-  //Daten anzeigen
+  /**
+   * Get and set debug data
+   */
   private getData(): void {
     AppComponent.data.recalculate();
     this.obj = AppComponent.data.getSafeData();

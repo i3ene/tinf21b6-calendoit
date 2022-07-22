@@ -1,10 +1,10 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {AppComponent} from 'src/app/app.component';
-import {FormComponent} from 'src/app/dialogues/form/form.component';
-import {Data} from 'src/app/models/data.model';
-import {Event} from 'src/app/models/event.model';
-import {Habit} from 'src/app/models/habit.model';
-import {ListHabitComponent} from './list-habit/list-habit.component';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AppComponent } from 'src/app/app.component';
+import { FormComponent } from 'src/app/dialogues/form/form.component';
+import { Data } from 'src/app/models/data.model';
+import { Event } from 'src/app/models/event.model';
+import { Habit } from 'src/app/models/habit.model';
+import { ListHabitComponent } from './list-habit/list-habit.component';
 
 @Component({
   selector: 'app-planner',
@@ -12,7 +12,6 @@ import {ListHabitComponent} from './list-habit/list-habit.component';
   styleUrls: ['./planner.component.scss'],
 })
 export class PlannerComponent implements OnInit {
-
   habit: Habit = new Habit({});
   habitCopy?: Habit;
   selectedHabit?: Habit;
@@ -33,8 +32,7 @@ export class PlannerComponent implements OnInit {
     this.list = listHabitComponent;
   }
 
-  constructor(private detector: ChangeDetectorRef) {
-  }
+  constructor(private detector: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.detector.detectChanges();

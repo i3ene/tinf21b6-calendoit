@@ -1,6 +1,6 @@
-import {DatePipe} from '@angular/common';
-import {Injectable} from '@angular/core';
-import {AppComponent} from '../app.component';
+import { DatePipe } from '@angular/common';
+import { Injectable } from '@angular/core';
+import { AppComponent } from 'src/app/app.component';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +11,7 @@ export class XsltService {
   xmlDoc: any;
   xmlDom: DOMParser = new DOMParser();
 
-  constructor() {
-  }
+  constructor() {}
 
   /**
    * Transform XML and XSL to XSLT
@@ -20,11 +19,18 @@ export class XsltService {
    * @param xslPath Path to XSL
    * @returns generated DocumentFragment
    */
-  async asyncTransform(xslPath: string, xmlPath?: string | Document): Promise<any> {
+  async asyncTransform(
+    xslPath: string,
+    xmlPath?: string | Document
+  ): Promise<any> {
     this.xsltProcessor = new XSLTProcessor();
     this.xslStylesheet = await this.asyncGetFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
-    this.xmlDoc = xmlPath ? (typeof xmlPath == 'string' ? this.asyncGetFile(xmlPath) : xmlPath) : this.saveXML(AppComponent.data.getSafeData());
+    this.xmlDoc = xmlPath
+      ? typeof xmlPath == 'string'
+        ? this.asyncGetFile(xmlPath)
+        : xmlPath
+      : this.saveXML(AppComponent.data.getSafeData());
 
     return this.xsltProcessor.transformToFragment(this.xmlDoc, document);
   }
@@ -35,7 +41,10 @@ export class XsltService {
    * @param xslPath Path to XSL
    * @returns generated JSON
    */
-  async asyncTransformJSON(xslPath: string, xmlPath?: string | Document): Promise<any> {
+  async asyncTransformJSON(
+    xslPath: string,
+    xmlPath?: string | Document
+  ): Promise<any> {
     var fragment = await this.asyncTransform(xslPath, xmlPath);
     var text = fragment.firstChild?.nodeValue;
     var obj = JSON.parse(text!);
@@ -61,7 +70,11 @@ export class XsltService {
     this.xsltProcessor = new XSLTProcessor();
     this.xslStylesheet = this.getFile(xslPath);
     this.xsltProcessor.importStylesheet(this.xslStylesheet);
-    this.xmlDoc = xmlPath ? (typeof xmlPath == 'string' ? this.getFile(xmlPath) : xmlPath) : this.saveXML(AppComponent.data.getSafeData());
+    this.xmlDoc = xmlPath
+      ? typeof xmlPath == 'string'
+        ? this.getFile(xmlPath)
+        : xmlPath
+      : this.saveXML(AppComponent.data.getSafeData());
 
     return this.xsltProcessor.transformToFragment(this.xmlDoc, document);
   }
@@ -98,13 +111,13 @@ export class XsltService {
     // Root Tag
     var xmlDoc = document.implementation.createDocument(null, 'root');
     this.createObjectNode(obj, 'root', xmlDoc.documentElement);
-    xmlDoc.documentElement.setAttribute("type", "object");
+    xmlDoc.documentElement.setAttribute('type', 'object');
 
     // Timestamps
     if (timeStamps) {
       const date = new Date();
-      xmlDoc.documentElement.setAttribute("datetime", date.toISOString());
-      xmlDoc.documentElement.setAttribute("day", date.getDay().toString());
+      xmlDoc.documentElement.setAttribute('datetime', date.toISOString());
+      xmlDoc.documentElement.setAttribute('day', date.getDay().toString());
     }
 
     // Tag Instruction
@@ -151,7 +164,8 @@ export class XsltService {
     // Iterate through properties
     for (const [key, value] of Object.entries(obj)) {
       var label: string = Array.isArray(obj) ? 'value' + key : key.toString();
-      if (value != undefined) node.appendChild(this.createObjectNode(value, label));
+      if (value != undefined)
+        node.appendChild(this.createObjectNode(value, label));
     }
 
     return node;

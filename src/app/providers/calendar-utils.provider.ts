@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { CalendarUtils as CalendarUtilsClass } from "angular-calendar";
+import { Injectable } from '@angular/core';
+import { CalendarUtils as CalendarUtilsClass } from 'angular-calendar';
 import { GetMonthViewArgs, MonthView } from 'calendar-utils';
-import { addWeeks, endOfMonth, startOfMonth, subWeeks } from "date-fns";
+import { addWeeks, endOfMonth, startOfMonth, subWeeks } from 'date-fns';
 
 @Injectable()
 export class CalendarUtils extends CalendarUtilsClass {

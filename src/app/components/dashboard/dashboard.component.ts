@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AppComponent } from 'src/app/app.component';
 
-import { XsltService } from 'src/app/services/xslt.service';
+import { XsltService } from 'src/app/services/xslt/xslt.service';
 
 @Component({
   selector: 'app-dashboard',
