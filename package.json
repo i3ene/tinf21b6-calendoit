@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration=production",
+    "postbuild": "npm run unify",
     "watch": "ng build --watch --configuration development",
     "deploy": "ng deploy --repo=https://x-access-token:GH_TOKEN@github.com/dhbw-ka-pm/tinf21b6-calendoit.git --build-target=calendoit:build:development --no-silent",
     "test": "ng test"
