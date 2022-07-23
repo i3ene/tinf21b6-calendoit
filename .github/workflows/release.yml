@@ -1,0 +1,42 @@
+# This is a basic workflow to help you get started with Actions
+
+name: "pre-release"
+
+on:
+  workflow_run:
+    workflows: ["build"]
+    types:
+      - completed
+      
+  workflow_dispatch:
+
+jobs:
+  pre-release:
+    name: "Pre Release"
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        node-version: [14.x]
+        
+    steps:
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+    
+      - name: git-checkout
+        uses: actions/checkout@v2
+
+      - name: Install all dependencies
+        run: npm install --force
+
+      - name: Build
+        run: npm run build
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Production Build"
+          files: dist/calendoit
