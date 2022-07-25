@@ -1,5 +1,6 @@
+@use "@angular/material" as mat;
+@use 'styles_variables.scss';
 @import '~angular-calendar/scss/angular-calendar.scss';
-@import 'styles_variables.scss';
 
 @mixin calendar-theme($theme) {
 
