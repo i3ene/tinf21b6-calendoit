@@ -233,6 +233,7 @@ export class Data {
     const list: Event[] = [];
     for (const event of this._events) {
       if (UtilDate.isSameDay(event.start, event.end)) {
+        event.allDay = false;
         if (event.repeat == undefined) event.draggable = true;
       } else {
         event.allDay = true;
