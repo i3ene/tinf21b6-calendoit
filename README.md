@@ -81,24 +81,24 @@ The Material Framework is an interactive UI framework with predefined styles for
     -  Tappointments that repeat x-weeks on specific days
           - can be resized by drag & drop
 -  the background color of a appointment can be chosen
--  Terminen kann ein Titel, eine Beschreibung und Zeiten gegeben werden
-- Es kann zwischen Tages, Monats und Wochen Ansicht über das entsprechende Menü gewechselt werden
-- Man kann über das Menü zu den vorherigen und nachfolgenden Zeitpunkten im Kalender navigieren
+-  Appointments can have a description, a title and a time
+- You can switch betweenn day/week and Moth view with a menu
+- You can swicht betweenn wekks/months/days with the menu
 
 ### Planner
-- Im Planner Element können Gewohnheiten angelegt werden
-- Hierbei kann man zwischen Wiederholenden und Deladline Events wählen
-    - Deadlinegewohnheiten wiederholen sich bis zur Deadline an den ausgewählten Tagen
-    - Wiederholungsgewohnheiten werden so viele Wochen wie im Feld angegeben wird wiederholt
-- Die Gewohnheiten werden unter dem Formular zum erstellen der Gewohnheiten in einer Tabelle angezeigt
-     - Die Tage können auch in der Tabelle bearbeitet werden
-     - Für weitere Bearbeitung kann man auf den Stift klicken und dann die entsprechende Gewohnheit im Formular bearbeiten
-- Die Tabelle hat einen einstellbaren Paginator 
+- You can create habits in the planner
+- there are two types of habits
+    - deadline habits, which repeat on the selected days until the deadline
+    - repeating habits, which repeat on the selected days for the number of weeks entered into the formular
+- habits are shown in a table under the formular 
+     - the days on which the habit repeats can be cahnged in the table by simply selecting or unselecting them trough clicking
+     - for further edits you can klick the pen ICon and edit the habit in the formular
+- the table has a paginator
 
-### Einstellungen
-- Über den Button "Download" können die aktuell eingetragenen Termine und Gewohnheiten in einer XML-Datei heruntergeladen werden
-- Über den Button "Upload" kann eine zu früherem Zeitpunkt heruntergeladene Datei hochgeladen werden, um die Termine nach dem erneuten öffnen der Seite wieder auf den stand zu bringen.
-- Im Debug reiter findet man die Daten nochmal in JSON form um zu sehen wie die Daten aktuell aussehen und ggf. fehler oder Probleme erkennen zu können
+### Settings
+- By klicking the button "Download" in the "Einstellungen"- Element you can download the current calendar data in an xml file.
+- By klicking the button "Upload" in the "Einstellungen"- Element you can upload formerly downloaded data to your calendar
+- In the Debug silder you can find the current data in a JSON format to check what the acutal data looks like and to find errors in given case
 ## Information
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.1.
