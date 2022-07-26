@@ -124,4 +124,13 @@ export class ListHabitComponent implements OnInit {
       element.repeat.days.splice(element.repeat.days.indexOf(dayWeekNumber), 1);
     else element.repeat?.days.push(dayWeekNumber);
   }
+
+  /**
+   * Get ideal time
+   * @param element Habit 
+   * @returns Date string
+   */
+  getIdealTime(element: Habit): string {
+    return element.idealTime.toISOString();
+  }
 }
