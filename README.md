@@ -58,29 +58,29 @@ JSON is the representation of an JavaScript object. Despite being able to have d
 The Material Framework is an interactive UI framework with predefined styles for different elements and many different useful functionalities like drag and drop, functions for tables etc.
 
 ## Feautures
-### Allgemein
-- Die Naviagationsleiste kann mit einem Klick auf der linken Seite der Oberen Leiste eingeklappt werden
-- Das Color-Theme kann mit einem Klick auf der rechten Seite der Oberen Leiste zwische Dark- und Lightmode getoggelt werden
-- In der Navigationsleiste kann zwischen den verschiedenen Elementen der Seite durch klicken gewechselt werden
+### General
+- The navigation bar can be hidden by clicking in the top bar in the top left corner
+- The Color-Theme can be switched by klicking in the tip right corner on the top bar
+- The components can be switched by klicking on them on the navigation bar
 
 ### Dashboard
-- Das Dashboard zeigt die Anstehenden Termine und Gewohnheiten des aktuellen Tages mit Uhrzeit und Beschreibung, so wie die aktiven Gewohnheiten mit ihrer Idealzeit, Zeiträumen und Wiederholungsrate als Übersicht an.
-    - Zwischen Repeating und Deadline Gewohnheit und Termin wird hierbei mit XSLT dynamisch unteschieden
-- Über den Button "Anzeigen" bei den aktuellen Terminen wird man auf das Kalender Element am aktuellen Tag verwiesen
-- Über den Button "Anzeigen" bei den aktiven Gewohnheiten wird man auf das Planner Element verwiesen
+- The dashboard shows the upcomming appointments and habits of the day with date, time and description as well as the active habits with their ideal time, their timeslots and their repetition rate as an overview
+    - repeating and deadline habit/appointment are distinct dynamically with xslt
+- By klicking the button "Anzeigen" in "anstehende Termine" your are redirected to the appointments day in the calendar
+- By klicking the button "Anzeigen" in "Aktive Gewohnheiten" you are redirected to the planner
 
-### Kalender
-- Termine können über den "+" Button angelegt werden
-- Durch Klicken auf einen Tag öffnet sich im Kalender eine Übersicht über die Termine
-- Durch Klicken auf einen Termin kann man diesen bearbeiten und auch löschen 
-- Es können 3 Arten von Terminen angelegt werden
-    -  Einmalige Termine
-        - Kann per Drag&Drop in Größe angepasst werden und verschoben werden 
-    -  Termine die sich bis zu einer Deadline an bestimmten Tagen wiederholen
-          - Kann per Drag&Drop in größe Angepasst werden
-    -  Termine die sich x-mal an bestimmten Tagen wiederholen
-          - Kann per Drag&Drop in größe Angepasst werden
--  Die Hintergrundfarbe des Termins kann ausgewählt werden
+### Calendar
+- Appointments can be added by using the "+" button
+- by klicking a day in the calender a overview of that day is opened
+- by klicking on an appointment it can be edited and deleted
+- There are three types of appointments
+    -  single appointments
+        - can be resized and moved by drag and drop 
+    -  appointments that repeat until a deadline
+          - can be resized by drag and drop
+    -  Tappointments that repeat x-weeks on specific days
+          - can be resized by drag & drop
+-  the background color of a appointment can be chosen
 -  Terminen kann ein Titel, eine Beschreibung und Zeiten gegeben werden
 - Es kann zwischen Tages, Monats und Wochen Ansicht über das entsprechende Menü gewechselt werden
 - Man kann über das Menü zu den vorherigen und nachfolgenden Zeitpunkten im Kalender navigieren
