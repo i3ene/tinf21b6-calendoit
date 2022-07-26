@@ -268,6 +268,12 @@ export class Data {
       habit.alternateEvents = [];
     }
 
+    for (const event of data.events) {
+      event.resizable = undefined;
+      event.draggable = undefined;
+      event.allDay = undefined;
+    }
+
     return data;
   }
 }
