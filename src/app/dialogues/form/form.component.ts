@@ -386,7 +386,7 @@ export class FormComponent implements AfterViewInit {
 
     if (this.event.end < this.event.start) {
       this.event.end = new Date(this.event.start);
-      this.setValue('endDate', new Date(this.event.end));
+      this.setValue('endTime', new Date(this.event.end));
       this.changeDetector.detectChanges();
     }
 
