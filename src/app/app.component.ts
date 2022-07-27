@@ -21,8 +21,8 @@ export class AppComponent {
    */
   @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event: any) {
-    localStorage[LocalConfig.data] = JSON.stringify(
-      AppComponent.data.getSafeData()
+    localStorage[LocalConfig.data] = new XMLSerializer().serializeToString(
+      new XsltService().saveXML(AppComponent.data.getSafeData())
     );
   }
 
@@ -52,8 +52,13 @@ export class AppComponent {
 
   constructor(public themeService: ThemeService) {
     // If localstorage has data, load it
-    if (localStorage[LocalConfig.data])
-      AppComponent.setData(JSON.parse(localStorage[LocalConfig.data]));
+    if (localStorage[LocalConfig.data]) {
+      var doc = new DOMParser().parseFromString(
+        localStorage[LocalConfig.data],
+        'application/xml'
+      );
+      AppComponent.loadData('res/json.xsl', doc);
+    }
     // Else load default data
     else AppComponent.loadData('res/json.xsl', 'res/data.xml');
   }
